@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PepuxService.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Admin_group" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">PepuxAdmins</Value>
+    </Setting>
+    <Setting Name="User_group" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">PepuxUsers</Value>
+    </Setting>
+    <Setting Name="Domen" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">dc0.rad.lan.local</Value>
+    </Setting>
+    <Setting Name="DN_login" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">pepuxadmin</Value>
+    </Setting>
+    <Setting Name="Dn_pass" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">1Q2w3e4r</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

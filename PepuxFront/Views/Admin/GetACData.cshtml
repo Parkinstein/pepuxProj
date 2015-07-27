@@ -1,0 +1,64 @@
+﻿@using System.ServiceModel.Configuration
+@using Microsoft.Ajax.Utilities
+@using PepuxFront.Controllers
+@model IEnumerable<PepuxFront.IpServiceLink.objects>
+
+@(Html.Kendo().Grid<PepuxFront.IpServiceLink.objects>()
+      .Name("acgrid")
+      .DataSource(dataSource => dataSource 
+          .Ajax() 
+              .Read(read => read.Action("ActiveConf_Read", "Admin"))
+              .AutoSync(true)
+       )
+      .Columns(columns =>
+      {
+          columns.Bound(product => product.name).Title("Название конференции");
+          columns.Bound(product => product.start_time2).Title("Время начала");
+          columns.Bound(product => product.lock_path).Title("Блокировка").Encoded(false);
+          columns.Bound(i => i.name).Title("Список участников").ClientTemplate(@Html.ActionLink("Участники", "GetParticipants", "Admin", new { confname = "#= name #" }, new { @class = "modal-link btn btn-success" }).ToHtmlString());
+         
+      })
+      
+                                    .Pageable() 
+                                    .Sortable() 
+)
+
+<script type="text/javascript">
+
+    $(function() {
+        setInterval(function() { $("#acgrid").data("kendoGrid").dataSource.read(); }, 3000); 
+    });
+
+</script>
+<script>
+    $(document).ready(function() {
+        $("a[href^='http:']:not([href*='" + window.location.host + "'])").each(function() {
+            $(this).attr("target", "_blank");
+        });
+    });
+
+</script>
+<div id="modal-container" class="modal fade"
+     tabindex="-1" role="dialog">
+    <div class="modal-content">
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('body').on('click', '.modal-link', function (e) {
+            e.preventDefault();
+            $(this).attr('data-target', '#modal-container');
+            $(this).attr('data-toggle', 'modal');
+        });
+        $('body').on('click', '.modal-close-btn', function () {
+            $('#modal-container').modal('hide');
+        });
+        $('#modal-container').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+        $('#CancelModal').on('click', function () {
+            return false;
+        });
+    });
+</script>
+

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<PepuxFront.IpServiceLink.objects>
+
+
+@(Html.Kendo().Grid<PepuxFront.IpServiceLink.objects>()
+      .Name("grid")
+      .AutoBind(true)
+      
+      .DataSource(dataSource => dataSource // Configure the grid data source
+          .Ajax() // Specify that ajax binding is used
+              .Read(read => read.Action("ActiveConf_Read", "Admin")) // Set the action method which will return the data in JSON format
+       )
+      .Columns(columns =>
+      {
+          // Create a column bound to the ProductID property
+          columns.Bound(product => product.is_locked);
+          // Create a column bound to the ProductName property
+          columns.Bound(product => product.name);
+          // Create a column bound to the UnitsInStock property
+          columns.Bound(product => product.start_time);
+      })
+      .Pageable() // Enable paging
+      .Sortable() // Enable sorting
+      
+      )
+<script id="sessionJs" type="text/javascript">
+
+
+    function GetData()
+    {
+
+        $.ajax(
+            {
+                type: "GET", //doing POST
+                url: "/Admin/UserGet", //change URL as per your needs
+                //data: "{'value':'" + value + "'}",
+                //contentType: "application/json; charset=utf-8", //Sending JSON
+                //dataType: "json",
+                failure: function (msg) { alert(msg); },//do something in case of failure
+                success: function (msg) { alert(msg.d);  } //do what you got to do on success
+            }
+        );
+    }
+    
+
+
+    setTimeout(GetData, 3000);//change timeout duration here
+</script>

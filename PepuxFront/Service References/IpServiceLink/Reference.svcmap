@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="12c16522-dac4-4c98-896f-1b28446671bd" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:10789/IpService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="IpService.wsdl" MetadataType="Wsdl" ID="29dabac4-1740-4de6-9784-627e6e512c2d" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?wsdl" />
+    <MetadataFile FileName="IpService.xsd" MetadataType="Schema" ID="feba13a9-6216-4a37-aafe-649c3b51145c" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?xsd=xsd0" />
+    <MetadataFile FileName="IpService1.xsd" MetadataType="Schema" ID="0d98016a-bbd0-455a-8233-f581fcdc6ba2" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?xsd=xsd1" />
+    <MetadataFile FileName="IpService.disco" MetadataType="Disco" ID="ce49ad5a-5dfa-4aef-985b-8520bd2362d6" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?disco" />
+    <MetadataFile FileName="IpService2.xsd" MetadataType="Schema" ID="5d6ac217-3a9b-4f80-b670-cec96749f61a" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

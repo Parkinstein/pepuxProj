@@ -1,0 +1,28 @@
+﻿@model IEnumerable<PepuxFront.IpServiceLink.participantsAll>
+
+@(Html.Kendo().Grid<PepuxFront.IpServiceLink.participantsAll>()
+            .Name("apgrid")
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("getparti", "Admin"))
+                .AutoSync(true)
+            )
+            .Columns(columns =>
+            {
+                columns.Bound(product => product.display_name).Title("Имя");
+                columns.Bound(product => product.protocol).Title("Протокол");
+                columns.Bound(product => product.connect_time).Title("Время подключения");
+
+            })
+            .Pageable()
+            .Sortable()
+
+
+)
+<script type="text/javascript">
+
+    $(function() {
+        setInterval(function() { $("#apgrid").data("kendoGrid").dataSource.read(); }, 5000); // every 3 sec
+    });
+
+</script>

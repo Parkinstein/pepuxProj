@@ -1,0 +1,207 @@
+﻿@model IEnumerable<PepuxFront.IpServiceLink.participantsAll>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.bandwidth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.call_direction)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.call_uuid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.conference)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.connect_time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.destination_alias)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.display_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.encryption)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.has_media)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.is_muted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.is_on_hold)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.is_presentation_supported)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.is_presenting)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.is_streaming)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.license_count)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.media_node)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.parent_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.participant_alias)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.protocol)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remote_address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remote_port)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.resource_uri)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.role)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.service_tag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.service_type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.signalling_node)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.source_alias)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.system_location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.vendor)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.bandwidth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.call_direction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.call_uuid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.conference)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.connect_time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.destination_alias)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.display_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.encryption)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.has_media)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.is_muted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.is_on_hold)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.is_presentation_supported)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.is_presenting)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.is_streaming)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.license_count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.media_node)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.parent_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.participant_alias)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.protocol)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.remote_address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.remote_port)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.resource_uri)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.service_tag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.service_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.signalling_node)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.source_alias)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.system_location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.vendor)
+            </td>
+            @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>*@
+        </tr>
+    }
+
+</table>
+<button type="submit" id="approve-btn"
+        class="btn btn-danger">
+    Закрыть
+</button>
+<script type="text/javascript">
+    $(function () {
+        $('#approve-btn').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>

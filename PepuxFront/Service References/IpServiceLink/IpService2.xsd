@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/PepuxService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/PepuxService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfobjects">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="objects" nillable="true" type="tns:objects" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfobjects" nillable="true" type="tns:ArrayOfobjects" />
+  <xs:complexType name="objects">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="is_locked" type="xs:boolean" />
+      <xs:element minOccurs="0" name="lock_path" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="resource_uri" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="service_type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="start_time" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="start_time2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="tag" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="objects" nillable="true" type="tns:objects" />
+  <xs:complexType name="ArrayOfService">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Service" nillable="true" type="tns:Service" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfService" nillable="true" type="tns:ArrayOfService" />
+  <xs:complexType name="Service">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AdName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Role" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Service" nillable="true" type="tns:Service" />
+  <xs:complexType name="ArrayOfparticipantsAll">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="participantsAll" nillable="true" type="tns:participantsAll" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfparticipantsAll" nillable="true" type="tns:ArrayOfparticipantsAll" />
+  <xs:complexType name="participantsAll">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bandwidth" type="xs:int" />
+      <xs:element minOccurs="0" name="call_direction" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="call_uuid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="conference" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="connect_time" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="destination_alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="display_name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="encryption" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="has_media" type="xs:boolean" />
+      <xs:element minOccurs="0" name="id" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="is_muted" type="xs:boolean" />
+      <xs:element minOccurs="0" name="is_on_hold" type="xs:boolean" />
+      <xs:element minOccurs="0" name="is_presentation_supported" type="xs:boolean" />
+      <xs:element minOccurs="0" name="is_presenting" type="xs:boolean" />
+      <xs:element minOccurs="0" name="is_streaming" type="xs:boolean" />
+      <xs:element minOccurs="0" name="license_count" type="xs:int" />
+      <xs:element minOccurs="0" name="media_node" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="parent_id" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="participant_alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="protocol" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="remote_address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="remote_port" type="xs:int" />
+      <xs:element minOccurs="0" name="resource_uri" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="role" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="service_tag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="service_type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="signalling_node" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="source_alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="system_location" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="vendor" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="participantsAll" nillable="true" type="tns:participantsAll" />
+</xs:schema>
