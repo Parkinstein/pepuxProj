@@ -5,7 +5,18 @@
 
 @(Html.Kendo().Grid<PepuxFront.IpServiceLink.objects>()
       .Name("acgrid")
-      
+      .Pdf(m => { m.FileName(AccountController.Uname + "_" + DateTime.Now + ".pdf");
+                    m.AllPages();
+      })
+      .Excel(m => { m.FileName(AccountController.Uname + "_" + DateTime.Now + ".xlsx");
+                      m.AllPages(true);
+                      m.Filterable(true);
+          
+      })
+      .ToolBar(m => { m.Pdf();
+                        m.Excel();
+         
+      })
       .DataSource(dataSource => dataSource 
           .Ajax() 
               .Read(read => read.Action("ActiveConf_Read", "Admin"))
@@ -28,7 +39,7 @@
 <script type="text/javascript">
 
     $(function() {
-        setInterval(function() { $("#acgrid").data("kendoGrid").dataSource.read(); }, 3000); 
+        setInterval(function() { $("#acgrid").data("kendoGrid").dataSource.fetch(); }, 3000); 
     });
 
 </script>

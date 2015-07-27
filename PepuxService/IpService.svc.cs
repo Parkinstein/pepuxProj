@@ -209,7 +209,7 @@ namespace PepuxService
                  {
                      Debug.WriteLine(reply);
                      AllPartsRoot = JsonConvert.DeserializeObject<RootObject>(reply);
-                     PartForConf = AllPartsRoot.participants;
+                     PartForConf = AllPartsRoot.participants.FindAll(p => p.has_media);
                      foreach (var part in PartForConf)
                      {
                          Debug.WriteLine(part.display_name);
