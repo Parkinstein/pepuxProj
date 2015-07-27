@@ -2257,8 +2257,8 @@ th {
   text-align: left;
 }
 .table {
-  width: 100%;
-  max-width: 100%;
+  width: 97%;
+  max-width: 97%;
   margin-bottom: 20px;
 }
 .table > thead > tr > th,
@@ -5720,17 +5720,34 @@ button.close {
 .modal-open {
   overflow: hidden;
 }
+.modal-content {
+    left: 0;
+    
+}
+.modal-container-center { /* Edited classname 10/03/2014 */
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+@media (max-width: 767px) {
+  .modal-container-center { /* Edited classname 10/03/2014 */
+    width: 100%;
+  }
+} 
 .modal {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+    padding: 40px;
   z-index: 1050;
   display: none;
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
   outline: 0;
+    background-color: #FFFFFF;
 }
 .modal.fade .modal-dialog {
   -webkit-transition: -webkit-transform .3s ease-out;
@@ -6770,3 +6787,14 @@ footer {
     text-align: left;
     width: 100%;
     }
+
+.userblock {
+    right: 9px;
+    position: inherit;
+    display: block;
+    margin-top: 10px;
+    border: blue 1px solid;
+    border-radius: 5px;
+    text-align: -webkit-center;
+    background-color: RGBA(255,255,255,0.8);
+}
