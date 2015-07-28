@@ -33,12 +33,12 @@ namespace PepuxService
     partial void InsertService(Service instance);
     partial void UpdateService(Service instance);
     partial void DeleteService(Service instance);
-    partial void InsertAllVmrs(AllVmrs instance);
-    partial void UpdateAllVmrs(AllVmrs instance);
-    partial void DeleteAllVmrs(AllVmrs instance);
     partial void InsertVmrAliases(VmrAliases instance);
     partial void UpdateVmrAliases(VmrAliases instance);
     partial void DeleteVmrAliases(VmrAliases instance);
+    partial void InsertAllVmrs(AllVmrs instance);
+    partial void UpdateAllVmrs(AllVmrs instance);
+    partial void DeleteAllVmrs(AllVmrs instance);
     #endregion
 		
 		public ServiceDataContext() : 
@@ -79,19 +79,19 @@ namespace PepuxService
 			}
 		}
 		
-		public System.Data.Linq.Table<AllVmrs> AllVmrs
-		{
-			get
-			{
-				return this.GetTable<AllVmrs>();
-			}
-		}
-		
 		public System.Data.Linq.Table<VmrAliases> VmrAliases
 		{
 			get
 			{
 				return this.GetTable<VmrAliases>();
+			}
+		}
+		
+		public System.Data.Linq.Table<AllVmrs> AllVmrs
+		{
+			get
+			{
+				return this.GetTable<AllVmrs>();
 			}
 		}
 	}
@@ -112,6 +112,8 @@ namespace PepuxService
 		
 		private string _Email;
 		
+		private EntityRef<AllVmrs> _AllVmrs;
+		
     #region Определения метода расширяемости
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -130,6 +132,7 @@ namespace PepuxService
 		
 		public Service()
 		{
+			this._AllVmrs = default(EntityRef<AllVmrs>);
 			OnCreated();
 		}
 		
@@ -164,6 +167,10 @@ namespace PepuxService
 			{
 				if ((this._UserName != value))
 				{
+					if (this._AllVmrs.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnUserNameChanging(value);
 					this.SendPropertyChanging();
 					this._UserName = value;
@@ -233,6 +240,239 @@ namespace PepuxService
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AllVmrs_Service", Storage="_AllVmrs", ThisKey="UserName", OtherKey="name", IsForeignKey=true)]
+		public AllVmrs AllVmrs
+		{
+			get
+			{
+				return this._AllVmrs.Entity;
+			}
+			set
+			{
+				AllVmrs previousValue = this._AllVmrs.Entity;
+				if (((previousValue != value) 
+							|| (this._AllVmrs.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AllVmrs.Entity = null;
+						previousValue.Service.Remove(this);
+					}
+					this._AllVmrs.Entity = value;
+					if ((value != null))
+					{
+						value.Service.Add(this);
+						this._UserName = value.name;
+					}
+					else
+					{
+						this._UserName = default(string);
+					}
+					this.SendPropertyChanged("AllVmrs");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.VmrAliases")]
+	public partial class VmrAliases : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _alias;
+		
+		private string _conference;
+		
+		private string _description;
+		
+		private System.Nullable<int> _VmrId;
+		
+		private EntityRef<AllVmrs> _AllVmrs;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnaliasChanging(string value);
+    partial void OnaliasChanged();
+    partial void OnconferenceChanging(string value);
+    partial void OnconferenceChanged();
+    partial void OndescriptionChanging(string value);
+    partial void OndescriptionChanged();
+    partial void OnVmrIdChanging(System.Nullable<int> value);
+    partial void OnVmrIdChanged();
+    #endregion
+		
+		public VmrAliases()
+		{
+			this._AllVmrs = default(EntityRef<AllVmrs>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_alias", DbType="NChar(10)")]
+		public string alias
+		{
+			get
+			{
+				return this._alias;
+			}
+			set
+			{
+				if ((this._alias != value))
+				{
+					this.OnaliasChanging(value);
+					this.SendPropertyChanging();
+					this._alias = value;
+					this.SendPropertyChanged("alias");
+					this.OnaliasChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_conference", DbType="NVarChar(255)")]
+		public string conference
+		{
+			get
+			{
+				return this._conference;
+			}
+			set
+			{
+				if ((this._conference != value))
+				{
+					this.OnconferenceChanging(value);
+					this.SendPropertyChanging();
+					this._conference = value;
+					this.SendPropertyChanged("conference");
+					this.OnconferenceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="NVarChar(MAX)")]
+		public string description
+		{
+			get
+			{
+				return this._description;
+			}
+			set
+			{
+				if ((this._description != value))
+				{
+					this.OndescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._description = value;
+					this.SendPropertyChanged("description");
+					this.OndescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VmrId", DbType="Int")]
+		public System.Nullable<int> VmrId
+		{
+			get
+			{
+				return this._VmrId;
+			}
+			set
+			{
+				if ((this._VmrId != value))
+				{
+					if (this._AllVmrs.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnVmrIdChanging(value);
+					this.SendPropertyChanging();
+					this._VmrId = value;
+					this.SendPropertyChanged("VmrId");
+					this.OnVmrIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AllVmrs_VmrAliases", Storage="_AllVmrs", ThisKey="VmrId", OtherKey="Id", IsForeignKey=true)]
+		public AllVmrs AllVmrs
+		{
+			get
+			{
+				return this._AllVmrs.Entity;
+			}
+			set
+			{
+				AllVmrs previousValue = this._AllVmrs.Entity;
+				if (((previousValue != value) 
+							|| (this._AllVmrs.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AllVmrs.Entity = null;
+						previousValue.VmrAliases.Remove(this);
+					}
+					this._AllVmrs.Entity = value;
+					if ((value != null))
+					{
+						value.VmrAliases.Add(this);
+						this._VmrId = value.Id;
+					}
+					else
+					{
+						this._VmrId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("AllVmrs");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -294,6 +534,8 @@ namespace PepuxService
 		
 		private EntitySet<VmrAliases> _VmrAliases;
 		
+		private EntitySet<Service> _Service;
+		
     #region Определения метода расширяемости
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -335,6 +577,7 @@ namespace PepuxService
 		public AllVmrs()
 		{
 			this._VmrAliases = new EntitySet<VmrAliases>(new Action<VmrAliases>(this.attach_VmrAliases), new Action<VmrAliases>(this.detach_VmrAliases));
+			this._Service = new EntitySet<Service>(new Action<Service>(this.attach_Service), new Action<Service>(this.detach_Service));
 			OnCreated();
 		}
 		
@@ -658,7 +901,7 @@ namespace PepuxService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AllVmrs_VmrAliases", Storage="_VmrAliases", ThisKey="Id,resource_uri", OtherKey="VmrId,conference")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AllVmrs_VmrAliases", Storage="_VmrAliases", ThisKey="Id", OtherKey="VmrId")]
 		public EntitySet<VmrAliases> VmrAliases
 		{
 			get
@@ -668,6 +911,19 @@ namespace PepuxService
 			set
 			{
 				this._VmrAliases.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AllVmrs_Service", Storage="_Service", ThisKey="name", OtherKey="UserName")]
+		public EntitySet<Service> Service
+		{
+			get
+			{
+				return this._Service;
+			}
+			set
+			{
+				this._Service.Assign(value);
 			}
 		}
 		
@@ -702,210 +958,17 @@ namespace PepuxService
 			this.SendPropertyChanging();
 			entity.AllVmrs = null;
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.VmrAliases")]
-	public partial class VmrAliases : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _alias;
-		
-		private string _conference;
-		
-		private string _description;
-		
-		private System.Nullable<int> _VmrId;
-		
-		private EntityRef<AllVmrs> _AllVmrs;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnaliasChanging(string value);
-    partial void OnaliasChanged();
-    partial void OnconferenceChanging(string value);
-    partial void OnconferenceChanged();
-    partial void OndescriptionChanging(string value);
-    partial void OndescriptionChanged();
-    partial void OnVmrIdChanging(System.Nullable<int> value);
-    partial void OnVmrIdChanged();
-    #endregion
-		
-		public VmrAliases()
+		private void attach_Service(Service entity)
 		{
-			this._AllVmrs = default(EntityRef<AllVmrs>);
-			OnCreated();
+			this.SendPropertyChanging();
+			entity.AllVmrs = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
+		private void detach_Service(Service entity)
 		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_alias", DbType="NChar(10)")]
-		public string alias
-		{
-			get
-			{
-				return this._alias;
-			}
-			set
-			{
-				if ((this._alias != value))
-				{
-					this.OnaliasChanging(value);
-					this.SendPropertyChanging();
-					this._alias = value;
-					this.SendPropertyChanged("alias");
-					this.OnaliasChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_conference", DbType="NVarChar(255)")]
-		public string conference
-		{
-			get
-			{
-				return this._conference;
-			}
-			set
-			{
-				if ((this._conference != value))
-				{
-					if (this._AllVmrs.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnconferenceChanging(value);
-					this.SendPropertyChanging();
-					this._conference = value;
-					this.SendPropertyChanged("conference");
-					this.OnconferenceChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="NVarChar(MAX)")]
-		public string description
-		{
-			get
-			{
-				return this._description;
-			}
-			set
-			{
-				if ((this._description != value))
-				{
-					this.OndescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._description = value;
-					this.SendPropertyChanged("description");
-					this.OndescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VmrId", DbType="Int")]
-		public System.Nullable<int> VmrId
-		{
-			get
-			{
-				return this._VmrId;
-			}
-			set
-			{
-				if ((this._VmrId != value))
-				{
-					if (this._AllVmrs.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnVmrIdChanging(value);
-					this.SendPropertyChanging();
-					this._VmrId = value;
-					this.SendPropertyChanged("VmrId");
-					this.OnVmrIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AllVmrs_VmrAliases", Storage="_AllVmrs", ThisKey="VmrId,conference", OtherKey="Id,resource_uri", IsForeignKey=true)]
-		public AllVmrs AllVmrs
-		{
-			get
-			{
-				return this._AllVmrs.Entity;
-			}
-			set
-			{
-				AllVmrs previousValue = this._AllVmrs.Entity;
-				if (((previousValue != value) 
-							|| (this._AllVmrs.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._AllVmrs.Entity = null;
-						previousValue.VmrAliases.Remove(this);
-					}
-					this._AllVmrs.Entity = value;
-					if ((value != null))
-					{
-						value.VmrAliases.Add(this);
-						this._VmrId = value.Id;
-						this._conference = value.resource_uri;
-					}
-					else
-					{
-						this._VmrId = default(Nullable<int>);
-						this._conference = default(string);
-					}
-					this.SendPropertyChanged("AllVmrs");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			this.SendPropertyChanging();
+			entity.AllVmrs = null;
 		}
 	}
 }

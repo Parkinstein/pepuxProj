@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="scheduler" Class="ServiceDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=scheduler;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="schedulerConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=10.157.5.35\SQLEXPRESS;Initial Catalog=scheduler;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="schedulerConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Service" Member="Service">
     <Type Name="Service">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -7,6 +7,17 @@
       <Column Name="Role" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="AdName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="AllVmrs_Service" Member="AllVmrs" ThisKey="UserName" OtherKey="name" Type="AllVmrs" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.VmrAliases" Member="VmrAliases">
+    <Type Name="VmrAliases">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="alias" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="conference" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="VmrId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="AllVmrs_VmrAliases" Member="AllVmrs" ThisKey="VmrId" OtherKey="Id" Type="AllVmrs" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.AllVmrs" Member="AllVmrs">
@@ -27,17 +38,8 @@
       <Column Name="resource_uri" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="service_type" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="tag" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="AllVmrs_VmrAliases" Member="VmrAliases" ThisKey="Id,resource_uri" OtherKey="VmrId,conference" Type="VmrAliases" />
-    </Type>
-  </Table>
-  <Table Name="dbo.VmrAliases" Member="VmrAliases">
-    <Type Name="VmrAliases">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="alias" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
-      <Column Name="conference" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="VmrId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="AllVmrs_VmrAliases" Member="AllVmrs" ThisKey="VmrId,conference" OtherKey="Id,resource_uri" Type="AllVmrs" IsForeignKey="true" />
+      <Association Name="AllVmrs_VmrAliases" Member="VmrAliases" ThisKey="Id" OtherKey="VmrId" Type="VmrAliases" />
+      <Association Name="AllVmrs_Service" Member="Service" ThisKey="name" OtherKey="UserName" Type="Service" />
     </Type>
   </Table>
 </Database>

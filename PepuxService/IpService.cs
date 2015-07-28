@@ -20,6 +20,8 @@ namespace PepuxService
         List<Service> GetDataLocal();
         [OperationContract]
         List<Participants> GetActiveParts(string confname);
+        [OperationContract]
+        Result TokenRequest();
 
     }
 
@@ -131,7 +133,7 @@ namespace PepuxService
     {
         [DataMember(Name = "meta")]
         public MetaData metadata { get; set; }
-        [DataMember(Name = "objects")]
+        [DataMember(Name = "participants")]
         public List<Participants> participants { get; set; }
     }
     [DataContract(Name = "meta")]
@@ -271,5 +273,56 @@ namespace PepuxService
 
     }
     #endregion
+
+#region Get token for V2
+    [DataContract(Name = "")]
+    public class TokenRoot
+    {
+        public string status { get; set; }
+         [DataMember(Name = "tokenres")]
+        public Result result { get; set; }
+    }
+    public class Stun
+    {
+        public string url { get; set; }
+    }
+
+    public class Version
+    {
+        public string pseudo_version { get; set; }
+        public string version_id { get; set; }
+    }
+    [DataContract(Name = "tokenclass")]
+    [JsonObject(MemberSerialization.OptOut)]
+    public class Result
+    {
+        [DataMember(Name = "participant_uuid")]
+        public string participant_uuid { get; set; }
+        [DataMember(Name = "display_name")]
+        public string display_name { get; set; }
+        [DataMember(Name = "stun")]
+        public List<Stun> stun { get; set; }
+        [DataMember(Name = "analytics_enabled")]
+        public bool analytics_enabled { get; set; }
+        [DataMember(Name = "expires")]
+        public string expires { get; set; }
+        [DataMember(Name = "token")]
+        public string token { get; set; }
+        [DataMember(Name = "version")]
+        public Version version { get; set; }
+        [DataMember(Name = "role")]
+        public string role { get; set; }
+        [DataMember(Name = "service_type")]
+        public string service_type { get; set; }
+        [DataMember(Name = "chat_enabled")]
+        public bool chat_enabled { get; set; }
+        [DataMember(Name = "current_service_type")]
+        public string current_service_type { get; set; }
+       
+    }
+
+
+
+#endregion
 
 }

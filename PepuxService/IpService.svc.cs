@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Data;
 using System.Data.Linq;
@@ -15,6 +16,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using System.Timers;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using System.Web.Services.Description;
 
@@ -223,7 +225,24 @@ namespace PepuxService
              }
              return PartForConf;
          }
-        #endregion
 
+         #endregion
+         public Result TokenRequest()
+         {
+             string pepix_address = "10.129.15.128";
+             Uri statusapi = new Uri("https://" + pepix_address + "/api/client/v2/conferences/lock/");
+             WebClient client = new WebClient();
+             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+             client.Credentials = new NetworkCredential("admin", "ciscovoip");
+             client.Headers.Add("auth", "admin,ciscovoip");
+             client.Headers.Add("veryfy", "False");
+             client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+             client.Headers["Content-Type"] = "application/x-www-form-urlencoded";
+             NameValueCollection string_lock = new NameValueCollection();
+             //string_lock.Add("conference_id", conid);
+             var json = new JavaScriptSerializer().Serialize(string_lock);
+             client.UploadValues(statusapi, "POST", string_lock);
+             return null;
+         }
     }
 }

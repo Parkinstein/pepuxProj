@@ -2,29 +2,36 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Service">
   <DataContextMoniker Name="/ServiceDataContext" />
   <nestedChildShapes>
-    <classShape Id="ff1b324e-b17d-49b2-877f-4f780110f6b9" absoluteBounds="3.125, 4, 2, 1.7708968098958331">
+    <classShape Id="92b13fa8-67fe-45be-b09f-e5bc1fd00016" absoluteBounds="4, 2.875, 2, 1.7708968098958331">
       <DataClassMoniker Name="/ServiceDataContext/Service" />
       <nestedChildShapes>
-        <elementListCompartment Id="39c568ee-9d83-48e1-9ba4-72f3fa596a38" absoluteBounds="3.14, 4.46, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="9ef43118-a206-4e44-b066-a61c01280836" absoluteBounds="4.0150000000000006, 3.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="93438da4-3107-4b40-9bfe-cd12d1ec4a9d" absoluteBounds="0.5, 0.5, 2, 3.8862125651041666">
-      <DataClassMoniker Name="/ServiceDataContext/AllVmrs" />
-      <nestedChildShapes>
-        <elementListCompartment Id="4e17543d-d213-44c7-9428-b3c18cefbe4b" absoluteBounds="0.51500000000000012, 0.96, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="c0ad5b46-8792-4890-b1c2-6dd56566c7df" absoluteBounds="4.625, 0.625, 2, 1.7708968098958331">
+    <classShape Id="b8f4a4ec-c06c-4da9-bb87-8bce2db4108c" absoluteBounds="4, 0.625, 2, 1.7708968098958331">
       <DataClassMoniker Name="/ServiceDataContext/VmrAliases" />
       <nestedChildShapes>
-        <elementListCompartment Id="7b7294cb-75f5-44f5-a1ac-a0061bd3fdfe" absoluteBounds="4.64, 1.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a55dd4ea-6999-46b8-afec-543f1f67bee7" absoluteBounds="4.0150000000000006, 1.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 1.51044840494792); (4.625 : 1.51044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <classShape Id="09140098-6cf3-4ba4-9ec9-16d6cfad6f9f" absoluteBounds="0.75, 0.625, 2, 3.8862125651041666">
+      <DataClassMoniker Name="/ServiceDataContext/AllVmrs" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ea92d18e-5d2c-4d03-b58b-7261e4307f94" absoluteBounds="0.76499999999999968, 1.085, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 1.51044840494792); (4 : 1.51044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ServiceDataContext/AllVmrs/AllVmrs_VmrAliases" />
       <nodes>
-        <classShapeMoniker Id="93438da4-3107-4b40-9bfe-cd12d1ec4a9d" />
-        <classShapeMoniker Id="c0ad5b46-8792-4890-b1c2-6dd56566c7df" />
+        <classShapeMoniker Id="09140098-6cf3-4ba4-9ec9-16d6cfad6f9f" />
+        <classShapeMoniker Id="b8f4a4ec-c06c-4da9-bb87-8bce2db4108c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 3.69310628255208); (4 : 3.69310628255208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ServiceDataContext/AllVmrs/AllVmrs_Service" />
+      <nodes>
+        <classShapeMoniker Id="09140098-6cf3-4ba4-9ec9-16d6cfad6f9f" />
+        <classShapeMoniker Id="92b13fa8-67fe-45be-b09f-e5bc1fd00016" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>
