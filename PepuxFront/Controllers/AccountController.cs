@@ -51,7 +51,7 @@ namespace PepuxFront.Controllers
                 return this.RedirectToAction("About", "Home");
             }
 
-            this.ModelState.AddModelError(string.Empty, "The user name or password provided is incorrect.");
+            this.ModelState.AddModelError(string.Empty, "Имя пользователя или пароль указаны неверно.");
             IsAuth = false;
             Uname = null;
             return this.View(model);

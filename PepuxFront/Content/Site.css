@@ -5,8 +5,12 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 0;
+    padding-left: 15px;
     padding-right: 15px;
+    vertical-align: middle;
+    text-align: left;
+    max-height: 100%;
+    overflow: auto;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -17,7 +21,3 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select {
-    max-width: 395px;
-}
