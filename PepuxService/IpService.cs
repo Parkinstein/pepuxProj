@@ -17,6 +17,8 @@ namespace PepuxService
         [OperationContract]
         List<Objects> GetActiveConfs();
         [OperationContract]
+        List<VmrObj> GetAllVmrObjs();
+        [OperationContract]
         List<Service> GetDataLocal();
         [OperationContract]
         List<Participants> GetActiveParts(string confname);
@@ -226,52 +228,95 @@ namespace PepuxService
 
     #endregion
 
-    #region Get all VMR`s
-    public class AllWmrs
+    #region AllActiveConfsClasses
+
+    [DataContract(Name = "")]
+    public class ResponseVMr
     {
-        public Metas meta { get; set; }
-        public List<Vmrs> objects { get; set; }
+        [DataMember(Name = "vmrmeta")]
+        public VmrMeta metas { get; set; }
+
+        [DataMember(Name = "vmrobj")]
+        public List<VmrObj> vmrobj { get; set; }
     }
-    public class Metas
+
+    [DataContract(Name = "vmrmetas")]
+    [JsonObject(MemberSerialization.OptOut)]
+    public class VmrMeta
     {
+        [DataMember(Name = "limit")]
         public int limit { get; set; }
+
+        [DataMember(Name = "next")]
         public object next { get; set; }
+
+        [DataMember(Name = "offset")]
         public int offset { get; set; }
+
+        [DataMember(Name = "previous")]
         public object previous { get; set; }
+
+        [DataMember(Name = "total_count")]
         public int total_count { get; set; }
     }
-    [DataContract(Name = "obj")]
+
+    [DataContract(Name = "vmrobj")]
+    [KnownType(typeof(VmrObj))]
     [JsonObject(MemberSerialization.OptOut)]
-    public class Vmrs
+    public class VmrObj
     {
-        public List<Aliases> aliases { get; set; }
+        [DataMember(Name = "aliases")]
+        public List<VmrAlias> aliases { get; set; }
+        [DataMember(Name = "allow_guests")]
         public bool allow_guests { get; set; }
+        [DataMember(Name = "automatic_participants")]
         public List<object> automatic_participants { get; set; }
+        [DataMember(Name = "description")]
         public string description { get; set; }
+        [DataMember(Name = "force_presenter_into_main")]
         public bool force_presenter_into_main { get; set; }
+        [DataMember(Name = "guest_pin")]
         public string guest_pin { get; set; }
-        public object guest_view { get; set; }
+        [DataMember(Name = "guest_view")]
+        public string guest_view { get; set; }
+        [DataMember(Name = "host_view")]
         public string host_view { get; set; }
+        [DataMember(Name = "id")]
         public int id { get; set; }
+        [DataMember(Name = "ivr_theme")]
         public object ivr_theme { get; set; }
+        [DataMember(Name = "max_callrate_in")]
         public object max_callrate_in { get; set; }
+        [DataMember(Name = "max_callrate_out")]
         public object max_callrate_out { get; set; }
+        [DataMember(Name = "name")]
         public string name { get; set; }
+        [DataMember(Name = "participant_limit")]
         public object participant_limit { get; set; }
+        [DataMember(Name = "pin")]
         public string pin { get; set; }
+        [DataMember(Name = "resource_uri")]
         public string resource_uri { get; set; }
+        [DataMember(Name = "service_type")]
         public string service_type { get; set; }
+        [DataMember(Name = "tag")]
         public string tag { get; set; }
-    }
 
-    public class Aliases
+    }
+    [DataContract(Name = "vmraliass")]
+    [JsonObject(MemberSerialization.OptOut)]
+    public class VmrAlias
     {
-        public string alias { get; set; }
+        [DataMember(Name = "vmalias")]
+        public string vmalias { get; set; }
+        [DataMember(Name = "vmconference")]
         public string conference { get; set; }
+        [DataMember(Name = "vmdescription")]
         public string description { get; set; }
-        public string id { get; set; }
-
+        [DataMember(Name = "vmid")]
+        public int id { get; set; }
     }
+
     #endregion
 
 #region Get token for V2

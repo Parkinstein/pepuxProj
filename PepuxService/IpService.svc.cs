@@ -35,6 +35,8 @@ namespace PepuxService
          public List<string> lstLOCUsers;
          public ResponseParent AllConfs_wm;
          public List<Objects> AllConfs;
+         public List<VmrObj> AllVmrs;
+         public ResponseVMr VmrResp;
          public RootObject AllPartsRoot;
          public List<Participants> PartForConf; 
 
@@ -88,6 +90,9 @@ namespace PepuxService
         #endregion
 
          #region Get_local_Users_&_Compare
+
+         
+
          public List<Service> GetDataLocal()
         {
             lstADUsers = new List<ADUsers>();
@@ -225,7 +230,6 @@ namespace PepuxService
              }
              return PartForConf;
          }
-
          #endregion
          public Result TokenRequest()
          {
@@ -243,6 +247,35 @@ namespace PepuxService
              var json = new JavaScriptSerializer().Serialize(string_lock);
              client.UploadValues(statusapi, "POST", string_lock);
              return null;
+         }
+
+         List<VmrObj> IPService.GetAllVmrObjs()
+         {
+             try
+             {
+                 AllVmrs = new List<VmrObj>();
+                 string pepix_address = "10.129.15.128";
+                 Uri configapi = new Uri("https://" + pepix_address + "/api/admin/configuration/v1/conference/");
+                 WebClient client = new WebClient();
+                 client.Credentials = new NetworkCredential("admin", "ciscovoip");
+                 client.Headers.Add("auth", "admin,ciscovoip");
+                 client.Headers.Add("veryfy", "False");
+                 client.Headers.Add("application/soap+xml; charset=utf-8");
+                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                 string reply = client.DownloadString(configapi);
+                 if (reply.ToString() != null)
+                 {
+                     VmrResp = JsonConvert.DeserializeObject<ResponseVMr>(reply);
+                     AllVmrs = VmrResp.vmrobj;
+                     return AllVmrs;
+                 }
+                 throw new NotImplementedException();
+             }
+             catch(Exception ex)
+             {
+                 Debug.WriteLine(ex.Message);
+             }
+             return AllVmrs;
          }
     }
 }
