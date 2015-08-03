@@ -38,8 +38,21 @@
       <Column Name="resource_uri" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="service_type" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="tag" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="AllVmrs_VmrAliases" Member="VmrAliases" ThisKey="Id" OtherKey="VmrId" Type="VmrAliases" />
       <Association Name="AllVmrs_Service" Member="Service" ThisKey="name" OtherKey="UserName" Type="Service" />
+      <Association Name="AllVmrs_VmrAliases" Member="VmrAliases" ThisKey="Id" OtherKey="VmrId" Type="VmrAliases" />
+    </Type>
+  </Table>
+  <Table Name="" Member="ActiveConfs">
+    <Type Name="ActiveConfs">
+      <Column Member="id" Type="System.String" CanBeNull="false" />
+      <Column Member="is_locked" Type="System.Boolean" CanBeNull="false" />
+      <Column Member="name" Type="System.String" CanBeNull="false" />
+      <Column Member="resource_uri" Type="System.String" CanBeNull="false" />
+      <Column Member="service_type" Type="System.String" CanBeNull="false" />
+      <Column Member="start_time" Type="System.String" CanBeNull="false" />
+      <Column Member="start_time2" Type="System.String" CanBeNull="false" />
+      <Column Member="tag" Type="System.String" CanBeNull="false" />
+      <Column Member="lock_path" Type="System.String" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

@@ -27,12 +27,18 @@
         <classShapeMoniker Id="b8f4a4ec-c06c-4da9-bb87-8bce2db4108c" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 3.69310628255208); (4 : 3.69310628255208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 3.69310628255208); (4 : 3.69310628255208)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/ServiceDataContext/AllVmrs/AllVmrs_Service" />
       <nodes>
         <classShapeMoniker Id="09140098-6cf3-4ba4-9ec9-16d6cfad6f9f" />
         <classShapeMoniker Id="92b13fa8-67fe-45be-b09f-e5bc1fd00016" />
       </nodes>
     </associationConnector>
+    <classShape Id="3d59dcfd-da47-49db-b83c-37c930163ff9" absoluteBounds="7.125, 3.5, 2, 2.5401025390624996">
+      <DataClassMoniker Name="/ServiceDataContext/ActiveConfs" />
+      <nestedChildShapes>
+        <elementListCompartment Id="413cc2fe-433f-4098-9bbc-97150ad8274b" absoluteBounds="7.14, 3.96, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>
