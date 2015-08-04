@@ -1,32 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Configuration;
-using System.Data;
-using System.Data.Linq;
-using System.Data.SqlClient;
 using System.Diagnostics;
-using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
-using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Text;
-using System.Timers;
 using System.Web.Script.Serialization;
-using System.Web.Security;
-using System.Web.Services.Description;
 
 using PepuxService.Properties;
 using Newtonsoft.Json;
 
 namespace PepuxService
 {
-    
-     public class IpService : IPService
+
+    public class IpService : IPService
     {
 
          #region Variables

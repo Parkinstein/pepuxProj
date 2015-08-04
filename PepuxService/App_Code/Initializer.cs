@@ -13,17 +13,13 @@ namespace PepuxService.App_Code
     {
         public static void AppInitialize()
         {
-            Timer time = new Timer(10000);
-            time.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            time.Enabled = true;
-            time.Start();
-            time.AutoReset = true;
+            
         }
 
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
 
-        } //
+        } 
 
     }
 }
