@@ -6783,7 +6783,13 @@ footer {
 
 
 /* !!!!!!!!!!!!!! CONTROL PANEL CSS !!!!!!!!!!!!!!! */
-
+.control_panel {
+    width: 100%;
+    vertical-align: top;
+    background-color: #fff;
+    opacity: 0.8;
+    padding: 10px;
+}
 
 .controlcol {
     width: 40%;
@@ -6808,39 +6814,67 @@ footer {
     display: inline-block;
     padding: 2px;
     background-color: none;
+    font-size: 14px;
 }
 .participant_uri_speaking {
     display: inline-block;
     padding: 2px;
     background-color: lightgrey;
+    font-size: 14px;
 }
 .roster_list {
     list-style-type: none;
     display: inline-block;
     float: left;
     text-align: left;
-    border: 1px solid;
+    border: 0px solid;
     background-color: #fff;
     width: 100%;
-    height: 600px;
+    height: 400px;
     overflow: scroll;
+    overflow-x: hidden;
+    border-radius: 10px;
+    margin: 0px 0px 0px 0px;
 }
-.roster_entry_host {
-    list-style: disc;
+.roster_entry_ul {
+    display: inline-block;
+    width: 100%;
+    border: 0px solid gray;
+    padding: 5px;
+    margin: 0px;
+    background-color: #d9edf7;
+    font-size: 14px;
+}
+.roster_entry_ul_header {
+    float: left;
+    margin: 0px;
+}
+.roster_entry_ul_header_coference_control {
+    float: right;
+    margin: 0px;
+    line-height: 0.5em;
+}
+.roster_entry_host_li {
+    list-style: none;
     text-align: left;
-    border: 1px solid gray;
+    border: 0px solid gray;
     padding: 3px;
     margin: 3px;
+    background-color: #dff0d8;
+    height: 60px;
 }
-.roster_entry_guest {
+.roster_entry_guest_li {
     list-style: circle;
     text-align: left;
-    border: 1px solid gray;
+    border: 0px solid gray;
     padding: 3px;
     margin: 3px;
+    background-color: #ddd;
+    height: 60px;
 }
 .participant_action {
     /*padding: 0.2em;*/
+    font-size: 14px;
 }
 .conference_action {
     display: inline-block;
@@ -6850,45 +6884,61 @@ footer {
 .particpantOverlayText{
     display: inline-block;
     float: right;
-    width: 300px;
+    width: 320px;
+    font-size: 12px;
+    vertical-align: top;
 }
 .currentOverlayText {
     display: inline-block;
     width: 140px;
     height: 24px;
-    margin: 0px 2px 0px 2px;
+    margin: 1px 2px 1px 2px;
     background-color: #332383;
     font-weight: bold;
     color: white;
-    border: 0px;
+    border: 1px;
     border-radius: 4px;
-    padding: 2px;
+    padding: 1px;
     text-align: center;
+    font-size: 12px;
 }
 .newOverlayText{
+    display: inline-block;
     height: 24px;
     width: 140px;
-    margin: 0px 2px 0px 2px;
+    margin: 1px 2px 1px 2px;
     padding: 1px;
-}
-
+    font-size: 14px;
 }
 .buttonOverlayText {
     display: inline-block;
-    margin: 0px 2px 0px 2px;
-    font-weight: bold;
-    border-radius: 2px;
-    width: 10px;
-    border: none;
+    width: 25px;
     height: 24px;
-    color: white;
+    margin: 1px 2px 1px 2px;
     background-color: #332383;
-    vertical-align: middle;
-    opacity: .87;
+    font-weight: bold;
+    color: white;
+    border: 1px;
+    border-radius: 4px;
+    padding: 4px;
     text-align: center;
-    text-decoration: none;
-    outline: none;
+    font-size: 14px;
     cursor: pointer;
+}
+.transferText{
+    display: inline-block;
+    float: right;
+    width: 320px;
+    font-size: 12px;
+    vertical-align: top;
+}
+.newTransferText{
+    display: inline-block;
+    height: 24px;
+    width: 284px;
+    margin: 1px 2px 1px 2px;
+    padding: 1px;
+    font-size: 14px;
 }
 .clabel {
     display: inline-block;
@@ -6939,14 +6989,7 @@ footer {
     /*display: inline-block;*/
     /*padding-right: 3px;*/
 }
-.control-panel {
-    background-color: #fff;
-    opacity: 0.8; /* Полупрозрачный фон */
-    padding: 10px;
-}
-.coference-control {
-    background-color: #fff;
-}
+
 .dialdiv {
     background-color: #fff;
     float: left;

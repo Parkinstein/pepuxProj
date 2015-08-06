@@ -163,6 +163,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap1.css" />
     <Content Include="Content\bootstrap1.min.css" />
+    <Content Include="Scripts\jquery.slimscroll.js" />
     <Content Include="Content\kendo\2015.1.408\Black\editor.png" />
     <Content Include="Content\kendo\2015.1.408\Black\imagebrowser.png" />
     <Content Include="Content\kendo\2015.1.408\Black\indeterminate.gif" />
