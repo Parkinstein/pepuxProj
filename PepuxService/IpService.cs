@@ -23,7 +23,9 @@ namespace PepuxService
         [OperationContract]
         List<AllVmrs> GetVmrList();
         [OperationContract]
-        string GetToken(string confname, string dispname,string pin);
+        string GetToken(string confname, string dispname);
+        [OperationContract]
+        string Token_refresh(string confname, string old_token);
 
     }
 
@@ -327,6 +329,79 @@ namespace PepuxService
         public string role { get; set; }
         [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
         public bool streaming { get; set; }
+    }
+    #endregion
+
+    #region token_req
+    [DataContract]
+    [Newtonsoft.Json.JsonObject(MemberSerialization = Newtonsoft.Json.MemberSerialization.OptIn)]
+    public class Stun
+    {
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string url { get; set; }
+    }
+    [DataContract]
+    [Newtonsoft.Json.JsonObject(MemberSerialization = Newtonsoft.Json.MemberSerialization.OptIn)]
+    public class Version
+    {
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string pseudo_version { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string version_id { get; set; }
+    }
+    [DataContract]
+    [Newtonsoft.Json.JsonObject(MemberSerialization = Newtonsoft.Json.MemberSerialization.OptIn)]
+    public class ResultTok
+    {
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string participant_uuid { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string display_name { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public List<Stun> stun { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public bool analytics_enabled { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string expires { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string token { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public Version version { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string role { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string service_type { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public bool chat_enabled { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string current_service_type { get; set; }
+    }
+    [DataContract]
+    [Newtonsoft.Json.JsonObject(MemberSerialization = Newtonsoft.Json.MemberSerialization.OptIn)]
+    public class RootToken
+    {
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string status { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public ResultTok result { get; set; }
+    }
+    [DataContract]
+    [Newtonsoft.Json.JsonObject(MemberSerialization = Newtonsoft.Json.MemberSerialization.OptIn)]
+    public class ResultTokRef
+    {
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string token { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string expires { get; set; }
+    }
+    [DataContract]
+    [Newtonsoft.Json.JsonObject(MemberSerialization = Newtonsoft.Json.MemberSerialization.OptIn)]
+    public class RootTokRef
+    {
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public string status { get; set; }
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public ResultTokRef result { get; set; }
     }
     #endregion
 

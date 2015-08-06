@@ -6,8 +6,8 @@ using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Timers;
 using System.Web.Script.Serialization;
-
 using PepuxService.Properties;
 using Newtonsoft.Json;
 
@@ -25,8 +25,10 @@ namespace PepuxService
          public List<ActiveConfs> AllConfs;
          public RootObject AllPartsRoot;
          public List<Participants> PartForConf;
-        public List<AllVmrs> All_Vmrs;
-        public VmrParent All_VM_obj;
+         public List<AllVmrs> All_Vmrs;
+         public VmrParent All_VM_obj;
+        public RootToken root_token;
+         public ResultTok resultreq;
 
         private string Win1251ToUTF8(string source)
         {
@@ -293,20 +295,75 @@ namespace PepuxService
             }
             return All_Vmrs;
         }
-
-
-
         #endregion
 
-        #region Get token
-        public string GetToken(string confname, string dispname, string pin)
+         #region Get token
+        public string GetToken(string confname, string dispname)
         {
+            Timer tokenTimer = new Timer(600);
             ServiceDataContext db = new ServiceDataContext();
-            string pin = db.AllVmrs.FirstOrDefault(m => m.)
-            return null;
+            string pin;
+            var search_alias = db.VmrAliases.FirstOrDefault(m => m.alias == confname);
+            int search_id = search_alias.Id;
+            var search_vmr = db.AllVmrs.FirstOrDefault(m => m.Id == search_id);
+            var current_user = db.Service.FirstOrDefault(m => m.UserName == dispname);
+            var role = current_user.Role;
+            if (role == "PepuxAdmins")
+            {
+                pin = search_vmr.pin;
+            }
+            else
+            {
+                pin = search_vmr.guest_pin; }
+            
+            // return pin;
+            string pepix_address = "10.157.155.11";
+            Uri confapi = new Uri("https://" + pepix_address + "/api/client/v2/conferences/" + confname + "/request_token");
+            WebClient client = new WebClient
+            {
+                Headers = {[HttpRequestHeader.ContentType] = "application/json"},
+                Credentials = new NetworkCredential("admin", "ciscovoip")
+            };
+            client.Headers.Add("auth", "admin,ciscovoip");
+            client.Headers.Add("veryfy", "False");
+            client.Headers.Add("pin",pin);
+            string response = client.UploadString(confapi, "POST", "{\"display_name\":\"" + dispname + "\"}");
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            root_token = JsonConvert.DeserializeObject<RootToken>(response);
+            string token = root_token.result.token;
+            if (token != "" || token != null)
+            {
+                tokenTimer.Interval = 600;
+                tokenTimer.Start();
+            }
+            tokenTimer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
+            Debug.WriteLine(token);
+            return token;
+        }
+        void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+           //  https://10.157.155.11/api/client/v2/conferences/Parkin/refresh_token 
+            Token_refresh("","");
         }
 
+        public string Token_refresh(string confname, string old_token)
+        {
+            string pepix_address = "10.157.155.11";
+            Uri confapi = new Uri("https://" + pepix_address + "/api/client/v2/conferences/" + confname + "/refresh_token");
+            WebClient client = new WebClient
+            {
+                Headers = {[HttpRequestHeader.ContentType] = "application/json" },
+                Credentials = new NetworkCredential("admin", "ciscovoip")
+            };
+            client.Headers.Add("auth", "admin,ciscovoip");
+            client.Headers.Add("veryfy", "False");
+            client.Headers.Add("token", old_token);
+            string response = client.UploadString(confapi, "POST", "{}");
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            var token_all = JsonConvert.DeserializeObject<ResultTokRef>(response);
+            string token = token_all.token;
+            return token;
+        }
         #endregion
-
     }
 }
