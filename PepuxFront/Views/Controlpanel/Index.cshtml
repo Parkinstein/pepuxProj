@@ -17,7 +17,7 @@
                         </ul>
                     </div>
                     
-                    <div style="min-height: 30px; width: 100%"></div>
+                    <div style="min-height: 10px; width: 100%"></div>
 
                     <div id="waitingroom" class="roster_list">
                         <ul class="roster_entry_ul">
@@ -25,106 +25,155 @@
                         </ul>
                     </div>
                     
+                    <div style="min-height: 10px; width: 100%"></div>
+
                     <div id="dialdiv" class="dialdiv">
                         <fieldset>
-                            <legend>Подключить участника...</legend>
-                            <label>Протокол </label><select id="protocol" value="sip">
-                                <option value="sip">SIP</option>
-                                <option value="h323">H.323</option>
-                                <option value="mssip">Lync</option>
-                                <option value="rtmp">RTMP</option>
-                            </select>
-                            <label>Роль </label><select id="role" value="guest">
-                                <option value="guest">гость</option>
-                                <option value="host">хост</option>
-                            </select>
-                            <br/>
-                            <label>Локальный alias </label><input id="localalias" type="text" value="" size=12 />
-                            <label>Удалённый alias </label><input id="remotealias" type="text" value="" size=12 />
-                            
-                            <input id="dial" type="button" onclick="user.dial()" value="Dial" /><br />
+                            <legend class="dialdiv_legend">Подключить участника</legend>
+                            <div class="dialdiv_container">
+                                <div class="dialdiv_protocol">
+                                    <label class="dialdiv_header">Протокол </label>
+                                    <select id="protocol" value="sip" class="form-control dial_protocol">
+                                        <option value="sip">SIP</option>
+                                        <option value="h323">H.323</option>
+                                        <option value="mssip">Lync</option>
+                                        <option value="rtmp">RTMP</option>
+                                    </select>
+                                    <br />
+                                    <label class="dialdiv_header">Роль </label>
+                                    <select id="role" value="guest" class="form-control dial_protocol">
+                                        <option value="guest">гость</option>
+                                        <option value="host">хост</option>
+                                    </select>
+                                </div>
+                                <div class="dialdiv_alias">
+                                    <label class="dialdiv_header">Локальный alias </label>
+                                    <input id="localalias" value="" class="form-control dial_alias">
+                                    <br />
+                                    <label class="dialdiv_header">Удалённый alias </label>
+                                    <input id="remotealias" value="" class="form-control dial_alias">
+                                </div>
+                            </div>
+                            <input id="dial" type="button" onclick="user.dial()" value="Вызвать" class="dialdiv_button"/>
                         </fieldset>
                     </div>
-                    <br />
-
-                    
-                    <br />
                 </td>
 
                 <td class="controlcol">
                     <div id="layoutdiv" class="layoutdiv">
                         <fieldset>
-                            <legend>Управление раскладкой видео</legend>
-                            <label>Участники </label><select id="actors" value="everyone">
-                                <option value="everyone">все</option>
-                                <option value="selected">выбранные</option>
-                            </select>
-                            <label>Управление раскладками </label><select id="layout" value="1:7">
-                                <option value="1:0">1 основной</option>
-                                <option value="4:0">ОдинаковоеEqual layout</option>
-                                <option value="1:7">1 основной + 7 дополнительных</option>
-                                <option value="1:21">1 основной + 21 дополнительных</option>
-                            </select>
-                            <label>PlusN (откл/авто/n)</label><input id="plusn" list="plusnvalues" value="auto" size=8 />
-                            <datalist id="plusnvalues"><option id="auto_option" value="auto" \><option value="off" \></datalist>
-                            <label>VAD backfill </label><input type="checkbox" id="vadbackfill" checked />
-                            <label>Экранные надписи </label><select id="overlay_text" value="off">
-                                <option value="off">откл</option>
-                                <option value="auto">авто</option>
-                            </select>
-                            <label>Для </label><select id="audience" value="everyone" onchange="update_audience()">
-                                <option value="everyone">всех</option>
-                                <option value="hosts">только для гостей</option>
-                            </select>
-                            <input id="overridelayout" type="button" onclick="user.overridelayout()" value="Изменить раскладку" />
-                            <input id="resetlayout" type="button" onclick="user.resetlayout()" value="Вернуть исходное состояние" /><br />
-                            <div id="guestlayout" class="hide">
-                                <label>Участники </label><select id="guest_actors" value="everyone">
+                            <legend class="layoutdiv_legend">Управление раскладкой видео</legend>
+                            <div class="layout_layout_1">
+                                <label class="layoutdiv_header">Участники </label>
+                                <label class="layoutdiv_header">Управление раскладками </label>
+                                <label class="layoutdiv_header">PlusN (откл/авто/n)</label>
+                                
+                            </div>
+                            <div class="layout_layout_2">
+                                <select id="actors" value="everyone" class="form-control layoutdiv_select">
                                     <option value="everyone">все</option>
                                     <option value="selected">выбранные</option>
                                 </select>
-                                <label>Управление раскладками </label><select id="guest_layout" value="1:7">
+                                <select id="layout" value="1:7" class="form-control layoutdiv_select">
                                     <option value="1:0">1 основной</option>
                                     <option value="4:0">ОдинаковоеEqual layout</option>
                                     <option value="1:7">1 основной + 7 дополнительных</option>
                                     <option value="1:21">1 основной + 21 дополнительных</option>
                                 </select>
-                                <label>PlusN (откл/авто/n)</label><input id="guest_plusn" list="guest_plusnvalues" value="auto" size=8 />
-                                <datalist id="guest_plusnvalues"><option value="auto" \><option value="off" \></datalist>
-                                <label>VAD backfill </label><input type="checkbox" id="guest_vadbackfill" checked />
-                                <label>Экранные надписи </label><select id="guest_overlay_text" value="off">
+                                <input id="plusn" list="plusnvalues" value="auto" class="form-control layoutdiv_select"/>
+                                <datalist id="plusnvalues"><option id="auto_option" value="auto" \><option value="off" \></datalist>
+
+
+                            </div>
+                            <div class="layout_layout_3">
+                                <label class="layoutdiv_header">VAD backfill </label>
+                                <label class="layoutdiv_header">Экранные надписи </label>
+                                <label class="layoutdiv_header">Для участников:</label>
+                            </div>
+                            <div class="layout_layout_4">
+                                <input type="checkbox" id="vadbackfill" checked />
+                                <select id="overlay_text" value="off" class="form-control layoutdiv_select">
                                     <option value="off">откл</option>
                                     <option value="auto">авто</option>
                                 </select>
-                                <label>Для </label><select id="guest_audience" value="guests">
-                                    <option value="guests">гостей</option>
+                                <select id="audience" value="everyone" onchange="update_audience()" class="form-control layoutdiv_select">
+                                    <option value="everyone">всех</option>
+                                    <option value="hosts">только для гостей</option>
                                 </select>
                             </div>
-                        </fieldset>
+
+                            <br />
+                            <div id="guestlayout" class="hide">
+                                <div class="layout_layout_1">
+                                    <label class="layoutdiv_header">Участники </label>
+                                    <label class="layoutdiv_header">Управление раскладками </label>
+                                    <label class="layoutdiv_header">PlusN (откл/авто/n)</label>
+                                </div>
+                                <br />
+                                <div class="layout_layout_2">
+                                    <select id="guest_actors" value="everyone" class="form-control layoutdiv_select">
+                                        <option value="everyone">все</option>
+                                        <option value="selected">выбранные</option>
+                                    </select>
+                                    <select id="guest_layout" value="1:7" class="form-control layoutdiv_select">
+                                        <option value="1:0">1 основной</option>
+                                        <option value="4:0">ОдинаковоеEqual layout</option>
+                                        <option value="1:7">1 основной + 7 дополнительных</option>
+                                        <option value="1:21">1 основной + 21 дополнительных</option>
+                                    </select>
+                                    <input id="plusn" list="plusnvalues" value="auto" class="form-control layoutdiv_select" />
+                                    <datalist id="plusnvalues"><option id="auto_option" value="auto" \><option value="off" \></datalist>
+                                </div>
+                                <div class="layout_layout_3">
+                                    <label class="layoutdiv_header">VAD backfill </label>
+                                    <label class="layoutdiv_header">Экранные надписи </label>
+                                    <label class="layoutdiv_header">Для участников:</label>
+                                    
+                                </div>
+                                <br />
+                                <div class="layout_layout_4">
+                                    <input type="checkbox" id="guest_vadbackfill" checked />
+                                    <select id="guest_overlay_text" value="off" class="form-control layoutdiv_select">
+                                        <option value="off">откл</option>
+                                        <option value="auto">авто</option>
+                                    </select>
+                                    <select id="guest_audience" value="guests" class="form-control layoutdiv_select">
+                                        <option value="guests">гостей</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input id="overridelayout" type="button" onclick="user.overridelayout()" value="Изменить раскладку" class="layoutdiv_button" />
+                            <input id="resetlayout" type="button" onclick="user.resetlayout()" value="Вернуть исходное состояние" class="layoutdiv_button" /><br />
+                    </fieldset>
                     </div>
-                    <br/>
+
+                    <div style="min-height: 10px; width: 100%"></div>
 
                     <div id="liveviewdiv" class="liveviewdiv">
                         <fieldset>
-                            <legend>RTMP</legend>
-                            <div id="liveviewplayer"></div>
-                            <input id="liveview" type="button" onclick="user.liveview()" value="Просмотр видео" /><br />
-                            <img id="presentation" width=352 height=198>
+                            <legend class="liveviewdiv_legend">Сейчас транслируется в комнате</legend>
+                            <div id="liveviewplayer" class="liveviewdiv_player"></div>
+                            <img id="presentation" class="liveviewdiv_player"><br/>
+                            <input id="liveview" type="button" onclick="user.liveview()" value="Просмотр видео" class="liveviewdiv_livebutton" />
                             <br />
-                            <input id="getrtmpaddress" type="button" onclick="user.getrtmpaddress()" value="Получить RTMP ссылку на поток " />
-                            <input id="rtmpaddress" size=90 /><br />
+                            <div class="liveviewdiv_rtmp" class="liveviewdiv_rtmp">
+                                <input id="rtmpaddress" class="form-control liveviewdiv_rtmptext"/>
+                                <input id="getrtmpaddress" type="button" onclick="user.getrtmpaddress()" value="Получить RTMP ссылку" class="liveviewdiv_rtmpbutton" />
+                                
+                            </div>
                         </fieldset>
                     </div>
-                    <br />
+
+                    <div style="min-height: 10px; width: 100%"></div>
 
                     <div id="chatdiv" class="chatdiv">
                         <fieldset>
-                            <legend>Чат вирутальной переговорной комнаты</legend>
+                            <legend class="chatdiv_legend">Чат вирутальной переговорной комнаты</legend>
                             <form onsubmit="return user.send_message()">
                                 <div id="chatbox" class="chatbox"></div>
                                 <br />
-                                <input id="chatinput" type="text" style="width: 70%;" / >
-                                <input id="chatsend" type="button" onclick="user.send_message()" value="Отправить" / >
+                                <input id="chatinput" style="width: 70%;" class="form-control chatdiv_text"/ >
+                                <input id="chatsend" type="button" onclick="user.send_message()" value="Отправить" class="chatdiv_button" / >
                             </form>
                         </fieldset>
                     </div>
@@ -147,6 +196,14 @@
         });
         $('#waitingroom').slimScroll({
             height: '350px',
+            width: '100%',
+            size: '7px',
+            position: 'right',
+            color: '#332383',
+            distance: '0px',
+        });
+        $('#chatbox').slimScroll({
+            height: '225px',
             width: '100%',
             size: '7px',
             position: 'right',
@@ -758,7 +815,7 @@
                 this.token_refresh = setInterval(this.refresh_token.bind(this), (expires * 1000) / 2);
                 var chat_enabled = response["data"]["result"]["chat_enabled"];
                 if (chat_enabled == true) {
-                    document.getElementById("chatdiv").className = "";
+                    document.getElementById("chatdiv").className = "chatdiv";
                 } else {
                     document.getElementById("chatdiv").className = "hide";
                 }
