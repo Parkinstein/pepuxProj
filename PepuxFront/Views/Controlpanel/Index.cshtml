@@ -12,7 +12,7 @@
                                 <i id="conflock" onclick="user.lock()"></i>
                                 <i id="guestsmuted" onclick="user.muteallguests()"></i>
                                 <i id="disconnectall" onclick="user.disconnect_all()"></i>
-                                <i id="record" onclick="user.disconnect_all()"></i>
+                                <i id="record" onclick="user.record()"></i>
                             </div>
                         </ul>
                     </div>
@@ -159,7 +159,6 @@
                             <div class="liveviewdiv_rtmp" class="liveviewdiv_rtmp">
                                 <input id="rtmpaddress" class="form-control liveviewdiv_rtmptext"/>
                                 <input id="getrtmpaddress" type="button" onclick="user.getrtmpaddress()" value="Получить RTMP ссылку" class="liveviewdiv_rtmpbutton" />
-                                
                             </div>
                         </fieldset>
                     </div>
@@ -222,8 +221,8 @@
     var class_lock_on = "participant_action fa fa-lock fa-fw red";
     var class_spotlight_on = "participant_action fa fa-star fa-fw yellow";
     var class_spotlight_off = "participant_action fa fa-star-o fa-fw yellow";
-    var class_see_presentation_allowed = "participant_action fa fa-bar-chart fa-fw green";
-    var class_see_presentation_denied = "participant_action fa fa-bar-chart fa-fw red";
+    var class_see_presentation_allowed = "participant_action fa fa-bar-chart-o fa-fw green";
+    var class_see_presentation_denied = "participant_action fa fa-bar-chart-o fa-fw red";
     var class_overlay = "participant_action fa fa-font fa-fw";
     var class_conference_lock_on = "conference_action fa fa-lock fa-fw red";
     var class_conference_lock_off = "conference_action fa fa-unlock fa-fw green";
@@ -232,7 +231,7 @@
     var class_conference_disconnect_all = "conference_action fa fa-eject fa-fw red";
     var class_overlay_text_commit = "participant_action fa fa-check fa-fw white";
     var class_conference_record_off = "participant_action fa fa-circle fa-fw red";
-    var class_conference_record_on = "participant_action fa fa-circle fa-fw red blink";
+    var class_conference_record_on = "participant_action fa fa-circle-blink fa-fw red";
 
 
     function DumpObject(obj) {
@@ -314,7 +313,7 @@
         }
 
         if (this.uuid == user.participant_uuid) {
-            this.uri = this.uri + " <span class='red'>[текущий клиент]</span>";
+            this.uri = this.uri + " <span class='red'>[оператор]</span>";
         }
 
         this.uri_element = document.createElement("div");
@@ -448,6 +447,7 @@
             this.mute_element.classList.add("disabled_action");
             this.hold_element.classList.add("disabled_action");
             this.unlock_element.classList.add("disabled_action");
+            this.see_presentation_element.classList.add("disabled_action");
             this.layout.classList.add("invisible");
         }
 
@@ -484,13 +484,15 @@
         }
 
         if (participant_data["role"] == "chair") {
-            this.element_root.className = "roster_entry_host";
+            this.element_root.className = "roster_entry_host_li";
         } else {
-            this.element_root.className = "roster_entry_guest";
+            this.element_root.className = "roster_entry_guest_li";
         }
 
-        this.enable_media_buttons = participant_data["has_media"] && (user.role == 'HOST');
+        if (participant_data["has_media"] && user.role == 'HOST' && this.uuid !== user.participant_uuid) {
+            this.enable_media_buttons = true;
         console.log("enable_media_buttons " + this.enable_media_buttons);
+        }
 
         this.overlay_text = participant_data["overlay_text"];
         document.getElementById("currenttext_" + this.uuid).value = this.overlay_text;
@@ -523,7 +525,9 @@
             this.spotlight_element.classList.add("disabled_action");
             this.mute_element.classList.add("disabled_action");
             this.hold_element.classList.add("disabled_action");
-            this.layout.classList.add("hide");
+            this.unlock_element.classList.add("disabled_action");
+            this.see_presentation_element.classList.add("disabled_action");
+            this.layout.classList.add("invisible");
         } else {
             this.spotlight_element.classList.remove("disabled_action");
             this.mute_element.classList.remove("disabled_action");
@@ -699,6 +703,10 @@
         guests_muted: false,
         live_active_call: null,
         last_message_origin: null,
+        record_server: "10.157.5.87",
+        recorded: false,
+        record_pid: null,
+        record_id: null,
 
         join: function () {
             this.join_with_token(null);
@@ -741,7 +749,7 @@
 
                     document.getElementById("confcontrol").className = "control_panel";
                     if (typeof jwplayer !== 'undefined') {
-                        document.getElementById("liveviewdiv").className = "";
+                        document.getElementById("liveviewdiv").className = "liveviewdiv";
                     }
                     console.log("Joined " + this);
                 } else {
@@ -781,8 +789,12 @@
             this.conference_participants = {};
 
             this.release_token();
+            if (this.recorded == true) {
+                this.record();
+            }
 
             document.getElementById("presentation").className = "hide";
+
             var player_wrapper = document.getElementById("liveviewplayer_wrapper");
             if (player_wrapper != null) {
                 player_wrapper.innerHTML = "";
@@ -863,18 +875,31 @@
                         this.live_active_call = response["data"]["result"]["call_uuid"];
                         console.log("url: " + url);
                         this.live_active = true;
-                        document.getElementById("liveview").value = "Stop live view";
-                        jwplayer("liveviewplayer").setup({ file: url, height: 198, width: 352, aspectratio: "16:9", controls: false, stretching: "exactfit" });
+                        document.getElementById("liveview").value = "Отключить просмотр";
+                        jwplayer("liveviewplayer").setup({
+                            file: url,
+                            height: 198,
+                            width: 352,
+                            aspectratio: "16:9",
+                            controls: false,
+                            stretching: "exactfit",
+                        });
                         jwplayer("liveviewplayer").play(true);
+                        var player_wrapper = document.getElementById("liveviewplayer_wrapper");
+                        //if (player_wrapper != null) {
+                            player_wrapper.removeAttribute("style");
+                            player_wrapper.setAttribute("class", "liveviewdiv_player");
+                        //}
                     }
                 } else {
                     this.live_active = false;
-                    document.getElementById("liveview").value = "Start live view";
+                    document.getElementById("liveview").value = "Просмотр видео";
                     var player_wrapper = document.getElementById("liveviewplayer_wrapper");
                     if (player_wrapper != null) {
                         player_wrapper.innerHTML = "";
                         player_wrapper.removeAttribute("style");
                         player_wrapper.id = "liveviewplayer";
+                        player_wrapper.setAttribute("class", "liveviewdiv_player");
                     }
                     var response = user.post_request("participants/" + this.participant_uuid + "/calls/" + this.live_active_call + "/disconnect", null);
                     this.live_active_call = null;
@@ -891,6 +916,62 @@
                     var url = response["data"]["result"]["url"] + "-stream";
                     console.log("url: " + url);
                     document.getElementById("rtmpaddress").value = url;
+                }
+            }
+        },
+
+        record: function () {
+            if (this.recorded == false) {
+                if (this.token) {
+                    var call_data = { "call_type": "rtmp", "streaming": "true" };
+                    var response = user.post_request("participants/" + this.participant_uuid + "/calls", call_data);
+                    if (response["status"] == 200) {
+                        var url = response["data"]["result"]["url"] + "-stream";
+                        console.log("url: " + url);
+                    }
+                }
+                var params = { "vmr": this.conference, "name": this.display_name, "link": url, };
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "https://" + this.record_server + "/recordstart.php", false);
+                xhr.onerror = function () { this.onError(this.trans.ERROR_CONNECTING); };
+                xhr.ontimeout = function () { this.onError(this.trans.ERROR_CONNECTING); };
+                console.log(params);
+                xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8"'); 
+                xhr.send(JSON.stringify(params));
+                console.log("Response: " + xhr.responseText);
+                var msg = {};
+                try {
+                    msg = JSON.parse(xhr.responseText);
+                } catch (error) {
+                    msg.reason = xhr.status + " " + xhr.statusText;
+                }
+                msg.http_status = xhr.status;
+                if (msg["http_status"] == 200) {
+                    this.record_pid = msg.pid; 
+                    this.record_id = msg.ID_rec;
+                    this.recorded = true;
+                    document.getElementById("record").className = class_conference_record_on;
+                }
+            } else {
+                var params = { "pid": this.record_pid, "ID_rec": this.record_id, };
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "https://" + this.record_server + "/recordstop.php", false);
+                xhr.onerror = function () { this.onError(this.trans.ERROR_CONNECTING); };
+                xhr.ontimeout = function () { this.onError(this.trans.ERROR_CONNECTING); };
+                console.log(params);
+                xhr.setRequestHeader('Content-type', 'application/json'); 
+                xhr.send(JSON.stringify(params));
+                console.log("Response: " + xhr.responseText);
+                var msg = {};
+                try {
+                    msg = JSON.parse(xhr.responseText);
+                } catch (error) {
+                    msg.reason = xhr.status + " " + xhr.statusText;
+                }
+                msg.http_status = xhr.status;
+                if (msg.ok == "ok") {
+                    this.recorded = false;
+                    document.getElementById("record").className = class_conference_record_off;
                 }
             }
         },
@@ -1014,6 +1095,8 @@
             if (this.role == 'GUEST') {
                 document.getElementById("conflock").classList.add("disabled_action");
                 document.getElementById("guestsmuted").classList.add("disabled_action");
+                document.getElementById("disconnectall").classList.add("disabled_action");
+                document.getElementById("record").classList.add("disabled_action");
             }
             // Go through all participants in the waitingroom and show/hide unlock icon
             for (var participant in this.conference_participants) {
@@ -1045,12 +1128,12 @@
 
         presentation_start: function (event) {
             console.log("presentation_start");
-            document.getElementById("presentation").className = "presentation_on";
+            document.getElementById("presentation").className = "liveviewdiv_player";
         },
 
         presentation_stop: function (event) {
             console.log("presentation_stop");
-            document.getElementById("presentation").className = "hide";
+            document.getElementById("presentation").className = "liveviewdiv_player";
         },
 
         presentation_frame: function (event) {

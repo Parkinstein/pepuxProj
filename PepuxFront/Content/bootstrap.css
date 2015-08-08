@@ -7122,14 +7122,6 @@ footer {
     margin: 5px 3px 5px 3px;
     vertical-align: top;
 }
-
-.transferText{
-    display: inline-block;
-    float: right;
-    width: 320px;
-    font-size: 12px;
-    vertical-align: top;
-}
 .liveviewdiv_rtmp{
     display: inline-block;
     height: 40px;
