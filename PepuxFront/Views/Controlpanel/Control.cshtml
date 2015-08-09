@@ -885,11 +885,7 @@
                             stretching: "exactfit",
                         });
                         jwplayer("liveviewplayer").play(true);
-                        var player_wrapper = document.getElementById("liveviewplayer_wrapper");
-                        //if (player_wrapper != null) {
-                            player_wrapper.removeAttribute("style");
-                            player_wrapper.setAttribute("class", "liveviewdiv_player");
-                        //}
+                        setTimeout(user.player_wrapper, 300);
                     }
                 } else {
                     this.live_active = false;
@@ -904,6 +900,14 @@
                     var response = user.post_request("participants/" + this.participant_uuid + "/calls/" + this.live_active_call + "/disconnect", null);
                     this.live_active_call = null;
                 }
+            }
+        },
+
+        player_wrapper: function (){
+            var player_wrapper = document.getElementById("liveviewplayer_wrapper");
+            if (player_wrapper != null) {
+                player_wrapper.removeAttribute("style");
+                player_wrapper.setAttribute("class", "liveviewdiv_player");
             }
         },
 

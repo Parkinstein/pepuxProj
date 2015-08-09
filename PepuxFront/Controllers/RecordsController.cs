@@ -6,11 +6,10 @@ using System.Web.Mvc;
 
 namespace PepuxFront.Controllers
 {
-    public class ControlpanelController : Controller
-    {      
-
-        // GET: Chat
-        public ActionResult Control()
+    public class RecordsController : Controller
+    {
+        // GET: Records
+        public ActionResult Records()
         {
             return View();
         }

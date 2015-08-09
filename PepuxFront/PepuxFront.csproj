@@ -141,6 +141,8 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ControlpanelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PhonebookController.cs" />
+    <Compile Include="Controllers\RecordsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1252,7 +1254,9 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Admin\GetParts.cshtml" />
-    <Content Include="Views\Controlpanel\Index.cshtml" />
+    <Content Include="Views\Controlpanel\Control.cshtml" />
+    <Content Include="Views\Phonebook\Phonebook.cshtml" />
+    <Content Include="Views\Records\Records.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

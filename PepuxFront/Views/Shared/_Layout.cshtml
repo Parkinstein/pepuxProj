@@ -30,9 +30,10 @@
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Телефонная книга", "Phonebook", "Home")</li>
-                    <li>@Html.ActionLink("Управление конференциями", "About", "Home")</li>
-                    <li>@Html.ActionLink("Планировние", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Телефонная книга", "Phonebook", "Phonebook")</li>
+                    <li>@Html.ActionLink("Управление конференциями", "Control", "Controlpanel")</li>
+                    <li>@Html.ActionLink("Записи", "Records", "Records")</li>
+                    <li>@Html.ActionLink("Планировние", "Schedule", "Schedule")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

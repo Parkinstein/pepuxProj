@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <div id="confcontrol" class="control_panel">
+        <table>
+            <tr>
+                <td class="controlcol">
+                    <div class="phonebook_list">
+                        <div class="phonebook_entry_ul">
+                            <b>Персональная телефонная книга</b>
+                        </div>
+                        <select name="phonebooklist">1234567
+                        <!--Fill from DB-->
+                        </select>
+                    </div>
+                    <input id="find" type="button" onclick="" value="Найти" class="phonebook_button" />
+
+                <td class="controlcol">
+                    <div id="phonebookfill" class="phonebook_fill">
+                        <fieldset>
+                            <label class="phonebook_label">Фамилия</label>
+                            <input id="Surname" value="" class="form-control phonebook_entry">
+                            <label class="phonebook_label">Имя</label>
+                            <input id="Name" value="" class="form-control phonebook_entry">
+                            <label class="phonebook_label">Адрес</label>
+                            <input id="Address" value="" class="form-control phonebook_entry">
+                            <label class="phonebook_label">Телефон</label>
+                            <input id="Phone" value="" class="form-control phonebook_entry">  
+                        </fieldset>
+                        <input id="save" type="button" onclick="" value="Сохранить" class="phonebook_button" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+<script type="text/javascript">
+    (function($){
+        $('#phonebooklist').slimScroll({
+            height: '350px',
+            width: '100%',
+            margin: '30px',
+            size: '7px',
+            position: 'right',
+            color: '#332383',
+            distance: '0px',
+        });
+    })(jQuery);
+</script>
+
