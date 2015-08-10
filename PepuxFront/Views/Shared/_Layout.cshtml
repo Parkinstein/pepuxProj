@@ -15,21 +15,25 @@
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.blueopal.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.dataviz.blueopal.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css" />
 	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.slimscroll.js")"></script>
 	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/jszip.min.js")"></script>
 	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/kendo.all.min.js")"></script>
 	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/kendo.aspnetmvc.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
     <script src="@Url.Content("~/Scripts/knockout-3.3.0.js")"></script>
+    <script src="@Url.Content("~/Scripts/jwplayer.js")"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Телефонная книга", "Phonebook", "Home")</li>
-                    <li>@Html.ActionLink("Управление конференциями", "About", "Home")</li>
-                    <li>@Html.ActionLink("Планировние", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Телефонная книга", "Phonebook", "Phonebook")</li>
+                    <li>@Html.ActionLink("Управление конференциями", "Control", "Controlpanel")</li>
+                    <li>@Html.ActionLink("Записи", "Records", "Records")</li>
+                    <li>@Html.ActionLink("Планировние", "Schedule", "Schedule")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
