@@ -8,7 +8,6 @@ namespace PepuxFront.Controllers
 {
     public class ControlpanelController : Controller
     {      
-
         // GET: Chat
         public ActionResult Control()
         {
