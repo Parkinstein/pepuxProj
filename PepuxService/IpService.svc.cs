@@ -319,16 +319,14 @@ namespace PepuxService
             // return pin;
             string pepix_address = "10.157.155.11";
             Uri confapi = new Uri("https://" + pepix_address + "/api/client/v2/conferences/" + confname + "/request_token");
-            WebClient client = new WebClient
-            {
-                Headers = {[HttpRequestHeader.ContentType] = "application/json"},
-                Credentials = new NetworkCredential("admin", "ciscovoip")
-            };
+            WebClient client = new WebClient();
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            client.Credentials = new NetworkCredential("admin", "ciscovoip");
+            client.Headers.Add("ContentType","application/json");
             client.Headers.Add("auth", "admin,ciscovoip");
             client.Headers.Add("veryfy", "False");
             client.Headers.Add("pin",pin);
             string response = client.UploadString(confapi, "POST", "{\"display_name\":\"" + dispname + "\"}");
-            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             root_token = JsonConvert.DeserializeObject<RootToken>(response);
             string token = root_token.result.token;
             if (token != "" || token != null)
@@ -350,11 +348,9 @@ namespace PepuxService
         {
             string pepix_address = "10.157.155.11";
             Uri confapi = new Uri("https://" + pepix_address + "/api/client/v2/conferences/" + confname + "/refresh_token");
-            WebClient client = new WebClient
-            {
-                Headers = {[HttpRequestHeader.ContentType] = "application/json" },
-                Credentials = new NetworkCredential("admin", "ciscovoip")
-            };
+            WebClient client = new WebClient();
+            client.Credentials = new NetworkCredential("admin", "ciscovoip");
+            client.Headers.Add("ContentType", "application/json");
             client.Headers.Add("auth", "admin,ciscovoip");
             client.Headers.Add("veryfy", "False");
             client.Headers.Add("token", old_token);
