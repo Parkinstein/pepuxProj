@@ -7,21 +7,10 @@
       <Column Name="Role" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="AdName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="AllVmrs_Service" Member="AllVmrs" ThisKey="UserName" OtherKey="name" Type="AllVmrs" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.VmrAliases" Member="VmrAliases">
-    <Type Name="VmrAliases">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="alias" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
-      <Column Name="conference" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="VmrId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="AllVmrs_VmrAliases" Member="AllVmrs" ThisKey="VmrId" OtherKey="Id" Type="AllVmrs" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.AllVmrs" Member="AllVmrs">
-    <Type Name="AllVmrs">
+    <Type Name="AllVmr">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="allow_guests" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
@@ -38,21 +27,18 @@
       <Column Name="resource_uri" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="service_type" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="tag" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="AllVmrs_Service" Member="Service" ThisKey="name" OtherKey="UserName" Type="Service" />
-      <Association Name="AllVmrs_VmrAliases" Member="VmrAliases" ThisKey="Id" OtherKey="VmrId" Type="VmrAliases" />
+      <Column Name="vmid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="AllVmr_VmrAliase" Member="VmrAliases" ThisKey="Id" OtherKey="vmid" Type="VmrAliase" />
     </Type>
   </Table>
-  <Table Name="" Member="ActiveConfs">
-    <Type Name="ActiveConfs">
-      <Column Member="id" Type="System.String" CanBeNull="false" />
-      <Column Member="is_locked" Type="System.Boolean" CanBeNull="false" />
-      <Column Member="name" Type="System.String" CanBeNull="false" />
-      <Column Member="resource_uri" Type="System.String" CanBeNull="false" />
-      <Column Member="service_type" Type="System.String" CanBeNull="false" />
-      <Column Member="start_time" Type="System.String" CanBeNull="false" />
-      <Column Member="start_time2" Type="System.String" CanBeNull="false" />
-      <Column Member="tag" Type="System.String" CanBeNull="false" />
-      <Column Member="lock_path" Type="System.String" CanBeNull="false" />
+  <Table Name="dbo.VmrAliases" Member="VmrAliases">
+    <Type Name="VmrAliase">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="alias" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="conference" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="vmid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="AllVmr_VmrAliase" Member="AllVmr" ThisKey="vmid" OtherKey="Id" Type="AllVmr" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

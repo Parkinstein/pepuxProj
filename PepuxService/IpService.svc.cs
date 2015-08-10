@@ -5,8 +5,9 @@ using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Net;
+using System.Text;
+using System.Timers;
 using System.Web.Script.Serialization;
-
 using PepuxService.Properties;
 using Newtonsoft.Json;
 
@@ -21,13 +22,28 @@ namespace PepuxService
          public List<ADUsers> lstADUsers;
          public List<string> lstLOCUsers;
          public ResponseParent AllConfs_wm;
-         public List<Objects> AllConfs;
-         public List<VmrObj> AllVmrs;
-         public ResponseVMr VmrResp;
+         public List<ActiveConfs> AllConfs;
          public RootObject AllPartsRoot;
-         public List<Participants> PartForConf; 
+         public List<Participants> PartForConf;
+         public List<AllVmrs> All_Vmrs;
+         public VmrParent All_VM_obj;
+        public RootToken root_token;
+         public ResultTok resultreq;
 
-         #endregion
+        private string Win1251ToUTF8(string source)
+        {
+
+            Encoding utf8 = Encoding.GetEncoding("windows-1251");
+            Encoding win1251 = Encoding.GetEncoding("utf-8");
+
+            byte[] utf8Bytes = win1251.GetBytes(source);
+            byte[] win1251Bytes = Encoding.Convert(win1251, utf8, utf8Bytes);
+            source = win1251.GetString(win1251Bytes);
+            return source;
+
+        }
+
+        #endregion
 
          #region Get_AD_Users
 
@@ -139,12 +155,12 @@ namespace PepuxService
         #endregion
 
          #region GetActiveConfs
-         List<Objects> IPService.GetActiveConfs()
+         List<ActiveConfs> IPService.GetActiveConfs()
          {
              try
              {
 
-                 AllConfs = new List<Objects>();
+                 AllConfs = new List<ActiveConfs>();
                  string pepix_address = "10.129.15.128";
                  Uri statusapi = new Uri("https://" + pepix_address + "/api/admin/status/v1/conference/");
 
@@ -157,7 +173,7 @@ namespace PepuxService
                  if (reply.ToString() != null)
                  {
                      AllConfs_wm = JsonConvert.DeserializeObject<ResponseParent>(reply);
-                     AllConfs = AllConfs_wm.obj;
+                        AllConfs = AllConfs_wm.obj;
                      foreach (var conf in AllConfs)
                      {
                          DateTime dt = DateTime.Parse(conf.start_time);
@@ -217,52 +233,133 @@ namespace PepuxService
              }
              return PartForConf;
          }
-         #endregion
-         public Result TokenRequest()
-         {
-             string pepix_address = "10.129.15.128";
-             Uri statusapi = new Uri("https://" + pepix_address + "/api/client/v2/conferences/lock/");
-             WebClient client = new WebClient();
-             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-             client.Credentials = new NetworkCredential("admin", "ciscovoip");
-             client.Headers.Add("auth", "admin,ciscovoip");
-             client.Headers.Add("veryfy", "False");
-             client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-             client.Headers["Content-Type"] = "application/x-www-form-urlencoded";
-             NameValueCollection string_lock = new NameValueCollection();
-             //string_lock.Add("conference_id", conid);
-             var json = new JavaScriptSerializer().Serialize(string_lock);
-             client.UploadValues(statusapi, "POST", string_lock);
-             return null;
-         }
 
-         List<VmrObj> IPService.GetAllVmrObjs()
-         {
-             try
-             {
-                 AllVmrs = new List<VmrObj>();
-                 string pepix_address = "10.129.15.128";
-                 Uri configapi = new Uri("https://" + pepix_address + "/api/admin/configuration/v1/conference/");
-                 WebClient client = new WebClient();
-                 client.Credentials = new NetworkCredential("admin", "ciscovoip");
-                 client.Headers.Add("auth", "admin,ciscovoip");
-                 client.Headers.Add("veryfy", "False");
-                 client.Headers.Add("application/soap+xml; charset=utf-8");
-                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-                 string reply = client.DownloadString(configapi);
-                 if (reply.ToString() != null)
-                 {
-                     VmrResp = JsonConvert.DeserializeObject<ResponseVMr>(reply);
-                     AllVmrs = VmrResp.vmrobj;
-                     return AllVmrs;
-                 }
-                 throw new NotImplementedException();
-             }
-             catch(Exception ex)
-             {
-                 Debug.WriteLine(ex.Message);
-             }
-             return AllVmrs;
-         }
+        
+        #endregion
+
+         #region Get All VMRS
+        public List<AllVmrs> GetVmrList()
+        {
+            All_Vmrs = new List<AllVmrs>();
+            ServiceDataContext db = new ServiceDataContext();
+            string pepix_address = "10.129.15.128";
+            Uri confapi = new Uri("https://" + pepix_address + "/api/admin/configuration/v1/conference/");
+            WebClient client = new WebClient();
+            client.Credentials = new NetworkCredential("admin", "ciscovoip");
+            client.Headers.Add("auth", "admin,ciscovoip");
+            client.Headers.Add("veryfy", "False");
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            string reply = client.DownloadString(confapi);
+            string reply1 = Win1251ToUTF8(reply);
+            if (reply.ToString() != null)
+            {
+                All_VM_obj = JsonConvert.DeserializeObject<VmrParent>(reply1);
+                All_Vmrs = All_VM_obj.obj;
+                foreach (var vm in All_Vmrs)
+                {
+                    AllVmr confroom = new AllVmr();
+                    confroom.Id = vm.id;
+                    confroom.allow_guests = vm.allow_guests;
+                    confroom.description = vm.description;
+                    confroom.force_presenter_into_main = vm.force_presenter_into_main;
+                    confroom.guest_pin = vm.guest_pin;
+                    confroom.guest_view = vm.guest_view;
+                    confroom.host_view = vm.host_view;
+                    confroom.ivr_theme_ = vm.ivr_theme;
+                    confroom.max_callrate_in_ = vm.max_callrate_in;
+                    confroom.max_callrate_out_ = vm.max_callrate_out;
+                    confroom.name = vm.name;
+                    confroom.participant_limit = vm.participant_limit;
+                    confroom.pin = vm.pin;
+                    confroom.resource_uri = vm.resource_uri;
+                    confroom.service_type = vm.service_type;
+                    confroom.tag = vm.tag;
+                    db.AllVmrs.InsertOnSubmit(confroom);
+                    foreach (var ali in vm.aliases)
+                    {
+                        VmrAliase alias = new VmrAliase();
+                        alias.Id = ali.id;
+                        alias.alias = ali.alias;
+                        alias.description = ali.description;
+                        alias.conference = ali.conference;
+                        alias.vmid = confroom.Id;
+                        db.VmrAliases.InsertOnSubmit(alias);
+                        db.SubmitChanges();
+                    }
+                    
+                    db.SubmitChanges();
+
+                }
+                
+                return All_Vmrs;
+            }
+            return All_Vmrs;
+        }
+        #endregion
+
+         #region Get token
+        public string GetToken(string confname, string dispname)
+        {
+            Timer tokenTimer = new Timer(600);
+            ServiceDataContext db = new ServiceDataContext();
+            string pin;
+            var search_alias = db.VmrAliases.FirstOrDefault(m => m.alias == confname);
+            int search_id = search_alias.Id;
+            var search_vmr = db.AllVmrs.FirstOrDefault(m => m.Id == search_id);
+            var current_user = db.Service.FirstOrDefault(m => m.UserName == dispname);
+            var role = current_user.Role;
+            if (role == "PepuxAdmins")
+            {
+                pin = search_vmr.pin;
+            }
+            else
+            {
+                pin = search_vmr.guest_pin; }
+            
+            // return pin;
+            string pepix_address = "10.157.155.11";
+            Uri confapi = new Uri("https://" + pepix_address + "/api/client/v2/conferences/" + confname + "/request_token");
+            WebClient client = new WebClient();
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            client.Credentials = new NetworkCredential("admin", "ciscovoip");
+            client.Headers.Add("ContentType","application/json");
+            client.Headers.Add("auth", "admin,ciscovoip");
+            client.Headers.Add("veryfy", "False");
+            client.Headers.Add("pin",pin);
+            string response = client.UploadString(confapi, "POST", "{\"display_name\":\"" + dispname + "\"}");
+            root_token = JsonConvert.DeserializeObject<RootToken>(response);
+            string token = root_token.result.token;
+            if (token != "" || token != null)
+            {
+                tokenTimer.Interval = 600;
+                tokenTimer.Start();
+            }
+            tokenTimer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
+            Debug.WriteLine(token);
+            return token;
+        }
+        void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+           //  https://10.157.155.11/api/client/v2/conferences/Parkin/refresh_token 
+            Token_refresh("","");
+        }
+
+        public string Token_refresh(string confname, string old_token)
+        {
+            string pepix_address = "10.157.155.11";
+            Uri confapi = new Uri("https://" + pepix_address + "/api/client/v2/conferences/" + confname + "/refresh_token");
+            WebClient client = new WebClient();
+            client.Credentials = new NetworkCredential("admin", "ciscovoip");
+            client.Headers.Add("ContentType", "application/json");
+            client.Headers.Add("auth", "admin,ciscovoip");
+            client.Headers.Add("veryfy", "False");
+            client.Headers.Add("token", old_token);
+            string response = client.UploadString(confapi, "POST", "{}");
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            var token_all = JsonConvert.DeserializeObject<ResultTokRef>(response);
+            string token = token_all.token;
+            return token;
+        }
+        #endregion
     }
 }
