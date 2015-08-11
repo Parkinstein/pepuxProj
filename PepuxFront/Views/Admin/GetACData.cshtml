@@ -1,8 +1,8 @@
 ﻿@using Microsoft.Ajax.Utilities
 @using PepuxFront.Controllers
-@model IEnumerable<PepuxFront.IpServiceLink.objects>
+@model IEnumerable<PepuxFront.IpServiceLink.ActiveConfs>
 
-@(Html.Kendo().Grid<PepuxFront.IpServiceLink.objects>()
+@(Html.Kendo().Grid<PepuxFront.IpServiceLink.ActiveConfs>()
       .Name("acgrid")
       .Pdf(m => { m.FileName(AccountController.Uname + "_" + DateTime.Now + ".pdf");
                     m.AllPages();

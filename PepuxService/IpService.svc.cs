@@ -182,11 +182,11 @@ namespace PepuxService
                          conf.start_time2 = result;
                          if (conf.is_locked)
                          {
-                             conf.lock_path = "<img src=\"images/lock.png\")\" style=\"max-width: 28px; max-height: 28px;\" />";
+                             conf.lock_path = "<img src=\"../images/lock.png\")\" style=\"max-width: 28px; max-height: 28px;\" />";
                          }
                          if (!conf.is_locked)
                          {
-                             conf.lock_path = "<img src=\"images/unlock.png\")\" style=\"max-width: 28px; max-height: 28px;\" />";
+                             conf.lock_path = "<img src=\"../images/unlock.png\")\" style=\"max-width: 28px; max-height: 28px;\" />";
                          }
                      }
                  }

@@ -42,7 +42,7 @@ namespace PepuxFront.Controllers
                 if (Ugroup == "PepuxAdmins")
                 {
                     Debug.WriteLine("Вход выполнен " + model.UserName);
-                    return this.RedirectToAction("Control", "Controlpanel");
+                    return this.RedirectToAction("Index", "Controlpanel");
 
                 }
                 else if (Ugroup == "PepuxUsers")

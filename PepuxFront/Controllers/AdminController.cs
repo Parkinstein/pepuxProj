@@ -37,7 +37,7 @@ namespace PepuxFront.Controllers
             using (var allconfs = new  PServiceClient())
             {
                 
-                IQueryable<objects> confs = allconfs.GetActiveConfs().AsQueryable();
+                IQueryable<ActiveConfs> confs = allconfs.GetActiveConfs().AsQueryable();
                 
                 DataSourceResult result = confs.ToDataSourceResult(request);
 
@@ -45,6 +45,7 @@ namespace PepuxFront.Controllers
             }
 
         }
+        
         public ActionResult UserGet()
         {
             IpServiceLink.PServiceClient obj1 = new PServiceClient();
@@ -56,7 +57,7 @@ namespace PepuxFront.Controllers
             PServiceClient obj2 = new PServiceClient();
             return PartialView(obj2.GetActiveParts(confname));
         }
-        private IEnumerable<objects> GetData()
+        private IEnumerable<ActiveConfs> GetData()
         {
             IpServiceLink.PServiceClient obj = new PServiceClient();
             var data = obj.GetActiveConfs();
@@ -68,7 +69,7 @@ namespace PepuxFront.Controllers
             return PartialView(GetData());
         }
 
-        private IEnumerable<participantsAll> getparti(string confname)
+        private IEnumerable<participants> getparti(string confname)
         {
             PServiceClient req = new PServiceClient();
             var parts = req.GetActiveParts(confname);

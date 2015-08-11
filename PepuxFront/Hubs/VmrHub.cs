@@ -39,7 +39,7 @@ namespace PepuxFront.Hubs
         {
             using (vmrService)
             {
-                IQueryable<objects> confs = vmrService.GetActiveConfs().AsQueryable();
+                IQueryable<ActiveConfs> confs = vmrService.GetActiveConfs().AsQueryable();
                 DataSourceResult result = confs.ToDataSourceResult(request);
 
                 return null;

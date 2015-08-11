@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="scheduler" Class="DatabsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=scheduler;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="schedulerConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=10.157.5.35\SQLEXPRESS;Initial Catalog=scheduler;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="schedulerConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Service" Member="Service">
     <Type Name="Service">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -7,6 +7,38 @@
       <Column Name="Role" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="AdName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AllVmrs" Member="AllVmrs">
+    <Type Name="AllVmr">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="allow_guests" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="force_presenter_into_main" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="guest_pin" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="guest_view" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="host_view" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="[ivr_theme ]" Member="ivr_theme_" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="[max_callrate_in ]" Member="max_callrate_in_" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="[max_callrate_out ]" Member="max_callrate_out_" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="participant_limit" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="pin" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="resource_uri" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="service_type" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="tag" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="vmid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="AllVmr_VmrAliase" Member="VmrAliases" ThisKey="Id" OtherKey="vmid" Type="VmrAliase" />
+    </Type>
+  </Table>
+  <Table Name="dbo.VmrAliases" Member="VmrAliases">
+    <Type Name="VmrAliase">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="alias" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="conference" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="vmid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="AllVmr_VmrAliase" Member="AllVmr" ThisKey="vmid" OtherKey="Id" Type="AllVmr" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

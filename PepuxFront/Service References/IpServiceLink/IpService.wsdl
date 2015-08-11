@@ -25,6 +25,24 @@
   <wsdl:message name="IPService_GetActiveParts_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetActivePartsResponse" />
   </wsdl:message>
+  <wsdl:message name="IPService_GetVmrList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetVmrList" />
+  </wsdl:message>
+  <wsdl:message name="IPService_GetVmrList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetVmrListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPService_GetToken_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetToken" />
+  </wsdl:message>
+  <wsdl:message name="IPService_GetToken_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPService_Token_refresh_InputMessage">
+    <wsdl:part name="parameters" element="tns:Token_refresh" />
+  </wsdl:message>
+  <wsdl:message name="IPService_Token_refresh_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Token_refreshResponse" />
+  </wsdl:message>
   <wsdl:portType name="IPService">
     <wsdl:operation name="GetActiveConfs">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetActiveConfs" message="tns:IPService_GetActiveConfs_InputMessage" />
@@ -37,6 +55,18 @@
     <wsdl:operation name="GetActiveParts">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetActiveParts" message="tns:IPService_GetActiveParts_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPService/GetActivePartsResponse" message="tns:IPService_GetActiveParts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVmrList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetVmrList" message="tns:IPService_GetVmrList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPService/GetVmrListResponse" message="tns:IPService_GetVmrList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetToken">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetToken" message="tns:IPService_GetToken_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPService/GetTokenResponse" message="tns:IPService_GetToken_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Token_refresh">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPService/Token_refresh" message="tns:IPService_Token_refresh_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPService/Token_refreshResponse" message="tns:IPService_Token_refresh_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IPService" type="tns:IPService">
@@ -61,6 +91,33 @@
     </wsdl:operation>
     <wsdl:operation name="GetActiveParts">
       <soap:operation soapAction="http://tempuri.org/IPService/GetActiveParts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVmrList">
+      <soap:operation soapAction="http://tempuri.org/IPService/GetVmrList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetToken">
+      <soap:operation soapAction="http://tempuri.org/IPService/GetToken" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Token_refresh">
+      <soap:operation soapAction="http://tempuri.org/IPService/Token_refresh" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

@@ -1,5 +1,5 @@
-﻿@using Microsoft.Ajax.Utilities
-@model IEnumerable<PepuxFront.IpServiceLink.objects>
+﻿@using PepuxFront.IpServiceLink
+@model IEnumerable<PepuxFront.IpServiceLink.ActiveConfs>
 @{
                                                     
      bool tags = false;
@@ -7,7 +7,7 @@
 
 
 @{
-    PepuxFront.IpServiceLink.Service servicemodel = new PepuxFront.IpServiceLink.Service();
+    Service servicemodel = new Service();
     
 }<p>
     @*@Html.ActionLink("Create New", "Create")*@

@@ -12,6 +12,9 @@ namespace PepuxFront.Models
         [Required]
         [Display(Name = "Имя пользователя")]
         public string UserName { get; set; }
+        //[Required]
+        //[Display(Name = "Домен")]
+        //public string Domen { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

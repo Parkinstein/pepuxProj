@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/PepuxService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/PepuxService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:complexType name="ArrayOfobjects">
+  <xs:complexType name="ArrayOfActiveConfs">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="objects" nillable="true" type="tns:objects" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ActiveConfs" nillable="true" type="tns:ActiveConfs" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOfobjects" nillable="true" type="tns:ArrayOfobjects" />
-  <xs:complexType name="objects">
+  <xs:element name="ArrayOfActiveConfs" nillable="true" type="tns:ArrayOfActiveConfs" />
+  <xs:complexType name="ActiveConfs">
     <xs:sequence>
       <xs:element minOccurs="0" name="id" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="is_locked" type="xs:boolean" />
-      <xs:element minOccurs="0" name="lock_path" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="resource_uri" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="service_type" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="start_time" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="start_time2" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="tag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="lock_path" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="objects" nillable="true" type="tns:objects" />
+  <xs:element name="ActiveConfs" nillable="true" type="tns:ActiveConfs" />
   <xs:complexType name="ArrayOfService">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Service" nillable="true" type="tns:Service" />
@@ -36,13 +36,13 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Service" nillable="true" type="tns:Service" />
-  <xs:complexType name="ArrayOfparticipantsAll">
+  <xs:complexType name="ArrayOfparticipants">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="participantsAll" nillable="true" type="tns:participantsAll" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="participants" nillable="true" type="tns:participants" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOfparticipantsAll" nillable="true" type="tns:ArrayOfparticipantsAll" />
-  <xs:complexType name="participantsAll">
+  <xs:element name="ArrayOfparticipants" nillable="true" type="tns:ArrayOfparticipants" />
+  <xs:complexType name="participants">
     <xs:sequence>
       <xs:element minOccurs="0" name="bandwidth" type="xs:int" />
       <xs:element minOccurs="0" name="call_direction" nillable="true" type="xs:string" />
@@ -76,5 +76,68 @@
       <xs:element minOccurs="0" name="vendor" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="participantsAll" nillable="true" type="tns:participantsAll" />
+  <xs:element name="participants" nillable="true" type="tns:participants" />
+  <xs:complexType name="ArrayOfAllVmrs">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AllVmrs" nillable="true" type="tns:AllVmrs" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAllVmrs" nillable="true" type="tns:ArrayOfAllVmrs" />
+  <xs:complexType name="AllVmrs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aliases" nillable="true" type="tns:ArrayOfAliasess" />
+      <xs:element minOccurs="0" name="allow_guests" type="xs:boolean" />
+      <xs:element minOccurs="0" name="automatic_participants" nillable="true" type="tns:ArrayOfAutoPartis" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="force_presenter_into_main" type="xs:boolean" />
+      <xs:element minOccurs="0" name="guest_pin" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="guest_view" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="host_view" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="ivr_theme" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="max_callrate_in" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="max_callrate_out" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="participant_limit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="pin" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="resource_uri" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="service_type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sync_tag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="tag" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AllVmrs" nillable="true" type="tns:AllVmrs" />
+  <xs:complexType name="ArrayOfAliasess">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Aliasess" nillable="true" type="tns:Aliasess" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAliasess" nillable="true" type="tns:ArrayOfAliasess" />
+  <xs:complexType name="Aliasess">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="conference" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Aliasess" nillable="true" type="tns:Aliasess" />
+  <xs:complexType name="ArrayOfAutoPartis">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AutoPartis" nillable="true" type="tns:AutoPartis" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAutoPartis" nillable="true" type="tns:ArrayOfAutoPartis" />
+  <xs:complexType name="AutoPartis">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="dtmf_sequence" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="protocol" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="role" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="streaming" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AutoPartis" nillable="true" type="tns:AutoPartis" />
 </xs:schema>

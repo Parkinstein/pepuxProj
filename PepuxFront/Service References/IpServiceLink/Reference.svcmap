@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="12c16522-dac4-4c98-896f-1b28446671bd" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f987dba9-4934-438a-abdc-b0579e347390" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,11 +22,11 @@
     <MetadataSource Address="http://localhost:10789/IpService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="IpService.wsdl" MetadataType="Wsdl" ID="29dabac4-1740-4de6-9784-627e6e512c2d" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?wsdl" />
-    <MetadataFile FileName="IpService.xsd" MetadataType="Schema" ID="feba13a9-6216-4a37-aafe-649c3b51145c" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?xsd=xsd0" />
-    <MetadataFile FileName="IpService1.xsd" MetadataType="Schema" ID="0d98016a-bbd0-455a-8233-f581fcdc6ba2" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?xsd=xsd1" />
-    <MetadataFile FileName="IpService.disco" MetadataType="Disco" ID="ce49ad5a-5dfa-4aef-985b-8520bd2362d6" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?disco" />
-    <MetadataFile FileName="IpService2.xsd" MetadataType="Schema" ID="5d6ac217-3a9b-4f80-b670-cec96749f61a" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?xsd=xsd2" />
+    <MetadataFile FileName="IpService.wsdl" MetadataType="Wsdl" ID="26d69ed2-e7eb-4497-82e4-6c2c478c8831" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?wsdl" />
+    <MetadataFile FileName="IpService.xsd" MetadataType="Schema" ID="2c22691d-8b42-4568-8b45-a8baca47790b" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?xsd=xsd0" />
+    <MetadataFile FileName="IpService1.xsd" MetadataType="Schema" ID="aefb93b3-c96f-4ac7-b62e-5b6dded82398" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?xsd=xsd1" />
+    <MetadataFile FileName="IpService.disco" MetadataType="Disco" ID="5f4c7d93-d3e2-4f09-bef4-e90ecb77dfc1" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?disco" />
+    <MetadataFile FileName="IpService2.xsd" MetadataType="Schema" ID="aaf26a10-8563-4686-a38a-0fcb351f5efa" SourceId="1" SourceUrl="http://localhost:10789/IpService.svc?xsd=xsd2" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

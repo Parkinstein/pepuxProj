@@ -9,7 +9,7 @@
   <xs:element name="GetActiveConfsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetActiveConfsResult" nillable="true" type="q1:ArrayOfobjects" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetActiveConfsResult" nillable="true" type="q1:ArrayOfActiveConfs" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -35,7 +35,49 @@
   <xs:element name="GetActivePartsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetActivePartsResult" nillable="true" type="q3:ArrayOfparticipantsAll" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetActivePartsResult" nillable="true" type="q3:ArrayOfparticipants" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetVmrList">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetVmrListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetVmrListResult" nillable="true" type="q4:ArrayOfAllVmrs" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetToken">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="confname" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="dispname" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTokenResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetTokenResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Token_refresh">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="confname" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="old_token" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Token_refreshResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Token_refreshResult" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

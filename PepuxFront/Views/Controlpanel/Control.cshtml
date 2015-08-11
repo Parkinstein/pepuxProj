@@ -688,13 +688,13 @@
     };
 
     var user = {
-        node: "pexipdemo.com",
-        conference: "inline",
-        display_name: "Alex_asp",
+        node: "213.221.6.114",
+        conference: "@ViewData["confnm"]",
+        display_name: "@ViewData["dispnm"]",
         role: "HOST",
         token: null,
         participant_uuid: null,
-        pin: null,
+        pin: "@ViewData["pinc"]",
         event_source: null,
         conference_participants: {},
         token_refresh: null,
@@ -940,7 +940,7 @@
                 xhr.onerror = function () { this.onError(this.trans.ERROR_CONNECTING); };
                 xhr.ontimeout = function () { this.onError(this.trans.ERROR_CONNECTING); };
                 console.log(params);
-                xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8"'); 
+                xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8"');
                 xhr.send(JSON.stringify(params));
                 console.log("Response: " + xhr.responseText);
                 var msg = {};
@@ -951,7 +951,7 @@
                 }
                 msg.http_status = xhr.status;
                 if (msg["http_status"] == 200) {
-                    this.record_pid = msg.pid; 
+                    this.record_pid = msg.pid;
                     this.record_id = msg.ID_rec;
                     this.recorded = true;
                     document.getElementById("record").className = class_conference_record_on;
@@ -963,7 +963,7 @@
                 xhr.onerror = function () { this.onError(this.trans.ERROR_CONNECTING); };
                 xhr.ontimeout = function () { this.onError(this.trans.ERROR_CONNECTING); };
                 console.log(params);
-                xhr.setRequestHeader('Content-type', 'application/json'); 
+                xhr.setRequestHeader('Content-type', 'application/json');
                 xhr.send(JSON.stringify(params));
                 console.log("Response: " + xhr.responseText);
                 var msg = {};
