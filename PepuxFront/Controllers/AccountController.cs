@@ -41,14 +41,16 @@ namespace PepuxFront.Controllers
                 IsAuth = true;
                 if (Ugroup == "PepuxAdmins")
                 {
-                    return this.RedirectToAction("Index", "Admin");
+                    Debug.WriteLine("Вход выполнен " + model.UserName);
+                    return this.RedirectToAction("Control", "Controlpanel");
+
                 }
                 else if (Ugroup == "PepuxUsers")
                 {
+                    Debug.WriteLine("Вход выполнен " + model.UserName);
                     return this.RedirectToAction("Index", "User");
                 }
-                Debug.WriteLine("Вход выполнен " + model.UserName);
-                return this.RedirectToAction("About", "Home");
+                return this.RedirectToAction("Login", "Account");
             }
 
             this.ModelState.AddModelError(string.Empty, "Имя пользователя или пароль указаны неверно.");

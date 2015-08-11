@@ -173,7 +173,7 @@ namespace PepuxService
                  if (reply.ToString() != null)
                  {
                      AllConfs_wm = JsonConvert.DeserializeObject<ResponseParent>(reply);
-                        AllConfs = AllConfs_wm.obj;
+                     AllConfs = AllConfs_wm.obj;
                      foreach (var conf in AllConfs)
                      {
                          DateTime dt = DateTime.Parse(conf.start_time);
