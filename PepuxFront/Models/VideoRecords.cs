@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PepuxFront.Models
 {
-    public class Records
+    public class VideoRecords
     {
         public int ID { get; set; }
         public string Conf { get; set; }

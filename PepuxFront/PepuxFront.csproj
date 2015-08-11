@@ -181,7 +181,6 @@
     </Compile>
     <Compile Include="Hubs\VmrHub.cs" />
     <Compile Include="Models\ActiveConference.cs" />
-    <Compile Include="Models\Records.cs" />
     <Compile Include="Models\Databs.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
