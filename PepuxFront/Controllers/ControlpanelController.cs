@@ -14,5 +14,9 @@ namespace PepuxFront.Controllers
         {
             return View();
         }
+        public ActionResult Index()
+        {
+            return View();
+        }
     }
 }
