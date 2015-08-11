@@ -6,10 +6,10 @@ using System.Web.Mvc;
 
 namespace PepuxFront.Controllers
 {
-    public class RecordsController : Controller
+    public class VideoRecordsController : Controller
     {
         // GET: Records
-        public ActionResult Records()
+        public ActionResult VideoRecords()
         {
             return View();
         }

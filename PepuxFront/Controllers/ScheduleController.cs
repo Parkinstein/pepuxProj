@@ -6,13 +6,9 @@ using System.Web.Mvc;
 
 namespace PepuxFront.Controllers
 {
-    public class ControlpanelController : Controller
-    {      
-        // GET: Chat
-        public ActionResult Control()
-        {
-            return View();
-        }
+    public class ScheduleController : Controller
+    {
+        // GET: Schedule
         public ActionResult Index()
         {
             return View();
