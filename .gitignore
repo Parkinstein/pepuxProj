@@ -187,3 +187,9 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/PepuxService/PepuxService.csproj.DotSettings
+/PepuxFront/images/Thumbs.db
+/PepuxFront/Content/Thumbs.db
+/PepuxFront/Content/kendo/2015.1.408/Uniform/Thumbs.db
+/PepuxFront/Content/kendo/2015.1.408/Default/Thumbs.db
+/PepuxFront/Content/kendo/2015.1.408/BlueOpal/Thumbs.db
