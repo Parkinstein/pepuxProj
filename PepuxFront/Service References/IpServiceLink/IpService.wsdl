@@ -43,6 +43,12 @@
   <wsdl:message name="IPService_Token_refresh_OutputMessage">
     <wsdl:part name="parameters" element="tns:Token_refreshResponse" />
   </wsdl:message>
+  <wsdl:message name="IPService_Videorecords_InputMessage">
+    <wsdl:part name="parameters" element="tns:Videorecords" />
+  </wsdl:message>
+  <wsdl:message name="IPService_Videorecords_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VideorecordsResponse" />
+  </wsdl:message>
   <wsdl:portType name="IPService">
     <wsdl:operation name="GetActiveConfs">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetActiveConfs" message="tns:IPService_GetActiveConfs_InputMessage" />
@@ -67,6 +73,10 @@
     <wsdl:operation name="Token_refresh">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/Token_refresh" message="tns:IPService_Token_refresh_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPService/Token_refreshResponse" message="tns:IPService_Token_refresh_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Videorecords">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPService/Videorecords" message="tns:IPService_Videorecords_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPService/VideorecordsResponse" message="tns:IPService_Videorecords_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IPService" type="tns:IPService">
@@ -118,6 +128,15 @@
     </wsdl:operation>
     <wsdl:operation name="Token_refresh">
       <soap:operation soapAction="http://tempuri.org/IPService/Token_refresh" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Videorecords">
+      <soap:operation soapAction="http://tempuri.org/IPService/Videorecords" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

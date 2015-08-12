@@ -81,4 +81,19 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="Videorecords">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="filter" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="val" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VideorecordsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="VideorecordsResult" nillable="true" type="q5:ArrayOfallrecords" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

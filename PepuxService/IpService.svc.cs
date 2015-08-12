@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data;
 using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Timers;
 using System.Web.Script.Serialization;
+using MySql.Data.MySqlClient;
 using PepuxService.Properties;
 using Newtonsoft.Json;
 
@@ -360,6 +362,61 @@ namespace PepuxService
             string token = token_all.token;
             return token;
         }
+
+        public List<Vrecords> Videorecords(string filter, string val)
+        {
+            MySql.Data.MySqlClient.MySqlConnection conn;
+            MySqlDataAdapter daVrec;
+            DataSet dsVrec;
+            string myConnectionString;
+            List<Vrecords> all_recs = new List<Vrecords>();
+
+            myConnectionString = "server="+Properties.Settings.Default.SQLServ+";uid="+Properties.Settings.Default.SQLUser+";" +
+                "pwd="+Properties.Settings.Default.SQLPass+";database="+Properties.Settings.Default.SQLBd+ ";Convert Zero Datetime=True";
+            if (filter != null && val != null)
+            {
+                try
+                {
+                    string sql = "SELECT * FROM records WHERE " + filter + "='" + val + "'";
+                    daVrec = new MySqlDataAdapter(sql, myConnectionString);
+                    MySqlCommandBuilder cb = new MySqlCommandBuilder(daVrec);
+                    dsVrec = new DataSet();
+                    daVrec.Fill(dsVrec, "records");
+                    foreach (DataRow dr in dsVrec.Tables["records"].Rows)
+                    {
+                        all_recs.Add(new Vrecords { ID = Int32.Parse(dr["ID"].ToString()), Conf = Convert.ToString(dr["Conf"]), PName = Convert.ToString(dr["PName"]), Tstart = DateTime.Parse(dr["Tstart"].ToString()), Tfinish = DateTime.Parse(dr["Tfinish"].ToString()), Link = Convert.ToString(dr["Link"]) });
+                    }
+                    return all_recs;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message.ToString());
+                }
+            }
+            try
+            {
+
+                string sql = "SELECT * FROM records";
+                daVrec = new MySqlDataAdapter(sql, myConnectionString);
+                MySqlCommandBuilder cb = new MySqlCommandBuilder(daVrec);
+                dsVrec = new DataSet();
+                daVrec.Fill(dsVrec, "records");
+                foreach (DataRow dr in dsVrec.Tables["records"].Rows)
+                {
+                    all_recs.Add(new Vrecords { ID = Int32.Parse(dr["ID"].ToString()), Conf = Convert.ToString(dr["Conf"]), PName = Convert.ToString(dr["PName"]), Tstart = DateTime.Parse(dr["Tstart"].ToString()), Tfinish = DateTime.Parse(dr["Tfinish"].ToString()), Link = Convert.ToString(dr["Link"]) });
+                }
+                return all_recs;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message.ToString());
+            }
+
+
+            return all_recs;
+        }
+
         #endregion
     }
 }

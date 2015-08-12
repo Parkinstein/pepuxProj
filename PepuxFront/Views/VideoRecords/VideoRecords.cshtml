@@ -1,12 +1,40 @@
-﻿
+﻿@model IEnumerable<PepuxFront.IpServiceLink.allrecords>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <h2>Сохранённые записи</h2>
 <body>
-    <div id="confcontrol" class="control_panel">
-                <!-- Insert records table here-->
-    </div>
+<div id="confcontrol" class="control_panel">
+    @(Html.Kendo().Grid<PepuxFront.IpServiceLink.allrecords>()
+          .Name("vrgrid")
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Read(read => read.Action("All_VideoRec", "VideoRecords", new {filter = "", val = ""}))
+              .AutoSync(true)
+              .PageSize(20)
+          )
+          .Columns(columns =>
+          {
+              columns.Bound(product => product.Conf).Title("Название конференции");
+              columns.Bound(product => product.PName).Title("Инициатор");
+              columns.Bound(product => product.Tstart).Title("Врем начала").Format("{0:F}");
+              columns.Bound(product => product.Tfinish).Title("Время окончания").Format("{0:F}");
+              columns.Bound(product => product.Link).Title("Ссылка");
+              //columns.Bound(i => i.name).Title("Список участников").ClientTemplate(@Html.ActionLink("Участники", "GetParticipants", "Admin", new { confname = "#= name #" }, new { @class = "modal-link btn btn-success" }).ToHtmlString());
+
+          })
+
+          .Pageable()
+          .Sortable()
+          .Filterable()
+          )
+</div>
+
+    <script>
+kendo.culture("ru-RU");
+    </script>
 </body>

@@ -17,5 +17,20 @@
     <Setting Name="Dn_pass" Type="System.String" Scope="Application">
       <Value Profile="(Default)">1Q2w3e4r</Value>
     </Setting>
+    <Setting Name="SQLServ" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">10.157.5.87</Value>
+    </Setting>
+    <Setting Name="SQLUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">remote</Value>
+    </Setting>
+    <Setting Name="SQLPass" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Rerih!123</Value>
+    </Setting>
+    <Setting Name="SQLBd" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Records</Value>
+    </Setting>
+    <Setting Name="SQLTable" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">records</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

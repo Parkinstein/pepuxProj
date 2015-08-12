@@ -26,6 +26,8 @@ namespace PepuxService
         string GetToken(string confname, string dispname);
         [OperationContract]
         string Token_refresh(string confname, string old_token);
+        [OperationContract]
+        List<Vrecords> Videorecords(string filter, string val);
 
     }
 
@@ -405,7 +407,25 @@ namespace PepuxService
     }
     #endregion
 
+    #region Get Records
+    [DataContract(Name = "allrecords")]
+    [JsonObject(MemberSerialization.OptIn)]
+    public class Vrecords
+    {
+        [DataMember(Order = 1), Newtonsoft.Json.JsonProperty]
+        public int ID { get; set; }
+        [DataMember(Order = 2), Newtonsoft.Json.JsonProperty]
+        public string Conf { get; set; }
+        [DataMember(Order = 3), Newtonsoft.Json.JsonProperty]
+        public string PName { get; set; }
+        [DataMember(Order = 4), Newtonsoft.Json.JsonProperty]
+        public DateTime Tstart { get; set; }
+        [DataMember(Order = 5), Newtonsoft.Json.JsonProperty]
+        public DateTime Tfinish { get; set; }
+        [DataMember(Order = 6), Newtonsoft.Json.JsonProperty]
+        public string Link { get; set; }
+    }
 
-
+    #endregion
 
 }

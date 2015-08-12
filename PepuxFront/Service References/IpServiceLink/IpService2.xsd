@@ -140,4 +140,21 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="AutoPartis" nillable="true" type="tns:AutoPartis" />
+  <xs:complexType name="ArrayOfallrecords">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="allrecords" nillable="true" type="tns:allrecords" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfallrecords" nillable="true" type="tns:ArrayOfallrecords" />
+  <xs:complexType name="allrecords">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="Conf" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tstart" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Tfinish" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Link" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="allrecords" nillable="true" type="tns:allrecords" />
 </xs:schema>

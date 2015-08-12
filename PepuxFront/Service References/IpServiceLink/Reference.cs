@@ -1371,6 +1371,131 @@ namespace PepuxFront.IpServiceLink {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="allrecords", Namespace="http://schemas.datacontract.org/2004/07/PepuxService")]
+    [System.SerializableAttribute()]
+    public partial class allrecords : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ConfField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime TstartField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime TfinishField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LinkField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ID {
+            get {
+                return this.IDField;
+            }
+            set {
+                if ((this.IDField.Equals(value) != true)) {
+                    this.IDField = value;
+                    this.RaisePropertyChanged("ID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public string Conf {
+            get {
+                return this.ConfField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ConfField, value) != true)) {
+                    this.ConfField = value;
+                    this.RaisePropertyChanged("Conf");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public string PName {
+            get {
+                return this.PNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PNameField, value) != true)) {
+                    this.PNameField = value;
+                    this.RaisePropertyChanged("PName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        public System.DateTime Tstart {
+            get {
+                return this.TstartField;
+            }
+            set {
+                if ((this.TstartField.Equals(value) != true)) {
+                    this.TstartField = value;
+                    this.RaisePropertyChanged("Tstart");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+        public System.DateTime Tfinish {
+            get {
+                return this.TfinishField;
+            }
+            set {
+                if ((this.TfinishField.Equals(value) != true)) {
+                    this.TfinishField = value;
+                    this.RaisePropertyChanged("Tfinish");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+        public string Link {
+            get {
+                return this.LinkField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LinkField, value) != true)) {
+                    this.LinkField = value;
+                    this.RaisePropertyChanged("Link");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="IpServiceLink.IPService")]
     public interface IPService {
@@ -1410,6 +1535,12 @@ namespace PepuxFront.IpServiceLink {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Token_refresh", ReplyAction="http://tempuri.org/IPService/Token_refreshResponse")]
         System.Threading.Tasks.Task<string> Token_refreshAsync(string confname, string old_token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Videorecords", ReplyAction="http://tempuri.org/IPService/VideorecordsResponse")]
+        PepuxFront.IpServiceLink.allrecords[] Videorecords(string filter, string val);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Videorecords", ReplyAction="http://tempuri.org/IPService/VideorecordsResponse")]
+        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.allrecords[]> VideorecordsAsync(string filter, string val);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1485,6 +1616,14 @@ namespace PepuxFront.IpServiceLink {
         
         public System.Threading.Tasks.Task<string> Token_refreshAsync(string confname, string old_token) {
             return base.Channel.Token_refreshAsync(confname, old_token);
+        }
+        
+        public PepuxFront.IpServiceLink.allrecords[] Videorecords(string filter, string val) {
+            return base.Channel.Videorecords(filter, val);
+        }
+        
+        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.allrecords[]> VideorecordsAsync(string filter, string val) {
+            return base.Channel.VideorecordsAsync(filter, val);
         }
     }
 }
