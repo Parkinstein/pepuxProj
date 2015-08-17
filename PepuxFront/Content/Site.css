@@ -814,16 +814,44 @@ footer {
     width: 100px;
 }
 .phonebook_entry {
-    display: inline-block;
     height: 24px;
     width: 100%;
-    margin: 1px 2px 1px 2px;
     padding: 1px;
     font-size: 14px;
+    height: 24px;
     font-family: Calibri, sans-serif;
 }
-.phonebook_button {
-    display: inline-block;
+.phonebook_entry_highlighted {
+    background-color: rgba(33, 23, 83, 0.2);
+    font-weight: bold;
+}
+.phonebook_button_delete {
+    width: 20%;
+    height: 24px;
+    margin: 1% 10% 1% 19%;
+    background-color: #332383;
+    font-weight: bold;
+    color: white;
+    border: 1px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+.phonebook_button_add {
+    width: 20%;
+    height: 24px;
+    margin: 1% 19% 1% 10%;
+    background-color: #332383;
+    font-weight: bold;
+    color: white;
+    border: 1px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+.phonebook_button_save {
     width: 20%;
     height: 24px;
     margin: 1% 40% 1% 40%;
