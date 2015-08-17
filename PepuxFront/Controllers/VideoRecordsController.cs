@@ -7,6 +7,7 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using PepuxFront.IpServiceLink;
 using PepuxFront.Models;
+using Renci.SshNet;
 
 namespace PepuxFront.Controllers
 {
@@ -29,6 +30,17 @@ namespace PepuxFront.Controllers
                 return Json(result);
             }
 
+        }
+
+        public ActionResult VideoRecDelete(string filepath)
+        {
+            using (var client = new SshClient("10.157.5.87", "username", "password"))
+            {
+                client.Connect();
+                client.RunCommand("etc/init.d/networking restart");
+                client.Disconnect();
+            }
+            return null;
         }
     }
 }
