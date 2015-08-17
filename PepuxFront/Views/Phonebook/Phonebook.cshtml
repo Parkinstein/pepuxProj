@@ -13,48 +13,96 @@
                         <div class="phonebook_entry_ul">
                             <b>Персональная телефонная книга</b>
                         </div>
-                        <table id="phonebooklist">
-                            <thead>
-                                <tr>
-                                    <th>Фамилия</th>
-                                    <th>Имя</th>
-                                    <th>Адрес</th>
-                                    <th>Телефон</th>
+                        <div id="slimscroll">
+                            <table id="phonebooklist" width="100%">
+                                <tr class="phonebook_entry">
+                                    <td width="30%">Иванов</td>
+                                    <td width="30%">Иван</td>
+                                    <td width="30%">Москва</td>
+                                    <td width="10%">111</td>
                                 </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr id="name0">
-                                    <td>Иванов</td>
-                                    <td>Иван</td>
-                                    <td>Москва</td>
-                                    <td>111</td>
-                                </tr>
-                                <tr id="name1">
+                                <tr class="phonebook_entry">
                                     <td>Петров</td>
                                     <td>Пётр</td>
                                     <td>Нижний Новгород</td>
                                     <td>222</td>
                                 </tr>
-                            </tbody>
-                            <!--Fill from DB-->
-                        </table>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <!--Fill from DB-->
+                            </table>
+                        </div>
                     </div>
-                    <input id="find" type="button" onclick="" value="Найти" class="phonebook_button" />
+                    <div>
+                        <input id="find" type="button" onclick="" value="Удалить" class="phonebook_button_delete" />
+                        <input id="find" type="button" onclick="" value="Добавить" class="phonebook_button_add" />
+                    </div>
 
                 <td class="controlcol">
                     <div id="phonebookfill" class="phonebook_fill">
                         <fieldset>
                             <label class="phonebook_label">Фамилия</label>
-                            <input id="Surname" value="" class="form-control phonebook_entry">
+                            <input id="Surname" value="" class="form-control phonebook_entry" readonly>
                             <label class="phonebook_label">Имя</label>
-                            <input id="Name" value="" class="form-control phonebook_entry">
+                            <input id="Name" value="" class="form-control phonebook_entry" readonly>
                             <label class="phonebook_label">Адрес</label>
-                            <input id="Address" value="" class="form-control phonebook_entry">
+                            <input id="Address" value="" class="form-control phonebook_entry" readonly>
                             <label class="phonebook_label">Телефон</label>
-                            <input id="Phone" value="" class="form-control phonebook_entry">  
+                            <input id="Phone" value="" class="form-control phonebook_entry" readonly>  
                         </fieldset>
-                        <input id="save" type="button" onclick="" value="Сохранить" class="phonebook_button" />
+                        <input id="save" type="button" onclick="" value="Сохранить" class="phonebook_button_save" />
                     </div>
                 </td>
             </tr>
@@ -64,31 +112,45 @@
 
 <script type="text/javascript">
     (function($){
-        $('#phonebooklist').slimScroll({
-            height: '350px',
+        $('#slimscroll').slimScroll({
             width: '100%',
+            height: '98%',
             margin: '30px',
             size: '7px',
             position: 'right',
             color: '#332383',
-            distance: '0px',
+            distance: '1px',
         });
     })(jQuery);
 
-    var addedrows = new Array();
+    var last = 0;
 
     $(document).ready(function () {
-        $("#phonebooklist tbody tr").on("click", function (event) {
-            var ok = false;
+        $('#phonebooklist').on('click', 'tr', function()
+        {
+            $(last).removeClass("phonebook_entry_highlighted");
+            $(this).addClass("phonebook_entry_highlighted");
+            $('#Surname').val($(this.cells[0]).text());
+            $('#Name').val($(this.cells[1]).text());
+            $('#Address').val($(this.cells[2]).text());
+            $('#Phone').val($(this.cells[3]).text());
+            last = this;
+        });
+    });
+
+
+
+
+            /*var ok = false;
             var theid = $(this).attr('id').replace("name", "");
             var newaddedrows = new Array();
             for (index = 0; index < addedrows.length; ++index) {
                 // if already selected then remove
                 if (addedrows[index] == theid) {
-                    $(this).css("background-color", "#ffccff");
+                    $(this).css("background-color", "#fff");
                     // remove from second table :
                     var tr = $("#dest" + theid);
-                    tr.css("background-color", "#FF3700");
+                    tr.css("background-color", "#332383");
                     tr.fadeOut(400, function () {
                         tr.remove();
                     });
@@ -103,15 +165,14 @@
             if (ok == false) {
                 // retrieve the id of the element to match the id of the new row :
                 addedrows.push(theid);
-                $(this).css("background-color", "#cacaca");
+                $(this).css("background-color", "#332383");
                 $('#destinationtable tr:last').after('<tr id="dest' + theid + '"><td>'
                                                + $(this).find("td").eq(0).html() + '</td><td>'
                                                + $(this).find("td").eq(1).html() + '</td><td>'
                                                + $(this).find("td").eq(2).html() + '</td><td>'
                                                + $(this).find("td").eq(3).html() + '</td><td>'
                                                + $(this).find("td").eq(4).html() + '</td></tr>');
-            }
-        });
-    });
+            }*/
+
 </script>
 
