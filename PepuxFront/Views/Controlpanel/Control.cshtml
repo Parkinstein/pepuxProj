@@ -80,7 +80,7 @@
                                     <option value="1:21">1 основной + 21 дополнительных</option>
                                 </select>
                                 <input id="plusn" list="plusnvalues" value="auto" class="form-control layoutdiv_select"/>
-                                <datalist id="plusnvalues"><option id="auto_option" value="auto" \><option value="off" \></datalist>
+                                <datalist id="plusnvalues"><option id="auto_option" value="auto"><option value="off"/></datalist>
 
 
                             </div>
@@ -121,7 +121,7 @@
                                         <option value="1:21">1 основной + 21 дополнительных</option>
                                     </select>
                                     <input id="plusn" list="plusnvalues" value="auto" class="form-control layoutdiv_select" />
-                                    <datalist id="plusnvalues"><option id="auto_option" value="auto" \><option value="off" \></datalist>
+                                    <datalist id="plusnvalues"><option id="auto_option" value="auto"><option value="off"></datalist>
                                 </div>
                                 <div class="layout_layout_3">
                                     <label class="layoutdiv_header">VAD backfill </label>
@@ -170,8 +170,8 @@
                             <form onsubmit="return user.send_message()">
                                 <div id="chatbox" class="chatbox"></div>
                                 <br />
-                                <input id="chatinput" style="width: 70%;" class="form-control chatdiv_text"/ >
-                                <input id="chatsend" type="button" onclick="user.send_message()" value="Отправить" class="chatdiv_button" / >
+                                <input id="chatinput" style="width: 70%;" class="form-control chatdiv_text"/>
+                                <input id="chatsend" type="button" onclick="user.send_message()" value="Отправить" class="chatdiv_button"/>
                             </form>
                         </fieldset>
                     </div>
@@ -190,7 +190,7 @@
             size: '7px',
             position: 'right',
             color: '#332383',
-            distance: '0px',
+            distance: '0px'
         });
         $('#waitingroom').slimScroll({
             height: '350px',
@@ -198,7 +198,7 @@
             size: '7px',
             position: 'right',
             color: '#332383',
-            distance: '0px',
+            distance: '0px'
         });
         $('#chatbox').slimScroll({
             height: '225px',
@@ -206,7 +206,7 @@
             size: '7px',
             position: 'right',
             color: '#332383',
-            distance: '0px',
+            distance: '0px'
         });
     })(jQuery);
 
@@ -240,8 +240,9 @@
 
         for (var property in obj) {
             var value = obj[property];
-            if (typeof value == 'string')
+            if (typeof value == 'string') {
                 value = "'" + value + "'";
+            } 
             else if (typeof value == 'object') {
                 if (value instanceof Array) {
                     value = "[ " + value + " ]";
