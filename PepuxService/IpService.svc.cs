@@ -373,11 +373,12 @@ namespace PepuxService
 
             myConnectionString = "server="+Properties.Settings.Default.SQLServ+";uid="+Properties.Settings.Default.SQLUser+";" +
                 "pwd="+Properties.Settings.Default.SQLPass+";database="+Properties.Settings.Default.SQLBd+ ";Convert Zero Datetime=True";
-            if (filter != null && val != null)
+            if (filter != "" && val != "")
             {
                 try
                 {
-                    string sql = "SELECT * FROM records WHERE " + filter + "='" + val + "'";
+                    string sql = "SELECT * FROM records WHERE " + filter + " = \"" + val +"\""; //
+                    Debug.WriteLine(sql);
                     daVrec = new MySqlDataAdapter(sql, myConnectionString);
                     MySqlCommandBuilder cb = new MySqlCommandBuilder(daVrec);
                     dsVrec = new DataSet();
