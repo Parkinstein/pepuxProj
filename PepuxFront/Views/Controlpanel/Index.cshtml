@@ -30,9 +30,9 @@
         {
             columns.Bound(product => product.name).Title("Название конференции");
             columns.Bound(product => product.start_time2).Title("Время начала");
-            columns.Bound(product => product.lock_path).Title("Блокировка").Encoded(false).ClientTemplate(@"<div class='fa fa-unlock fa-fw brand-color k-grid-unlock'></div>");
-            columns.Bound(i => i.name).Title("Список участников").ClientTemplate(@Html.ActionLink("Участники", "GetParticipants", "Admin", new { confname = "#= name #" }, new { @class = "modal-link btn btn-success" }).ToHtmlString());
-            columns.Bound(i => i.name).Title("Управление").ClientTemplate(@Html.ActionLink("Управлять", "Control", "Controlpanel", new { confname = "#= name #", dispname = AccountController.Uname }, new { @class = "modal-link btn btn-success" }).ToHtmlString());
+            columns.Bound(product => product.lock_path).Title("Блокировка").Encoded(false).ClientTemplate(@"<div class='fa fa-unlock fa-fw brand-color k-grid-unlock'></div>").Width(100);
+            columns.Bound(i => i.name).Title("Список участников").ClientTemplate(@Html.ActionLink("Участники", "GetParticipants", "Admin", new { confname = "#= name #" }, new { @class = "modal-link btn btn-success" }).ToHtmlString()).Width(250);
+            columns.Bound(i => i.name).Title("Управление").ClientTemplate(@Html.ActionLink("Управлять", "Control", "Controlpanel", new { confname = "#= name #", dispname = AccountController.Uname }, new { @class = "modal-link btn btn-success" }).ToHtmlString()).Width(250);
 
         })
 
