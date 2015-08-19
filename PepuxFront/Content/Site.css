@@ -880,7 +880,6 @@ footer {
 .k-grid {
     width: 100%;
     height: 100%;
-    
     border: 1px solid;
     color: black;
     background-color: #fff;
@@ -896,7 +895,6 @@ footer {
 }
 .k-grid table {
     border-color: black;
-    table-layout: fixed;
 }
 .k-grid-content {
     height: 100%;
