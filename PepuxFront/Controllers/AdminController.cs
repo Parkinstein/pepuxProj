@@ -43,15 +43,25 @@ namespace PepuxFront.Controllers
 
                 DataSourceResult result = confs.ToDataSourceResult(request);
 
-                return Json(new
-                {
-                    sEcho = 1,
-                    iTotalRecords = result.Total,
-                    iTotalDisplayRecords = result.Total,
-                    data = result.Data,
-                }, JsonRequestBehavior.AllowGet);
+                return Json(result);
             }
         }
+        public ActionResult ActiveConf_Ajax(JQueryDataTableParamModel param)
+        {
+            var result = ActiveConf_Read("Admin");
+
+
+            return Json(new
+            {
+                sEcho = param.sEcho,
+                iTotalRecords = result.Total,
+                iTotalDisplayRecords = result.Total,
+                data = result.Data,
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         public ActionResult UserGet()
         {
             IpServiceLink.PServiceClient obj1 = new PServiceClient();
@@ -106,9 +116,5 @@ namespace PepuxFront.Controllers
                  client.UploadValues(statusapi,"POST",string_lock);
             return null;
         }
-        
-
-
-
     }
 }

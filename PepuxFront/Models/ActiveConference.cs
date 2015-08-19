@@ -34,7 +34,7 @@ namespace PepuxFront.Models
             public List<Object> objects { get; set; }
         }
 
-        public class jQueryDataTableParamModel
+        public class JQueryDataTableParamModel
         {      
             public string sEcho { get; set; }
             public string sSearch { get; set; }
@@ -44,6 +44,5 @@ namespace PepuxFront.Models
             public int iSortingCols { get; set; }
             public string sColumns { get; set; }
         }
-
     }
 }

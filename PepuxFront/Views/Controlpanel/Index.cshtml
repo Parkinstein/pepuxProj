@@ -45,21 +45,13 @@
                 "contentType": 'application/json; charset=utf-8',
                 "data": function (data) { return data = JSON.stringify(data); }
             },
-            
+
             "columns": [
                 { "data": "name" },
-                { "data": "start_time2" },
-                { "data": "is_locked" },
-                {
-                    "fnRender": function(oObj) {    
-                        return "<input type='button' value='Exfcnybrb' class='reciveDetailOffer'>";
-                    }
-                },
-                {
-                    "fnRender": function(oObj) {    
-                        return "<input type='button' value='Exfcnybrb' class='reciveDetailOffer'>";
-                    }
-                }
+                { "data": "start_time2", "searchable": false },
+                { "data": "is_locked", "searchable": false },
+                { "fnRender": function () { return "<input type='button' value='Exfcnybrb' class='reciveDetailOffer'>"; }, "searchable": false },
+                { "fnRender": function () { return "<input type='button' value='Exfcnybrb' class='reciveDetailOffer'></input>"; }, "searchable": false }
             ],
             "columnDefs": [
             {
