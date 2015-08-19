@@ -25,6 +25,7 @@ namespace PepuxFront.Controllers
 
     public class AdminController : Controller
     {
+        
         // GET: Admin
         public ActionResult Index()
         {
@@ -32,20 +33,25 @@ namespace PepuxFront.Controllers
 
             return View(obj.GetActiveConfs());
         }
+
         public ActionResult ActiveConf_Read([DataSourceRequest]DataSourceRequest request)
         {
             using (var allconfs = new  PServiceClient())
             {
                 
                 IQueryable<ActiveConfs> confs = allconfs.GetActiveConfs().AsQueryable();
-                
+
                 DataSourceResult result = confs.ToDataSourceResult(request);
 
-                return Json(result);
+                return Json(new
+                {
+                    sEcho = 1,
+                    iTotalRecords = result.Total,
+                    iTotalDisplayRecords = result.Total,
+                    data = result.Data,
+                }, JsonRequestBehavior.AllowGet);
             }
-
         }
-        
         public ActionResult UserGet()
         {
             IpServiceLink.PServiceClient obj1 = new PServiceClient();

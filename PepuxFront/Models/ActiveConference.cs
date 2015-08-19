@@ -32,8 +32,18 @@ namespace PepuxFront.Models
         {
             public Meta meta { get; set; }
             public List<Object> objects { get; set; }
-
-
         }
+
+        public class jQueryDataTableParamModel
+        {      
+            public string sEcho { get; set; }
+            public string sSearch { get; set; }
+            public int iDisplayLength { get; set; }
+            public int iDisplayStart { get; set; }
+            public int iColumns { get; set; }
+            public int iSortingCols { get; set; }
+            public string sColumns { get; set; }
+        }
+
     }
 }
