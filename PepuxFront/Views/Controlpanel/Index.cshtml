@@ -2,6 +2,7 @@
 @using Microsoft.Ajax.Utilities
 @using PepuxFront.Controllers
 @model PepuxFront.IpServiceLink.ActiveConfs
+
 <div class="control_grid">
     <table id="table_id" class="display">
         <thead>
@@ -19,7 +20,6 @@
 </div>
 
 
-
 <script type="text/javascript">
 
     var oActConfTable = null;
@@ -29,8 +29,12 @@
     }
     setInterval("refresh()", 30000);
 
+    var uname = "test_java"; //"@ViewData["AccountController.Uname"]";
+
     $(document).ready(function () {
-            oActConfTable = $('#table_id').DataTable({
+
+
+        var oActConfTable = $('#table_id').DataTable({
             "ordering": false,
             "searching": true,
             "paging": true,
@@ -41,29 +45,31 @@
             "serverSide": true,
             "ajax": {
                 "type": "POST",
-                "url": "/Admin/ActiveConf_Read",
+                "url": "/Admin/ActiveConf_Ajax",
                 "contentType": 'application/json; charset=utf-8',
-                "data": function (data) { return data = JSON.stringify(data); }
+                "data": function(data) { return data = JSON.stringify(data); }
             },
 
             "columns": [
                 { "data": "name" },
                 { "data": "start_time2", "searchable": false },
                 { "data": "is_locked", "searchable": false },
-                { "fnRender": function () { return "<input type='button' value='Exfcnybrb' class='reciveDetailOffer'>"; }, "searchable": false },
-                { "fnRender": function () { return "<input type='button' value='Exfcnybrb' class='reciveDetailOffer'></input>"; }, "searchable": false }
+                { "searchable": false },
+                { "searchable": false }
             ],
             "columnDefs": [
-            {
-                "targets": -2,
-                "data": null,
-                "defaultContent": "<button>Участники</button>"
-            },
-            {
-                "targets": -1,
-                "data": null,
-                "defaultContent": "<button onclick='myFunction()'>Управление</button>"
-            }
+                {
+                    "targets": -2,
+                    "data": "name",
+                    "render": function ( data ) {
+                        return '<a href="'+data+'">Участники</a>'; }
+                },
+                {
+                    "targets": -1,
+                    "data": "name",
+                    "render": function ( data ) {
+                        return '<a href="Controlpanel/Control?confname='+data+'&dispname='+uname+'">Управление</a>'; }
+                },
             ],
 
             "language": {
@@ -88,13 +94,9 @@
                     "sortDescending": ": активировать для сортировки столбца по убыванию"
                 }
             },
-            "order": [[1, 'asc']],
+            "order": [[0, 'asc']],
+            "pageLength": 10
         });
-        $('#example tbody').on('click', 'button', function () {
-            var data = table.row($(this).parents('tr')).data();
-            alert(data[0] + "'s salary is: " + data[5]);
-        });
-
     });
 
 

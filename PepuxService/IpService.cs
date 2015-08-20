@@ -6,7 +6,6 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using System.Web.Services.Description;
-using Kendo.Mvc.UI;
 using Newtonsoft.Json;
 
 namespace PepuxService

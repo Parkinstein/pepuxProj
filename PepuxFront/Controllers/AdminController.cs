@@ -8,6 +8,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.Security;
@@ -17,8 +18,6 @@ using Kendo.Mvc.UI;
 using Newtonsoft.Json;
 using PepuxFront.IpServiceLink;
 using PepuxFront.Models;
-using RestSharp;
-using Telerik.Web.UI.PivotGrid.Core.Fields;
 
 namespace PepuxFront.Controllers
 {
@@ -47,22 +46,26 @@ namespace PepuxFront.Controllers
                 return Json(result);
             }
         }
-        public ActionResult ActiveConf_Ajax(ActiveConference.JQueryDataTableParamModel param)
+        public ActionResult ActiveConf_Ajax(ActiveConference.DTResult param)
         {
-            //var result = ActiveConf_Read("Admin");
+            IEnumerable<ActiveConfs> filteredresult;
 
+            if (!string.IsNullOrEmpty(param.Search.Value))
+            {
+                filteredresult = GetData().Where(c => c.name.Contains(param.Search.Value));
+            }
+            else
+            {
+                filteredresult = GetData();
+            }
 
-            //return Json(new
-            //{
-            //    sEcho = param.sEcho,
-            //    iTotalRecords = result.Total,
-            //    iTotalDisplayRecords = result.Total,
-            //    data = result.Data,
-            //}, JsonRequestBehavior.AllowGet);
-            return null;
+            return Json(new
+            {
+                recordsTotal = GetData().Count(),
+                recordsFiltered = filteredresult.Count(),
+                data = filteredresult,
+            }, JsonRequestBehavior.AllowGet);
         }
-        
-
 
         public ActionResult UserGet()
         {
@@ -84,7 +87,6 @@ namespace PepuxFront.Controllers
         }
         public PartialViewResult GetACData()
         {
-          
             return PartialView(GetData());
         }
 
@@ -119,9 +121,5 @@ namespace PepuxFront.Controllers
                  client.UploadValues(statusapi,"POST",string_lock);
             return null;
         }
-        
-
-
-
     }
 }
