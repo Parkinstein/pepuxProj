@@ -25,6 +25,7 @@ namespace PepuxFront.Controllers
 
     public class AdminController : Controller
     {
+        
         // GET: Admin
         public ActionResult Index()
         {
@@ -32,6 +33,7 @@ namespace PepuxFront.Controllers
 
             return View(obj.GetActiveConfs());
         }
+
         public ActionResult ActiveConf_Read([DataSourceRequest]DataSourceRequest request)
         {
             using (var allconfs = new  PServiceClient())
@@ -43,9 +45,23 @@ namespace PepuxFront.Controllers
 
                 return Json(result);
             }
+        }
+        public ActionResult ActiveConf_Ajax(JQueryDataTableParamModel param)
+        {
+            var result = ActiveConf_Read("Admin");
 
+
+            return Json(new
+            {
+                sEcho = param.sEcho,
+                iTotalRecords = result.Total,
+                iTotalDisplayRecords = result.Total,
+                data = result.Data,
+            }, JsonRequestBehavior.AllowGet);
         }
         
+
+
         public ActionResult UserGet()
         {
             IpServiceLink.PServiceClient obj1 = new PServiceClient();
@@ -100,14 +116,7 @@ namespace PepuxFront.Controllers
                  client.UploadValues(statusapi,"POST",string_lock);
             return null;
         }
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditingPopup_Update([DataSourceRequest] DataSourceRequest request)
-        {
-            
-
-            return null;
-        }
-
+        
 
 
 
