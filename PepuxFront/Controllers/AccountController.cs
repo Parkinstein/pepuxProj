@@ -55,7 +55,7 @@ namespace PepuxFront.Controllers
 
             this.ModelState.AddModelError(string.Empty, "Имя пользователя или пароль указаны неверно.");
             IsAuth = false;
-            Uname = null;
+            Uname = "test"; //null;
             return this.View(model);
         }
 

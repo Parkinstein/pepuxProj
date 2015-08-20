@@ -20,7 +20,6 @@
 </div>
 
 
-
 <script type="text/javascript">
 
     var oActConfTable = null;
@@ -30,8 +29,10 @@
     }
     setInterval("refresh()", 30000);
 
+    var uname = "test_java"; //"@ViewData["AccountController.Uname"]";
+
     $(document).ready(function () {
-        var uname = "@ViewData["AccountController.Uname"]";
+
 
         var oActConfTable = $('#table_id').DataTable({
             "ordering": false,
@@ -95,7 +96,7 @@
             },
             "order": [[0, 'asc']],
             "pageLength": 10
-        });        
+        });
     });
 
 
