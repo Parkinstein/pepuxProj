@@ -41,7 +41,7 @@
             "serverSide": true,
             "ajax": {
                 "type": "POST",
-                "url": "/Admin/ActiveConf_Read",
+                "url": "/Admin/ActiveConf_Ajax",
                 "contentType": 'application/json; charset=utf-8',
                 "data": function (data) { return data = JSON.stringify(data); }
             },
@@ -62,7 +62,7 @@
             {
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<button onclick='myFunction()'>Управление</button>"
+                "defaultContent": "<button>Управление</button>"
             }
             ],
 
@@ -90,11 +90,6 @@
             },
             "order": [[1, 'asc']],
         });
-        $('#example tbody').on('click', 'button', function () {
-            var data = table.row($(this).parents('tr')).data();
-            alert(data[0] + "'s salary is: " + data[5]);
-        });
-
     });
 
 

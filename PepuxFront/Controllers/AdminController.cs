@@ -17,7 +17,6 @@ using Kendo.Mvc.UI;
 using Newtonsoft.Json;
 using PepuxFront.IpServiceLink;
 using PepuxFront.Models;
-using RestSharp;
 
 namespace PepuxFront.Controllers
 {
@@ -46,9 +45,9 @@ namespace PepuxFront.Controllers
                 return Json(result);
             }
         }
-        public ActionResult ActiveConf_Ajax(JQueryDataTableParamModel param)
+        public ActionResult ActiveConf_Ajax(ActiveConference.JQueryDataTableParamModel param)
         {
-            var result = ActiveConf_Read("Admin");
+            var result = GetData();
 
 
             return Json(new
