@@ -1537,10 +1537,10 @@ namespace PepuxFront.IpServiceLink {
         System.Threading.Tasks.Task<string> Token_refreshAsync(string confname, string old_token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Videorecords", ReplyAction="http://tempuri.org/IPService/VideorecordsResponse")]
-        PepuxFront.IpServiceLink.allrecords[] Videorecords(string filter, string val);
+        PepuxFront.IpServiceLink.allrecords[] Videorecords(string val);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Videorecords", ReplyAction="http://tempuri.org/IPService/VideorecordsResponse")]
-        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.allrecords[]> VideorecordsAsync(string filter, string val);
+        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.allrecords[]> VideorecordsAsync(string val);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1618,12 +1618,12 @@ namespace PepuxFront.IpServiceLink {
             return base.Channel.Token_refreshAsync(confname, old_token);
         }
         
-        public PepuxFront.IpServiceLink.allrecords[] Videorecords(string filter, string val) {
-            return base.Channel.Videorecords(filter, val);
+        public PepuxFront.IpServiceLink.allrecords[] Videorecords(string val) {
+            return base.Channel.Videorecords(val);
         }
         
-        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.allrecords[]> VideorecordsAsync(string filter, string val) {
-            return base.Channel.VideorecordsAsync(filter, val);
+        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.allrecords[]> VideorecordsAsync(string val) {
+            return base.Channel.VideorecordsAsync(val);
         }
     }
 }

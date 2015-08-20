@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using System.Web.Services.Description;
+using Kendo.Mvc.UI;
 using Newtonsoft.Json;
 
 namespace PepuxService
@@ -27,9 +28,12 @@ namespace PepuxService
         [OperationContract]
         string Token_refresh(string confname, string old_token);
         [OperationContract]
-        List<Vrecords> Videorecords(string filter, string val);
+        List<Vrecords> Videorecords(string val);
+        
 
     }
+
+ 
 
     #region UsersClasses
 
@@ -427,5 +431,8 @@ namespace PepuxService
     }
 
     #endregion
+
+
+
 
 }

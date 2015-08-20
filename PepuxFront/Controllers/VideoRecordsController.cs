@@ -18,12 +18,12 @@ namespace PepuxFront.Controllers
         {
             return View();
         }
-        public ActionResult All_VideoRec(string filter,string val,[DataSourceRequest]DataSourceRequest request)
+        public ActionResult All_VideoRec(string val,[DataSourceRequest]DataSourceRequest request)
         {
             using (var allvrecs = new IpServiceLink.PServiceClient())
             {
 
-                IQueryable<IpServiceLink.allrecords> vrecs = allvrecs.Videorecords(filter,val).AsQueryable();
+                IQueryable<IpServiceLink.allrecords> vrecs = allvrecs.Videorecords(val).AsQueryable();
 
                 DataSourceResult result = vrecs.ToDataSourceResult(request);
 
@@ -31,7 +31,6 @@ namespace PepuxFront.Controllers
             }
 
         }
-
         public ActionResult VideoRecDelete(string filepath)
         {
             using (var client = new SshClient("10.157.5.87", "username", "password"))

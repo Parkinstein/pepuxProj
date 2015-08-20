@@ -100,7 +100,14 @@ namespace PepuxFront.Controllers
                  client.UploadValues(statusapi,"POST",string_lock);
             return null;
         }
-        
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingPopup_Update([DataSourceRequest] DataSourceRequest request)
+        {
+            
+
+            return null;
+        }
+
 
 
 

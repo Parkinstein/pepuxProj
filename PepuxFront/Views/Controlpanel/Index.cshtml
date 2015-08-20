@@ -1,55 +1,57 @@
-﻿@using System.ServiceModel.Configuration
-@using Microsoft.Ajax.Utilities
-@using PepuxFront.Controllers
+﻿@using PepuxFront.Controllers
 @model PepuxFront.IpServiceLink.ActiveConfs
 @(Html.Kendo().Grid<PepuxFront.IpServiceLink.ActiveConfs>
     ()
     .Name("acgrid")
+    .AutoBind(true)
     .Pdf(m => { m.FileName(AccountController.Uname + "_" + DateTime.Now + ".pdf");
-    m.AllPages();
+        m.AllPages();
     })
     .Excel(m => { m.FileName(AccountController.Uname + "_" + DateTime.Now + ".xlsx");
-    m.AllPages(true);
-    m.Filterable(true);
+        m.AllPages(true);
+        m.Filterable(true);
 
     })
     .ToolBar(m => { m.Pdf();
-    m.Excel();
+        m.Excel();
 
     })
     .DataSource(dataSource => dataSource
     .Ajax()
+    .Model(model => model.Id(p => p.id))
     .Read(read => read.Action("ActiveConf_Read", "Admin"))
-    .AutoSync(true)
-    .PageSize(3)
-    )
+    .Update(update => update.Action("ActiveConf_Read", "Controlpanel"))
+    .PageSize(3))
     .Columns(columns =>
     {
-    columns.Bound(product => product.name).Title("Название конференции");
-    columns.Bound(product => product.start_time2).Title("Время начала");
-    columns.Bound(product => product.lock_path).Title("Блокировка").Encoded(false);
-    columns.Bound(i => i.name).Title("Список участников").ClientTemplate(@Html.ActionLink("Участники", "GetParticipants", "Admin", new { confname = "#= name #" }, new { @class = "modal-link btn btn-success" }).ToHtmlString());
-    columns.Bound(i => i.name).Title("Управление").ClientTemplate(@Html.ActionLink("Управлять", "Control", "Controlpanel", new { confname = "#= name #", dispname = AccountController.Uname }, new { @class = "modal-link btn btn-success" }).ToHtmlString());
+        columns.Bound(product => product.name).Title("Название конференции");
+        columns.Bound(product => product.start_time2).Title("Время начала");
+        columns.Bound(product => product.lock_path).Title("Блокировка").Encoded(false);
+        //columns.Bound(i => i.name).Title("Список участников").ClientTemplate(@Html.ActionLink("Участники", "GetParticipants", "Admin", new { confname = "#= name #" }, new { @class = "modal-link btn btn-success test" }).ToHtmlString());
+        columns.Command(cmd => cmd.Edit());
+        columns.Bound(i => i.name).Title("Управление").ClientTemplate(@Html.ActionLink("Управлять", "Control", "Controlpanel", new { confname = "#= name #", dispname = AccountController.Uname }, new { @class = "modal-link btn btn-success" }).ToHtmlString());
 
     })
-
+    .Scrollable(scrollable => scrollable.Virtual(true))
     .Pageable()
     .Sortable()
+    .Editable(ed => ed.Mode(GridEditMode.PopUp).TemplateName("Participants"))
     )
 
-    <script type="text/javascript">
+    @*<script type="text/javascript">
 
-    $(function() {
-        setInterval(function() { $("#acgrid").data("kendoGrid").dataSource.fetch(); }, 3000);
-    });
+        $(function() {
+            setInterval(function() { $("#acgrid").data("kendoGrid").dataSource.fetch() }, 3000);
+        });
 
-    </script>
-    <script>
+    </script>*@
+<script>
     $(document).ready(function() {
         $("a[href^='http:']:not([href*='" + window.location.host + "'])").each(function() {
             $(this).attr("target", "_blank");
         });
     });
 
-    </script>
+</script>
+
 

@@ -363,7 +363,7 @@ namespace PepuxService
             return token;
         }
 
-        public List<Vrecords> Videorecords(string filter, string val)
+        public List<Vrecords> Videorecords(string val)
         {
             MySql.Data.MySqlClient.MySqlConnection conn;
             MySqlDataAdapter daVrec;
@@ -373,11 +373,11 @@ namespace PepuxService
 
             myConnectionString = "server="+Properties.Settings.Default.SQLServ+";uid="+Properties.Settings.Default.SQLUser+";" +
                 "pwd="+Properties.Settings.Default.SQLPass+";database="+Properties.Settings.Default.SQLBd+ ";Convert Zero Datetime=True";
-            if (filter != "" && val != "")
+            if (val != "")
             {
                 try
                 {
-                    string sql = "SELECT * FROM records WHERE " + filter + " = \"" + val +"\""; //
+                    string sql = "SELECT * FROM records WHERE Conf " + " = \"" + val +"\""; //
                     Debug.WriteLine(sql);
                     daVrec = new MySqlDataAdapter(sql, myConnectionString);
                     MySqlCommandBuilder cb = new MySqlCommandBuilder(daVrec);

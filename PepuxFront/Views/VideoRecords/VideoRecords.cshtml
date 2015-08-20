@@ -24,7 +24,7 @@
               columns.Bound(product => product.PName).Title("Инициатор");
               columns.Bound(product => product.Tstart).Title("Врем начала").Format("{0:F}");
               columns.Bound(product => product.Tfinish).Title("Время окончания").Format("{0:F}");
-              columns.Bound(product => product.Link).Encoded(false).Title("Ссылка");
+              columns.Bound(product => product.Link).Encoded(false).Title("Ссылка").ClientTemplate("<a href="+"\"#= Link #\""+">Link</a>");
               //columns.Bound(i => i.name).Title("Список участников").ClientTemplate(@Html.ActionLink("Участники", "GetParticipants", "Admin", new { confname = "#= name #" }, new { @class = "modal-link btn btn-success" }).ToHtmlString());
 
           })
