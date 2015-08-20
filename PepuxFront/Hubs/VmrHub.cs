@@ -21,7 +21,6 @@ using System.Text;
 using System.Web.Script.Serialization;
 using System.Web.Security;
 using System.Web.Services.Description;
-using RestSharp;
 
 namespace PepuxFront.Hubs
 {

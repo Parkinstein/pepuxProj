@@ -8,6 +8,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.Security;
@@ -45,21 +46,26 @@ namespace PepuxFront.Controllers
                 return Json(result);
             }
         }
-        public ActionResult ActiveConf_Ajax(ActiveConference.JQueryDataTableParamModel param)
+        public ActionResult ActiveConf_Ajax(ActiveConference.DTResult param)
         {
-            var result = GetData();
+            IEnumerable<ActiveConfs> filteredresult;
 
+            if (!string.IsNullOrEmpty(param.Search.Value))
+            {
+                filteredresult = GetData().Where(c => c.name.Contains(param.Search.Value));
+            }
+            else
+            {
+                filteredresult = GetData();
+            }
 
             return Json(new
             {
-                sEcho = param.sEcho,
-                iTotalRecords = result.Total,
-                iTotalDisplayRecords = result.Total,
-                data = result.Data,
+                recordsTotal = GetData().Count(),
+                recordsFiltered = filteredresult.Count(),
+                data = filteredresult,
             }, JsonRequestBehavior.AllowGet);
         }
-        
-
 
         public ActionResult UserGet()
         {
@@ -115,9 +121,5 @@ namespace PepuxFront.Controllers
                  client.UploadValues(statusapi,"POST",string_lock);
             return null;
         }
-        
-
-
-
     }
 }

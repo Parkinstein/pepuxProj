@@ -34,15 +34,16 @@ namespace PepuxFront.Models
             public List<Object> objects { get; set; }
         }
 
-        public class JQueryDataTableParamModel
-        {      
-            public string sEcho { get; set; }
-            public string sSearch { get; set; }
-            public int iDisplayLength { get; set; }
-            public int iDisplayStart { get; set; }
-            public int iColumns { get; set; }
-            public int iSortingCols { get; set; }
-            public string sColumns { get; set; }
+        public class DTResult
+        {
+            public string recordsTotal { get; set; }
+            public string recordsFiltered { get; set; }
+            public DTSearch Search { get; set; }
+        }
+        public class DTSearch
+        {
+            public string Value { get; set; }
+            public bool Regex { get; set; }
         }
     }
 }
