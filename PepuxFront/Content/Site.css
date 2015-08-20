@@ -299,7 +299,7 @@ footer {
 .participant_uri {
     display: inline-block;
     padding: 2px;
-    background-color: none;
+    background-color: transparent;
     font-size: 14px;
 }
 .participant_uri_speaking {
