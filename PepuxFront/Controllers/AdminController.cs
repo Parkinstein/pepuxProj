@@ -46,18 +46,19 @@ namespace PepuxFront.Controllers
                 return Json(result);
             }
         }
-        public ActionResult ActiveConf_Ajax(JQueryDataTableParamModel param)
+        public ActionResult ActiveConf_Ajax(ActiveConference.JQueryDataTableParamModel param)
         {
-            var result = ActiveConf_Read("Admin");
+            //var result = ActiveConf_Read("Admin");
 
 
-            return Json(new
-            {
-                sEcho = param.sEcho,
-                iTotalRecords = result.Total,
-                iTotalDisplayRecords = result.Total,
-                data = result.Data,
-            }, JsonRequestBehavior.AllowGet);
+            //return Json(new
+            //{
+            //    sEcho = param.sEcho,
+            //    iTotalRecords = result.Total,
+            //    iTotalDisplayRecords = result.Total,
+            //    data = result.Data,
+            //}, JsonRequestBehavior.AllowGet);
+            return null;
         }
         
 
