@@ -227,6 +227,7 @@
       <DependentUpon>Databs.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\Phonebook.cs" />
     <Compile Include="Models\VideoRecords.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\Startup.cs" />
@@ -2127,6 +2128,7 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Controlpanel\EditorTemplates\Partcipants.cshtml" />
+    <Content Include="Views\Phonebook\Phonebook_old.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

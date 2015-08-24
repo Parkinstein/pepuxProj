@@ -79,6 +79,7 @@
       <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="GroupName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="VMRiD" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Member="UserName" Type="System.String" CanBeNull="false" />
       <Association Name="Service_Phonebook" Member="Service" ThisKey="UserId" OtherKey="Id" Type="Service" IsForeignKey="true" />
     </Type>
   </Table>

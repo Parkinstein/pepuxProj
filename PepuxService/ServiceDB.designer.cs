@@ -1672,6 +1672,8 @@ namespace PepuxService
 		
 		private System.Nullable<int> _VMRiD;
 		
+		private string _UserName;
+		
 		private EntityRef<Service> _Service;
 		
     #region Extensibility Method Definitions
@@ -1686,6 +1688,8 @@ namespace PepuxService
     partial void OnGroupNameChanged();
     partial void OnVMRiDChanging(System.Nullable<int> value);
     partial void OnVMRiDChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
     #endregion
 		
 		public Phonebook()
@@ -1774,6 +1778,26 @@ namespace PepuxService
 					this._VMRiD = value;
 					this.SendPropertyChanged("VMRiD");
 					this.OnVMRiDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
 				}
 			}
 		}
