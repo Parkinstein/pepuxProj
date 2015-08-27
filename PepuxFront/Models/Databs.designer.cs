@@ -36,6 +36,15 @@ namespace PepuxFront.Models
     partial void InsertAllVmr(AllVmr instance);
     partial void UpdateAllVmr(AllVmr instance);
     partial void DeleteAllVmr(AllVmr instance);
+    partial void InsertTask(Task instance);
+    partial void UpdateTask(Task instance);
+    partial void DeleteTask(Task instance);
+    partial void InsertMeeting(Meeting instance);
+    partial void UpdateMeeting(Meeting instance);
+    partial void DeleteMeeting(Meeting instance);
+    partial void InsertMeetingAttendee(MeetingAttendee instance);
+    partial void UpdateMeetingAttendee(MeetingAttendee instance);
+    partial void DeleteMeetingAttendee(MeetingAttendee instance);
     #endregion
 		
 		public DatabsDataContext() : 
@@ -89,6 +98,30 @@ namespace PepuxFront.Models
 			get
 			{
 				return this.GetTable<VmrAliase>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Task> Tasks
+		{
+			get
+			{
+				return this.GetTable<Task>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Meeting> Meetings
+		{
+			get
+			{
+				return this.GetTable<Meeting>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MeetingAttendee> MeetingAttendees
+		{
+			get
+			{
+				return this.GetTable<MeetingAttendee>();
 			}
 		}
 	}
@@ -792,6 +825,951 @@ namespace PepuxFront.Models
 				{
 					this._vmid = value;
 				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Tasks")]
+	public partial class Task : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _TaskID;
+		
+		private System.DateTime _Start;
+		
+		private System.DateTime _End;
+		
+		private string _Title;
+		
+		private string _Description;
+		
+		private System.Nullable<int> _OwnerID;
+		
+		private bool _IsAllDay;
+		
+		private string _RecurrenceRule;
+		
+		private System.Nullable<int> _RecurrenceID;
+		
+		private string _RecurrenceException;
+		
+		private string _StartTimezone;
+		
+		private string _EndTimezone;
+		
+		private EntitySet<Task> _Tasks;
+		
+		private EntityRef<Task> _Task1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTaskIDChanging(int value);
+    partial void OnTaskIDChanged();
+    partial void OnStartChanging(System.DateTime value);
+    partial void OnStartChanged();
+    partial void OnEndChanging(System.DateTime value);
+    partial void OnEndChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnOwnerIDChanging(System.Nullable<int> value);
+    partial void OnOwnerIDChanged();
+    partial void OnIsAllDayChanging(bool value);
+    partial void OnIsAllDayChanged();
+    partial void OnRecurrenceRuleChanging(string value);
+    partial void OnRecurrenceRuleChanged();
+    partial void OnRecurrenceIDChanging(System.Nullable<int> value);
+    partial void OnRecurrenceIDChanged();
+    partial void OnRecurrenceExceptionChanging(string value);
+    partial void OnRecurrenceExceptionChanged();
+    partial void OnStartTimezoneChanging(string value);
+    partial void OnStartTimezoneChanged();
+    partial void OnEndTimezoneChanging(string value);
+    partial void OnEndTimezoneChanged();
+    #endregion
+		
+		public Task()
+		{
+			this._Tasks = new EntitySet<Task>(new Action<Task>(this.attach_Tasks), new Action<Task>(this.detach_Tasks));
+			this._Task1 = default(EntityRef<Task>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int TaskID
+		{
+			get
+			{
+				return this._TaskID;
+			}
+			set
+			{
+				if ((this._TaskID != value))
+				{
+					this.OnTaskIDChanging(value);
+					this.SendPropertyChanging();
+					this._TaskID = value;
+					this.SendPropertyChanged("TaskID");
+					this.OnTaskIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Start", DbType="DateTime NOT NULL")]
+		public System.DateTime Start
+		{
+			get
+			{
+				return this._Start;
+			}
+			set
+			{
+				if ((this._Start != value))
+				{
+					this.OnStartChanging(value);
+					this.SendPropertyChanging();
+					this._Start = value;
+					this.SendPropertyChanged("Start");
+					this.OnStartChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[End]", Storage="_End", DbType="DateTime NOT NULL")]
+		public System.DateTime End
+		{
+			get
+			{
+				return this._End;
+			}
+			set
+			{
+				if ((this._End != value))
+				{
+					this.OnEndChanging(value);
+					this.SendPropertyChanging();
+					this._End = value;
+					this.SendPropertyChanged("End");
+					this.OnEndChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NText NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwnerID", DbType="Int")]
+		public System.Nullable<int> OwnerID
+		{
+			get
+			{
+				return this._OwnerID;
+			}
+			set
+			{
+				if ((this._OwnerID != value))
+				{
+					this.OnOwnerIDChanging(value);
+					this.SendPropertyChanging();
+					this._OwnerID = value;
+					this.SendPropertyChanged("OwnerID");
+					this.OnOwnerIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAllDay", DbType="Bit NOT NULL")]
+		public bool IsAllDay
+		{
+			get
+			{
+				return this._IsAllDay;
+			}
+			set
+			{
+				if ((this._IsAllDay != value))
+				{
+					this.OnIsAllDayChanging(value);
+					this.SendPropertyChanging();
+					this._IsAllDay = value;
+					this.SendPropertyChanged("IsAllDay");
+					this.OnIsAllDayChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecurrenceRule", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string RecurrenceRule
+		{
+			get
+			{
+				return this._RecurrenceRule;
+			}
+			set
+			{
+				if ((this._RecurrenceRule != value))
+				{
+					this.OnRecurrenceRuleChanging(value);
+					this.SendPropertyChanging();
+					this._RecurrenceRule = value;
+					this.SendPropertyChanged("RecurrenceRule");
+					this.OnRecurrenceRuleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecurrenceID", DbType="Int")]
+		public System.Nullable<int> RecurrenceID
+		{
+			get
+			{
+				return this._RecurrenceID;
+			}
+			set
+			{
+				if ((this._RecurrenceID != value))
+				{
+					if (this._Task1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRecurrenceIDChanging(value);
+					this.SendPropertyChanging();
+					this._RecurrenceID = value;
+					this.SendPropertyChanged("RecurrenceID");
+					this.OnRecurrenceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecurrenceException", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string RecurrenceException
+		{
+			get
+			{
+				return this._RecurrenceException;
+			}
+			set
+			{
+				if ((this._RecurrenceException != value))
+				{
+					this.OnRecurrenceExceptionChanging(value);
+					this.SendPropertyChanging();
+					this._RecurrenceException = value;
+					this.SendPropertyChanged("RecurrenceException");
+					this.OnRecurrenceExceptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTimezone", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string StartTimezone
+		{
+			get
+			{
+				return this._StartTimezone;
+			}
+			set
+			{
+				if ((this._StartTimezone != value))
+				{
+					this.OnStartTimezoneChanging(value);
+					this.SendPropertyChanging();
+					this._StartTimezone = value;
+					this.SendPropertyChanged("StartTimezone");
+					this.OnStartTimezoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTimezone", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string EndTimezone
+		{
+			get
+			{
+				return this._EndTimezone;
+			}
+			set
+			{
+				if ((this._EndTimezone != value))
+				{
+					this.OnEndTimezoneChanging(value);
+					this.SendPropertyChanging();
+					this._EndTimezone = value;
+					this.SendPropertyChanged("EndTimezone");
+					this.OnEndTimezoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Task_Task", Storage="_Tasks", ThisKey="TaskID", OtherKey="RecurrenceID")]
+		public EntitySet<Task> Tasks
+		{
+			get
+			{
+				return this._Tasks;
+			}
+			set
+			{
+				this._Tasks.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Task_Task", Storage="_Task1", ThisKey="RecurrenceID", OtherKey="TaskID", IsForeignKey=true)]
+		public Task Task1
+		{
+			get
+			{
+				return this._Task1.Entity;
+			}
+			set
+			{
+				Task previousValue = this._Task1.Entity;
+				if (((previousValue != value) 
+							|| (this._Task1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Task1.Entity = null;
+						previousValue.Tasks.Remove(this);
+					}
+					this._Task1.Entity = value;
+					if ((value != null))
+					{
+						value.Tasks.Add(this);
+						this._RecurrenceID = value.TaskID;
+					}
+					else
+					{
+						this._RecurrenceID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Task1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Tasks(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.Task1 = this;
+		}
+		
+		private void detach_Tasks(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.Task1 = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Meetings")]
+	public partial class Meeting : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MeetingID;
+		
+		private System.DateTime _Start;
+		
+		private System.DateTime _End;
+		
+		private string _Title;
+		
+		private string _Description;
+		
+		private System.Nullable<int> _RoomID;
+		
+		private bool _IsAllDay;
+		
+		private string _RecurrenceRule;
+		
+		private System.Nullable<int> _RecurrenceID;
+		
+		private string _RecurrenceException;
+		
+		private string _StartTimezone;
+		
+		private string _EndTimezone;
+		
+		private EntitySet<Meeting> _Meetings;
+		
+		private EntitySet<MeetingAttendee> _MeetingAttendees;
+		
+		private EntityRef<Meeting> _Meeting1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMeetingIDChanging(int value);
+    partial void OnMeetingIDChanged();
+    partial void OnStartChanging(System.DateTime value);
+    partial void OnStartChanged();
+    partial void OnEndChanging(System.DateTime value);
+    partial void OnEndChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnRoomIDChanging(System.Nullable<int> value);
+    partial void OnRoomIDChanged();
+    partial void OnIsAllDayChanging(bool value);
+    partial void OnIsAllDayChanged();
+    partial void OnRecurrenceRuleChanging(string value);
+    partial void OnRecurrenceRuleChanged();
+    partial void OnRecurrenceIDChanging(System.Nullable<int> value);
+    partial void OnRecurrenceIDChanged();
+    partial void OnRecurrenceExceptionChanging(string value);
+    partial void OnRecurrenceExceptionChanged();
+    partial void OnStartTimezoneChanging(string value);
+    partial void OnStartTimezoneChanged();
+    partial void OnEndTimezoneChanging(string value);
+    partial void OnEndTimezoneChanged();
+    #endregion
+		
+		public Meeting()
+		{
+			this._Meetings = new EntitySet<Meeting>(new Action<Meeting>(this.attach_Meetings), new Action<Meeting>(this.detach_Meetings));
+			this._MeetingAttendees = new EntitySet<MeetingAttendee>(new Action<MeetingAttendee>(this.attach_MeetingAttendees), new Action<MeetingAttendee>(this.detach_MeetingAttendees));
+			this._Meeting1 = default(EntityRef<Meeting>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MeetingID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MeetingID
+		{
+			get
+			{
+				return this._MeetingID;
+			}
+			set
+			{
+				if ((this._MeetingID != value))
+				{
+					this.OnMeetingIDChanging(value);
+					this.SendPropertyChanging();
+					this._MeetingID = value;
+					this.SendPropertyChanged("MeetingID");
+					this.OnMeetingIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Start", DbType="DateTime NOT NULL")]
+		public System.DateTime Start
+		{
+			get
+			{
+				return this._Start;
+			}
+			set
+			{
+				if ((this._Start != value))
+				{
+					this.OnStartChanging(value);
+					this.SendPropertyChanging();
+					this._Start = value;
+					this.SendPropertyChanged("Start");
+					this.OnStartChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[End]", Storage="_End", DbType="DateTime NOT NULL")]
+		public System.DateTime End
+		{
+			get
+			{
+				return this._End;
+			}
+			set
+			{
+				if ((this._End != value))
+				{
+					this.OnEndChanging(value);
+					this.SendPropertyChanging();
+					this._End = value;
+					this.SendPropertyChanged("End");
+					this.OnEndChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NText NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomID", DbType="Int")]
+		public System.Nullable<int> RoomID
+		{
+			get
+			{
+				return this._RoomID;
+			}
+			set
+			{
+				if ((this._RoomID != value))
+				{
+					this.OnRoomIDChanging(value);
+					this.SendPropertyChanging();
+					this._RoomID = value;
+					this.SendPropertyChanged("RoomID");
+					this.OnRoomIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAllDay", DbType="Bit NOT NULL")]
+		public bool IsAllDay
+		{
+			get
+			{
+				return this._IsAllDay;
+			}
+			set
+			{
+				if ((this._IsAllDay != value))
+				{
+					this.OnIsAllDayChanging(value);
+					this.SendPropertyChanging();
+					this._IsAllDay = value;
+					this.SendPropertyChanged("IsAllDay");
+					this.OnIsAllDayChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecurrenceRule", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string RecurrenceRule
+		{
+			get
+			{
+				return this._RecurrenceRule;
+			}
+			set
+			{
+				if ((this._RecurrenceRule != value))
+				{
+					this.OnRecurrenceRuleChanging(value);
+					this.SendPropertyChanging();
+					this._RecurrenceRule = value;
+					this.SendPropertyChanged("RecurrenceRule");
+					this.OnRecurrenceRuleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecurrenceID", DbType="Int")]
+		public System.Nullable<int> RecurrenceID
+		{
+			get
+			{
+				return this._RecurrenceID;
+			}
+			set
+			{
+				if ((this._RecurrenceID != value))
+				{
+					if (this._Meeting1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRecurrenceIDChanging(value);
+					this.SendPropertyChanging();
+					this._RecurrenceID = value;
+					this.SendPropertyChanged("RecurrenceID");
+					this.OnRecurrenceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecurrenceException", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string RecurrenceException
+		{
+			get
+			{
+				return this._RecurrenceException;
+			}
+			set
+			{
+				if ((this._RecurrenceException != value))
+				{
+					this.OnRecurrenceExceptionChanging(value);
+					this.SendPropertyChanging();
+					this._RecurrenceException = value;
+					this.SendPropertyChanged("RecurrenceException");
+					this.OnRecurrenceExceptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTimezone", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string StartTimezone
+		{
+			get
+			{
+				return this._StartTimezone;
+			}
+			set
+			{
+				if ((this._StartTimezone != value))
+				{
+					this.OnStartTimezoneChanging(value);
+					this.SendPropertyChanging();
+					this._StartTimezone = value;
+					this.SendPropertyChanged("StartTimezone");
+					this.OnStartTimezoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTimezone", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string EndTimezone
+		{
+			get
+			{
+				return this._EndTimezone;
+			}
+			set
+			{
+				if ((this._EndTimezone != value))
+				{
+					this.OnEndTimezoneChanging(value);
+					this.SendPropertyChanging();
+					this._EndTimezone = value;
+					this.SendPropertyChanged("EndTimezone");
+					this.OnEndTimezoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Meeting_Meeting", Storage="_Meetings", ThisKey="MeetingID", OtherKey="RecurrenceID")]
+		public EntitySet<Meeting> Meetings
+		{
+			get
+			{
+				return this._Meetings;
+			}
+			set
+			{
+				this._Meetings.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Meeting_MeetingAttendee", Storage="_MeetingAttendees", ThisKey="MeetingID", OtherKey="MeetingID")]
+		public EntitySet<MeetingAttendee> MeetingAttendees
+		{
+			get
+			{
+				return this._MeetingAttendees;
+			}
+			set
+			{
+				this._MeetingAttendees.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Meeting_Meeting", Storage="_Meeting1", ThisKey="RecurrenceID", OtherKey="MeetingID", IsForeignKey=true)]
+		public Meeting Meeting1
+		{
+			get
+			{
+				return this._Meeting1.Entity;
+			}
+			set
+			{
+				Meeting previousValue = this._Meeting1.Entity;
+				if (((previousValue != value) 
+							|| (this._Meeting1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Meeting1.Entity = null;
+						previousValue.Meetings.Remove(this);
+					}
+					this._Meeting1.Entity = value;
+					if ((value != null))
+					{
+						value.Meetings.Add(this);
+						this._RecurrenceID = value.MeetingID;
+					}
+					else
+					{
+						this._RecurrenceID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Meeting1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Meetings(Meeting entity)
+		{
+			this.SendPropertyChanging();
+			entity.Meeting1 = this;
+		}
+		
+		private void detach_Meetings(Meeting entity)
+		{
+			this.SendPropertyChanging();
+			entity.Meeting1 = null;
+		}
+		
+		private void attach_MeetingAttendees(MeetingAttendee entity)
+		{
+			this.SendPropertyChanging();
+			entity.Meeting = this;
+		}
+		
+		private void detach_MeetingAttendees(MeetingAttendee entity)
+		{
+			this.SendPropertyChanging();
+			entity.Meeting = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MeetingAttendees")]
+	public partial class MeetingAttendee : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MeetingID;
+		
+		private int _AttendeeID;
+		
+		private EntityRef<Meeting> _Meeting;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMeetingIDChanging(int value);
+    partial void OnMeetingIDChanged();
+    partial void OnAttendeeIDChanging(int value);
+    partial void OnAttendeeIDChanged();
+    #endregion
+		
+		public MeetingAttendee()
+		{
+			this._Meeting = default(EntityRef<Meeting>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MeetingID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int MeetingID
+		{
+			get
+			{
+				return this._MeetingID;
+			}
+			set
+			{
+				if ((this._MeetingID != value))
+				{
+					if (this._Meeting.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMeetingIDChanging(value);
+					this.SendPropertyChanging();
+					this._MeetingID = value;
+					this.SendPropertyChanged("MeetingID");
+					this.OnMeetingIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttendeeID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int AttendeeID
+		{
+			get
+			{
+				return this._AttendeeID;
+			}
+			set
+			{
+				if ((this._AttendeeID != value))
+				{
+					this.OnAttendeeIDChanging(value);
+					this.SendPropertyChanging();
+					this._AttendeeID = value;
+					this.SendPropertyChanged("AttendeeID");
+					this.OnAttendeeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Meeting_MeetingAttendee", Storage="_Meeting", ThisKey="MeetingID", OtherKey="MeetingID", IsForeignKey=true)]
+		public Meeting Meeting
+		{
+			get
+			{
+				return this._Meeting.Entity;
+			}
+			set
+			{
+				Meeting previousValue = this._Meeting.Entity;
+				if (((previousValue != value) 
+							|| (this._Meeting.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Meeting.Entity = null;
+						previousValue.MeetingAttendees.Remove(this);
+					}
+					this._Meeting.Entity = value;
+					if ((value != null))
+					{
+						value.MeetingAttendees.Add(this);
+						this._MeetingID = value.MeetingID;
+					}
+					else
+					{
+						this._MeetingID = default(int);
+					}
+					this.SendPropertyChanged("Meeting");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

@@ -41,4 +41,48 @@
       <Association Name="AllVmr_VmrAliase" Member="AllVmr" ThisKey="vmid" OtherKey="Id" Type="AllVmr" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Tasks" Member="Tasks">
+    <Type Name="Task">
+      <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Start" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="[End]" Member="End" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="OwnerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsAllDay" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RecurrenceRule" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="RecurrenceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RecurrenceException" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="StartTimezone" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="EndTimezone" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Task_Task" Member="Tasks" ThisKey="TaskID" OtherKey="RecurrenceID" Type="Task" />
+      <Association Name="Task_Task" Member="Task1" ThisKey="RecurrenceID" OtherKey="TaskID" Type="Task" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Meetings" Member="Meetings">
+    <Type Name="Meeting">
+      <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Start" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="[End]" Member="End" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="RoomID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsAllDay" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RecurrenceRule" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="RecurrenceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RecurrenceException" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="StartTimezone" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="EndTimezone" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Meeting_Meeting" Member="Meetings" ThisKey="MeetingID" OtherKey="RecurrenceID" Type="Meeting" />
+      <Association Name="Meeting_MeetingAttendee" Member="MeetingAttendees" ThisKey="MeetingID" OtherKey="MeetingID" Type="MeetingAttendee" />
+      <Association Name="Meeting_Meeting" Member="Meeting1" ThisKey="RecurrenceID" OtherKey="MeetingID" Type="Meeting" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MeetingAttendees" Member="MeetingAttendees">
+    <Type Name="MeetingAttendee">
+      <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AttendeeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Meeting_MeetingAttendee" Member="Meeting" ThisKey="MeetingID" OtherKey="MeetingID" Type="Meeting" IsForeignKey="true" />
+    </Type>
+  </Table>
 </Database>
