@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <div id="confcontrol" class="control_panel">
+        <table>
+            <tr>
+                <td class="controlcol">
+                    <div class="phonebook_list">
+                        <div class="phonebook_entry_ul">
+                            <b>Персональная телефонная книга</b>
+                        </div>
+                        <div id="slimscroll">
+                            <table id="phonebooklist" width="100%">
+                                <tr class="phonebook_entry">
+                                    <td width="30%">Иванов</td>
+                                    <td width="30%">Иван</td>
+                                    <td width="30%">Москва</td>
+                                    <td width="10%">111</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <tr class="phonebook_entry">
+                                    <td>Петров</td>
+                                    <td>Пётр</td>
+                                    <td>Нижний Новгород</td>
+                                    <td>222</td>
+                                </tr>
+                                <!--Fill from DB-->
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <input id="find" type="button" onclick="" value="Удалить" class="phonebook_button_delete"/>
+                        <input id="find" type="button" onclick="" value="Добавить" class="phonebook_button_add"/>
+                    </div>
+
+                <td class="controlcol">
+                    <div id="phonebookfill" class="phonebook_fill">
+                        <fieldset>
+                            <label class="phonebook_label">Фамилия</label>
+                            <input id="Surname" value="" class="form-control phonebook_entry" readonly>
+                            <label class="phonebook_label">Имя</label>
+                            <input id="Name" value="" class="form-control phonebook_entry" readonly>
+                            <label class="phonebook_label">Адрес</label>
+                            <input id="Address" value="" class="form-control phonebook_entry" readonly>
+                            <label class="phonebook_label">Телефон</label>
+                            <input id="Phone" value="" class="form-control phonebook_entry" readonly>  
+                        </fieldset>
+                        <input id="save" type="button" onclick="" value="Сохранить" class="phonebook_button_save" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+<script type="text/javascript">
+    (function($){
+        $('#slimscroll').slimScroll({
+            width: '100%',
+            height: '98%',
+            margin: '30px',
+            size: '7px',
+            position: 'right',
+            color: '#332383',
+            distance: '1px'
+        });
+    })(jQuery);
+
+    var last = 0;
+
+    $(document).ready(function () {
+        $('#phonebooklist').on('click', 'tr', function()
+        {
+            $(last).removeClass("phonebook_entry_highlighted");
+            $(this).addClass("phonebook_entry_highlighted");
+            $('#Surname').val($(this.cells[0]).text());
+            $('#Name').val($(this.cells[1]).text());
+            $('#Address').val($(this.cells[2]).text());
+            $('#Phone').val($(this.cells[3]).text());
+            last = this;
+        });
+    });
+</script>

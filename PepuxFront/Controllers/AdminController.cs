@@ -34,7 +34,7 @@ namespace PepuxFront.Controllers
             return View(obj.GetActiveConfs());
         }
 
-        public ActionResult ActiveConf_Read([DataSourceRequest]DataSourceRequest request)
+        /*public ActionResult ActiveConf_Read([DataSourceRequest]DataSourceRequest request)
         {
             using (var allconfs = new  PServiceClient())
             {
@@ -45,7 +45,7 @@ namespace PepuxFront.Controllers
 
                 return Json(result);
             }
-        }
+        }*/
         public ActionResult ActiveConf_Ajax(ActiveConference.DTResult param)
         {
             IEnumerable<ActiveConfs> filteredresult;
@@ -67,6 +67,26 @@ namespace PepuxFront.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ActiveParts_Ajax(ActiveConference.DTResult param, string confname)
+        {
+            IEnumerable<participants> filteredresult;
+
+            if (!string.IsNullOrEmpty(param.Search.Value))
+            {
+                filteredresult = getparti(confname).Where(c => c.display_name.Contains(param.Search.Value));
+            }
+            else
+            {
+                filteredresult = getparti(confname);
+            }
+
+            return Json(new
+            {
+                recordsTotal = getparti(confname).Count(),
+                recordsFiltered = filteredresult.Count(),
+                data = filteredresult,
+            }, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult UserGet()
         {
             IpServiceLink.PServiceClient obj1 = new PServiceClient();
