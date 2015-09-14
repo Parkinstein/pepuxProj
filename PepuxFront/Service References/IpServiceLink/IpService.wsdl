@@ -5,6 +5,7 @@
       <xsd:import schemaLocation="http://localhost:10789/IpService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:10789/IpService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:10789/IpService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/PepuxService" />
+      <xsd:import schemaLocation="http://localhost:10789/IpService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IPService_GetActiveConfs_InputMessage">
@@ -67,6 +68,12 @@
   <wsdl:message name="IPService_Authenticate_OutputMessage">
     <wsdl:part name="parameters" element="tns:AuthenticateResponse" />
   </wsdl:message>
+  <wsdl:message name="IPService_Groups_InputMessage">
+    <wsdl:part name="parameters" element="tns:Groups" />
+  </wsdl:message>
+  <wsdl:message name="IPService_Groups_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GroupsResponse" />
+  </wsdl:message>
   <wsdl:portType name="IPService">
     <wsdl:operation name="GetActiveConfs">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetActiveConfs" message="tns:IPService_GetActiveConfs_InputMessage" />
@@ -107,6 +114,10 @@
     <wsdl:operation name="Authenticate">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/Authenticate" message="tns:IPService_Authenticate_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPService/AuthenticateResponse" message="tns:IPService_Authenticate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Groups">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPService/Groups" message="tns:IPService_Groups_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPService/GroupsResponse" message="tns:IPService_Groups_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IPService" type="tns:IPService">
@@ -194,6 +205,15 @@
     </wsdl:operation>
     <wsdl:operation name="Authenticate">
       <soap:operation soapAction="http://tempuri.org/IPService/Authenticate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Groups">
+      <soap:operation soapAction="http://tempuri.org/IPService/Groups" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

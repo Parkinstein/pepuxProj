@@ -108,6 +108,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -2059,6 +2060,9 @@
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.ActiveConfs.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.addrec.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.allrecords.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -2068,13 +2072,10 @@
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.participants.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.Service.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.pbrec.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.addrec.datasource">
+    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.Service.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Service References\IpServiceLink\Reference.svcmap">
@@ -2122,6 +2123,8 @@
     <Content Include="Views\Schedule\Index.cshtml" />
     <Content Include="Views\Controlpanel\Index.cshtml" />
     <Content Include="Views\VideoRecords\VideoRecords.cshtml" />
+    <Content Include="Views\Controlpanel\EditorTemplates\Partcipants.cshtml" />
+    <Content Include="Views\Phonebook\Phonebook_old.cshtml" />
     <None Include="Service References\IpServiceLink\IpService.wsdl" />
     <None Include="Service References\IpServiceLink\IpService.xsd">
       <SubType>Designer</SubType>
@@ -2132,8 +2135,9 @@
     <None Include="Service References\IpServiceLink\IpService2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Views\Controlpanel\EditorTemplates\Partcipants.cshtml" />
-    <Content Include="Views\Phonebook\Phonebook_old.cshtml" />
+    <None Include="Service References\IpServiceLink\IpService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

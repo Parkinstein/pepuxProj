@@ -10,7 +10,6 @@ namespace PepuxFront.Models
     public class LoginModel
     {
         [Required]
-        [DataType(DataType.Url)]
         [Display(Name = "Домен")]
         public string Domen { get; set; }
 

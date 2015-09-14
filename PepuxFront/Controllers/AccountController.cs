@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.DirectoryServices;
+using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -70,31 +74,80 @@ namespace PepuxFront.Controllers
             {
                 return this.View(model);
             }
-            IpServiceLink.PServiceClient obj = new PServiceClient();
-            bool auth = obj.Authenticate(model.UserName, model.Password, model.Domen);
-            if (auth)
+            else
             {
-                FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                ArrayList groups = new ArrayList();
-                foreach (System.Security.Principal.IdentityReference group in
-                    System.Web.HttpContext.Current.Request.LogonUserIdentity.Groups)
+                IpServiceLink.PServiceClient obj = new PServiceClient();
+                Debug.WriteLine(model.Domen);
+                Debug.WriteLine(model.UserName);
+                Debug.WriteLine(model.Password);
+                bool auth = obj.Authenticate(model.UserName, model.Password, model.Domen);
+                Debug.WriteLine(auth);
+                if (auth)
                 {
-                    groups.Add(group.Translate(typeof
-                        (System.Security.Principal.NTAccount)).ToString());
+                    IsAuth = auth;
+                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    var grps = GetGroups(model.UserName,model.Domen,model.Password);
+                    ArrayList groups = new ArrayList();
+                    
+                    foreach (var grp in grps)
+                    {
+                        groups.Add(grp.Name);
+                    }
+                    //foreach (System.Security.Principal.IdentityReference group in
+                    //    System.Web.HttpContext.Current.Request.LogonUserIdentity.Groups)
+                    //{
+                    //    Debug.WriteLine(group.Translate(typeof
+                    //        (System.Security.Principal.NTAccount)).ToString());
+                    //    groups.Add(group.Translate(typeof
+                    //        (System.Security.Principal.NTAccount)).ToString());
+                    //}
+                    
+                    if (groups.Contains("PepuxAdmins"))
+                    {
+                       
+                        Ugroup = "PepuxAdmins";
+                        return this.RedirectToAction("Index", "Controlpanel");
+                    }
+                    else if (groups.Contains("PepuxUsers"))
+                    {
+                        Ugroup = "PepuxUsers";
+                        return this.RedirectToAction("Index", "User");
+                    }
                 }
-                if (groups.Contains("PepuxAdmins"))
+                else { this.ModelState.AddModelError(string.Empty, "Имя пользователя или пароль указаны неверно.");
+                    return this.View(model); }
+            }
+
+            return null;
+        }
+        
+        public List<GroupPrincipal> GetGroups(string userName, string domain, string pass)
+        {
+            List<GroupPrincipal> result = new List<GroupPrincipal>();
+
+            // establish domain context
+            PrincipalContext yourDomain = new PrincipalContext(ContextType.Domain, domain, userName, pass);
+
+            // find your user
+            UserPrincipal user = UserPrincipal.FindByIdentity(yourDomain, userName);
+
+            // if found - grab its groups
+            if (user != null)
+            {
+                PrincipalSearchResult<Principal> groups = user.GetAuthorizationGroups();
+                Uname = user.DisplayName;
+                // iterate over all groups
+                foreach (Principal p in groups)
                 {
-                    Ugroup = "PepuxAdmins";
-                    return this.RedirectToAction("Index", "Controlpanel");
+                    // make sure to add only group principals
+                    if (p is GroupPrincipal)
+                    {
+                        result.Add((GroupPrincipal)p);
+                    }
                 }
-                else if (groups.Contains("PepuxUsers"))
-                {
-                    Ugroup = "PepuxUsers";
-                    return this.RedirectToAction("Index", "User");
-                }
-             }
-            this.ModelState.AddModelError(string.Empty, "Имя пользователя или пароль указаны неверно.");
-            return this.View(model);
+            }
+
+            return result;
         }
 
         public ActionResult LogOff()

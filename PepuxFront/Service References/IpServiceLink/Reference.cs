@@ -1966,6 +1966,32 @@ namespace PepuxFront.IpServiceLink {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Authenticate", ReplyAction="http://tempuri.org/IPService/AuthenticateResponse")]
         System.Threading.Tasks.Task<bool> AuthenticateAsync(string userName, string password, string domain);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Groups", ReplyAction="http://tempuri.org/IPService/GroupsResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.ActiveConfs[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.ActiveConfs))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Service[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Service))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Phonebook[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Phonebook))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.participants[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.participants))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.AllVmrs[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.AllVmrs))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Aliasess[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Aliasess))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.AutoPartis[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.AutoPartis))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.allrecords[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.allrecords))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.pbrec[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.pbrec))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.addrec))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        object[] Groups();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Groups", ReplyAction="http://tempuri.org/IPService/GroupsResponse")]
+        System.Threading.Tasks.Task<object[]> GroupsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -2073,6 +2099,14 @@ namespace PepuxFront.IpServiceLink {
         
         public System.Threading.Tasks.Task<bool> AuthenticateAsync(string userName, string password, string domain) {
             return base.Channel.AuthenticateAsync(userName, password, domain);
+        }
+        
+        public object[] Groups() {
+            return base.Channel.Groups();
+        }
+        
+        public System.Threading.Tasks.Task<object[]> GroupsAsync() {
+            return base.Channel.GroupsAsync();
         }
     }
 }
