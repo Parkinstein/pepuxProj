@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -21,41 +22,78 @@ namespace PepuxFront.Controllers
 
         [HttpPost]
         public ActionResult Login(LoginModel model, string returnUrl)
+
+            #region old
+
+//{
+
+            //    if (!this.ModelState.IsValid)
+            //    {
+            //        return this.View(model);
+            //    }
+
+            //    if (Membership.ValidateUser(model.UserName, model.Password))
+            //    {
+            //        FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+            //        DatabsDataContext db = new DatabsDataContext();
+            //        var uname = db.Service.FirstOrDefault(m => m.AdName == model.UserName);
+            //        if (uname != null)
+            //            Uname = (uname.UserName);
+            //        var ugroup = db.Service.FirstOrDefault(m => m.AdName == model.UserName);
+            //        if (ugroup != null)
+            //            Ugroup = (ugroup.Role);
+            //        IsAuth = true;
+            //        if (Ugroup == "PepuxAdmins")
+            //        {
+            //            Debug.WriteLine("Вход выполнен " + model.UserName);
+            //            return this.RedirectToAction("Index", "Controlpanel");
+
+            //        }
+            //        else if (Ugroup == "PepuxUsers")
+            //        {
+            //            Debug.WriteLine("Вход выполнен " + model.UserName);
+            //            return this.RedirectToAction("Index", "User");
+            //        }
+            //        return this.RedirectToAction("Login", "Account");
+            //    }
+
+            //    this.ModelState.AddModelError(string.Empty, "Имя пользователя или пароль указаны неверно.");
+            //    IsAuth = false;
+            //    Uname = "test"; //null;
+            //    return this.View(model);
+            //}
+
+            #endregion
+
         {
-            
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);
             }
-
-            if (Membership.ValidateUser(model.UserName, model.Password))
+            IpServiceLink.PServiceClient obj = new PServiceClient();
+            bool auth = obj.Authenticate(model.UserName, model.Password, model.Domen);
+            if (auth)
             {
                 FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                DatabsDataContext db = new DatabsDataContext();
-                var uname = db.Service.FirstOrDefault(m => m.AdName == model.UserName);
-                if (uname != null)
-                    Uname = (uname.UserName);
-                var ugroup = db.Service.FirstOrDefault(m => m.AdName == model.UserName);
-                if (ugroup != null)
-                    Ugroup = (ugroup.Role);
-                IsAuth = true;
-                if (Ugroup == "PepuxAdmins")
+                ArrayList groups = new ArrayList();
+                foreach (System.Security.Principal.IdentityReference group in
+                    System.Web.HttpContext.Current.Request.LogonUserIdentity.Groups)
                 {
-                    Debug.WriteLine("Вход выполнен " + model.UserName);
-                    return this.RedirectToAction("Index", "Controlpanel");
-
+                    groups.Add(group.Translate(typeof
+                        (System.Security.Principal.NTAccount)).ToString());
                 }
-                else if (Ugroup == "PepuxUsers")
+                if (groups.Contains("PepuxAdmins"))
                 {
-                    Debug.WriteLine("Вход выполнен " + model.UserName);
+                    Ugroup = "PepuxAdmins";
+                    return this.RedirectToAction("Index", "Controlpanel");
+                }
+                else if (groups.Contains("PepuxUsers"))
+                {
+                    Ugroup = "PepuxUsers";
                     return this.RedirectToAction("Index", "User");
                 }
-                return this.RedirectToAction("Login", "Account");
-            }
-
+             }
             this.ModelState.AddModelError(string.Empty, "Имя пользователя или пароль указаны неверно.");
-            IsAuth = false;
-            Uname = "test"; //null;
             return this.View(model);
         }
 

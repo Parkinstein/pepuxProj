@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -28,11 +29,25 @@ namespace PepuxService
         string Token_refresh(string confname, string old_token);
         [OperationContract]
         List<Vrecords> Videorecords(string val);
-        
+
+        [OperationContract]
+        List<PBRecords> GetPhonebookUsers(string Uname);
+        [OperationContract]
+        PBPlusrecord AddRecordsToPB(string in_name);
+        //[OperationContract]
+        //List<PBPlusrecord> GetAllMembers(string in_name);
+        [OperationContract]
+         bool Authenticate(string userName,string password, string domain);
+        [OperationContract]
+        ArrayList Groups();
+
+
+
+
 
     }
 
- 
+
 
     #region UsersClasses
 
@@ -429,6 +444,50 @@ namespace PepuxService
         public string Link { get; set; }
     }
 
+    #endregion
+    #region Phonebook
+    [DataContract(Name = "pbrec")]
+    public class PBRecords
+    {
+
+        [DataMember]
+        public int Id { get; set; }
+
+        [DataMember]
+        public string UserId { get; set; }
+
+        [DataMember]
+        public string GroupName { get; set; }
+
+        [DataMember]
+        public string UserName { get; set; }
+    }
+
+    #endregion
+    #region PBRecAllList 4 add to UserPB
+
+    [DataContract(Name = "addrec")]
+    public class PBPlusrecord
+    {
+        [DataMember]
+        public string name { get; set; }
+        [DataMember]
+        public string surname { get; set; }
+        [DataMember]
+        public string position { get; set; }
+        [DataMember]
+        public string tel_int { get; set; }
+        [DataMember]
+        public string tel_ext { get; set; }
+        [DataMember]
+        public string tel_mob { get; set; }
+        [DataMember]
+        public string timezone { get; set; }
+        [DataMember]
+        public string sip_add { get; set; }
+        [DataMember]
+        public string h323_add { get; set; }
+    }
     #endregion
 
 

@@ -10,6 +10,11 @@ namespace PepuxFront.Models
     public class LoginModel
     {
         [Required]
+        [DataType(DataType.Url)]
+        [Display(Name = "Домен")]
+        public string Domen { get; set; }
+
+        [Required]
         [Display(Name = "Имя пользователя")]
         public string UserName { get; set; }
         //[Required]
@@ -20,6 +25,7 @@ namespace PepuxFront.Models
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
+
 
         [Display(Name = "Запомнить учётные данные")]
         public bool RememberMe { get; set; }

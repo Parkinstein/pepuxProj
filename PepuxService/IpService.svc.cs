@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Diagnostics;
+using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Timers;
 using System.Web.Script.Serialization;
+using Kendo.Mvc.Extensions;
 using MySql.Data.MySqlClient;
 using PepuxService.Properties;
 using Newtonsoft.Json;
@@ -418,6 +421,73 @@ namespace PepuxService
             return all_recs;
         }
 
+        public List<PBRecords> GetPhonebookUsers(string Uname)
+        {
+            ServiceDataContext db = new ServiceDataContext();
+            //PBRecords singlestroke = new PBRecords();
+            List<PBRecords> selected = new List<PBRecords>();
+            //singlestroke = db.Phonebooks.Select(c => c.UserName == Uname).A
+            List<PBRecords> phonebookrecs = (db.Phonebooks.OfType<PBRecords>().ToList());
+            foreach (var record in phonebookrecs)
+            {
+               Debug.WriteLine(record.GroupName);
+                if (record.UserName == Uname)
+                {
+                    selected.Add(record);
+                }
+                
+            }
+            return selected;
+        }
+
+        public PBPlusrecord AddRecordsToPB(string in_name)
+        {
+            throw new NotImplementedException();
+        }
+
+        //public PBPlusrecord AddRecordsToPB(string in_name)
+        //{
+        //    PBPlusrecord selected_user = new PBPlusrecord();
+        //    ServiceDataContext db = new ServiceDataContext();
+        //    int sel_id = (int)db.VmrAliases.FirstOrDefault(m => m.alias == in_name).vmid;
+        //    try
+        //    {
+
+
+        //    }
+        //    catch (Exception er)
+        //    {
+        //        Debug.WriteLine(er.HResult);
+        //        Debug.WriteLine(er.Message);
+        //    }
+        //    return lstADUsers;
+        //    return selected_user;
+        //}
         #endregion
+        public bool Authenticate(string userName,string password, string domain)
+        {
+            bool authentic = false;
+            try
+            {
+                DirectoryEntry entry = new DirectoryEntry("LDAP://" + domain,
+                    userName, password);
+                var nativeObject = entry.NativeObject;
+                
+                authentic = true;
+            }
+            catch (DirectoryServicesCOMException) { }
+            return authentic;
+        }
+        public ArrayList Groups()
+        {
+            ArrayList groups = new ArrayList();
+            foreach (System.Security.Principal.IdentityReference group in
+                System.Web.HttpContext.Current.Request.LogonUserIdentity.Groups)
+            {
+                groups.Add(group.Translate(typeof
+                    (System.Security.Principal.NTAccount)).ToString());
+            }
+            return groups;
+        }
     }
 }

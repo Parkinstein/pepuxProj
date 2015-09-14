@@ -5,7 +5,7 @@
         <input type="checkbox" id="charlie" value="3">
     </div>
 </div>
-@(Html.Kendo().Scheduler<PepuxFront.Models.MeetingViewModel>()
+@*@(Html.Kendo().Scheduler<PepuxFront.Models.MeetingViewModel>()
     .Name("scheduler")
     .Date(new DateTime(2013, 6, 13))
     .StartTime(new DateTime(2013, 6, 13, 7, 00, 00))
@@ -54,7 +54,7 @@
             filters.Add(model => model.RoomID).IsEqualTo(1).Or().IsEqualTo(2);
         })
     )
-)
+)*@
 
 <script type="text/javascript">
 
