@@ -11,7 +11,7 @@ using System.Net;
 using System.Text;
 using System.Timers;
 using System.Web.Script.Serialization;
-using Kendo.Mvc.Extensions;
+//using Kendo.Mvc.Extensions;
 using MySql.Data.MySqlClient;
 using PepuxService.Properties;
 using Newtonsoft.Json;

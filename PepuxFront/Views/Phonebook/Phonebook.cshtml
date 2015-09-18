@@ -1,46 +1,64 @@
-﻿@using PepuxFront.Controllers
-@model PepuxFront.IpServiceLink.addrec
+﻿@using System.ServiceModel.Configuration
+@using Microsoft.Ajax.Utilities
+@using PepuxFront.Controllers
+@model PepuxFront.IpServiceLink.ActiveConfs
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<body>
-    <div id="confcontrol" class="control_panel">
-        <table id="table_phonebook" class="display">
+<div class="control_grid">
+    <table id="table_pb" class="display">
+        <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Должность</th>
+            <th>Телефон (внут.)</th>
+            <th>Телефон (внеш.)</th>
+            <th>Телефон (моб.)</th>
+            <th>Часовой пояс</th>
+            <th>Группа</th>
+            <th>SIP-адрес</th>
+            <th>H.323-адрес</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="phonebook_buttons">
+        <input id="delete" type="button" onclick="" value="Удалить" class="phonebook_button_delete"/>
+        <input id="add" type="button" onclick="popup_du_table()" value="Добавить..." class="phonebook_button_add"/>
+    </div>
+</div>
+<div id="popup_block" class="hide">
+    <div id="popup_content" class="b-popup b-popup-content">
+        <table id="table_du">
             <thead>
-                <tr>
-                    <th>Имя</th>
-                    <th>Фамилия</th>
-                    <th>Должность</th>
-                    <th>Телефон (внут.)</th>
-                    <th>Телефон (внеш.)</th>
-                    <th>Телефон (моб.)</th>
-                    <th>Часовой пояс</th>
-                    <th>Группа</th>
-                    <th>SIP-адрес</th>
-                    <th>H.323-адрес</th>
-                </tr>
+            <tr>
+                <th>ФИО</th>
+                <th>Email</th>
+                <th>Телефон</th>
+            </tr>
             </thead>
             <tbody></tbody>
         </table>
-        <div>
-            <input id="find" type="button" onclick="" value="Удалить" class="phonebook_button_delete"/>
-            <input id="add" type="button" onclick="" value="Добавить" class="phonebook_button_add"/>
+        <div class="phonebook_buttons">
+            <input id="save" type="button" onclick="" value="Сохранить" class="phonebook_button_add" />
         </div>
     </div>
-</body>
+</div>
 
 <script type="text/javascript">
     var oPhonebookTable;
+    var oDomainusersTable;
     function refresh() {
         if (oPhonebookTable != null)
             oPhonebookTable.ajax.reload();
-    }
-    setInterval("refresh()", 10000);
+    };
+    setInterval("refresh()",100000);
 
     $(document).ready(function () {
-        oPhonebookTable = $('#table_phonebook').DataTable({
+        oPhonebookTable = $('#table_pb').DataTable({
             "ordering": false,
             "searching": true,
             "paging": false,
@@ -114,4 +132,65 @@
             },
         });
     });
+
+    $(document).on("click", function (e) {
+        if (!$("#popup_content").is(e.target) && $("#popup_content").has(e.target).length == 0) {
+            document.getElementById("popup_block").className = "hide";
+            if (oDomainusersTable != null)
+                oDomainusersTable.destroy();
+        }
+    });
+
+    function popup_du_table () {
+        event.stopPropagation();
+        document.getElementById("popup_block").className = "b-popup b-popup-content";
+
+        oDomainusersTable = $('#table_du').DataTable({
+            "ordering": false,
+            "searching": true,
+            "paging": true,
+            "autoWidth": false,
+            "processing": true,
+            "lengthChange": false,
+
+            "serverSide": true,
+            "ajax": {
+                "type": "POST",
+                "url": "/Phonebook/Phonebook?",
+                "contentType": 'application/json; charset=utf-8',
+                "data": function (data) { return data = JSON.stringify(data); }
+            },
+
+            "columns": [
+                { "searchable": true },
+                { "searchable": true },
+                { "searchable": true },
+            ],
+
+            "language": {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать _MENU_ записей",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                }
+            },
+            "order": [[1, 'asc']],
+            "pageLength": 30
+        });
+    };
 </script>
