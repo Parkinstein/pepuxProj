@@ -2072,10 +2072,13 @@
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.participants.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.pbrec.datasource">
+    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.Service.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.Service.datasource">
+    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.ADUsers.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.PhonebookDB.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Service References\IpServiceLink\Reference.svcmap">
@@ -2127,9 +2130,6 @@
     <Content Include="Views\Phonebook\Phonebook_old.cshtml" />
     <None Include="Service References\IpServiceLink\IpService.wsdl" />
     <None Include="Service References\IpServiceLink\IpService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\IpServiceLink\IpService1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\IpServiceLink\IpService2.xsd">

@@ -7,7 +7,6 @@
       <Column Name="Role" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="AdName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="Service_Phonebook" Member="Phonebooks" ThisKey="Id" OtherKey="UserId" Type="Phonebook" />
     </Type>
   </Table>
   <Table Name="dbo.AllVmrs" Member="AllVmrs">
@@ -42,45 +41,28 @@
       <Association Name="AllVmr_VmrAliase" Member="AllVmr" ThisKey="vmid" OtherKey="Id" Type="AllVmr" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Meetings" Member="Meetings">
-    <Type Name="Meeting">
-      <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Start" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="[End]" Member="End" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Title" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="RoomID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsAllDay" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RecurrenceRule" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="RecurrenceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="RecurrenceException" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="StartTimezone" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="EndTimezone" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="OpLink" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="AddAttend" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="FileLink" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="Record" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="Recfile" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Meeting_Meeting" Member="Meetings" ThisKey="MeetingID" OtherKey="RecurrenceID" Type="Meeting" />
-      <Association Name="Meeting_MeetingAttendee" Member="MeetingAttendees" ThisKey="MeetingID" OtherKey="MeetingID" Type="MeetingAttendee" />
-      <Association Name="Meeting_Meeting" Member="Meeting1" ThisKey="RecurrenceID" OtherKey="MeetingID" Type="Meeting" IsForeignKey="true" />
+  <Table Name="dbo.Phonebook" Member="PhonebookDBs">
+    <Type Name="PhonebookDB">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Surname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Position" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Phone_int" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Phone_ext" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Phone_mob" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TimeZone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SipAdd" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="H323Add" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="samaccountname" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="location" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.MeetingAttendees" Member="MeetingAttendees">
-    <Type Name="MeetingAttendee">
-      <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="AttendeeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Meeting_MeetingAttendee" Member="Meeting" ThisKey="MeetingID" OtherKey="MeetingID" Type="Meeting" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Phonebook" Member="Phonebooks">
-    <Type Name="Phonebook">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="GroupName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="VMRiD" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Member="UserName" Type="System.String" CanBeNull="false" />
-      <Association Name="Service_Phonebook" Member="Service" ThisKey="UserId" OtherKey="Id" Type="Service" IsForeignKey="true" />
+  <Table Name="dbo.PrivatePhB" Member="PrivatePhBs">
+    <Type Name="PrivatePhB">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="OwSAN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IdREC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Group]" Member="Group" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

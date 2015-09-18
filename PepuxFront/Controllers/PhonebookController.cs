@@ -10,8 +10,6 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using PepuxFront.IpServiceLink;
 using PepuxFront.Models;
-using Phonebook = PepuxFront.IpServiceLink.Phonebook;
-using Timer = System.Timers.Timer;
 
 namespace PepuxFront.Controllers
 {
@@ -37,16 +35,30 @@ namespace PepuxFront.Controllers
         //        data = filteredresult,
         //    }, JsonRequestBehavior.AllowGet);
         //}
-        private IEnumerable<IpServiceLink.pbrec> GetData(string Uname)
+        
+        private ActionResult Phonebook_Ajax([DataSourceRequest]DataSourceRequest request)
         {
-            IpServiceLink.PServiceClient obj = new PServiceClient();
-            var data = obj.GetPhonebookUsers(Uname);
-            return data;
+            using (var allrecs = new PServiceClient())
+            {
+
+                IQueryable<addrec> recs = allrecs.GetPhBOw(AccountController.SAMUname,null).AsQueryable();
+
+                DataSourceResult result = recs.ToDataSourceResult(request);
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
         }
         // GET: Phonebook
         public ActionResult Phonebook()
         {
+            
             return View();
+        }
+
+        public ActionResult Delete(int id)
+        {
+            Debug.WriteLine(id);
+            return null;
         }
     }
 }

@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 namespace PepuxService
 {
 
-    public class IpService : IPService
+    public sealed class IpService : IPService
     {
 
          #region Variables
@@ -32,8 +32,10 @@ namespace PepuxService
          public List<Participants> PartForConf;
          public List<AllVmrs> All_Vmrs;
          public VmrParent All_VM_obj;
-        public RootToken root_token;
+         public RootToken root_token;
          public ResultTok resultreq;
+         public int last_id;
+        
 
         private string Win1251ToUTF8(string source)
         {
@@ -49,15 +51,19 @@ namespace PepuxService
         }
 
         #endregion
-
-         #region Get_AD_Users
+        public IpService()
+        {
+            
+        }
+        
+        #region Get_AD_Users
 
         public List<ADUsers> GetADUsvrs(string groupname)
         {
             try
             {
 
-                var context = new PrincipalContext(ContextType.Domain, Settings.Default.Domen, Settings.Default.DN_login, Settings.Default.Dn_pass); //+ "/DC=rad,DC=lan,DC=local"
+                var context = new PrincipalContext(ContextType.Domain, Settings.Default.Domen, "pepuxadmin", "1Q2w3e4r"); //+ "/DC=rad,DC=lan,DC=local"
                 using (var searcher = new PrincipalSearcher())
                 {
                     var sp = new GroupPrincipal(context, groupname);
@@ -175,9 +181,10 @@ namespace PepuxService
                  client.Headers.Add("veryfy", "False");
                  ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
                  string reply = client.DownloadString(statusapi);
-                 if (reply.ToString() != null)
+                string reply1 = Win1251ToUTF8(reply);
+                if (reply.ToString() != null)
                  {
-                     AllConfs_wm = JsonConvert.DeserializeObject<ResponseParent>(reply);
+                     AllConfs_wm = JsonConvert.DeserializeObject<ResponseParent>(reply1);
                      AllConfs = AllConfs_wm.obj;
                      foreach (var conf in AllConfs)
                      {
@@ -421,48 +428,184 @@ namespace PepuxService
             return all_recs;
         }
 
-        public List<PBRecords> GetPhonebookUsers(string Uname)
+        public  List<PBPlusrecord> GetPhonebookUsers()
+        {
+           List<PBPlusrecord> allreco = new List<PBPlusrecord>();
+           try
+            {
+
+                var domainPath = "dc0.rad.lan.local/OU=Pepux,DC=rad,DC=lan,DC=local";
+                var directoryEntry = new DirectoryEntry("LDAP://"+domainPath, Properties.Settings.Default.DN_login, Properties.Settings.Default.Dn_pass);
+                var dirSearcher = new DirectorySearcher(directoryEntry);
+                dirSearcher.SearchScope = SearchScope.Subtree;
+                dirSearcher.Filter = string.Format("(objectClass=user)");
+                dirSearcher.PropertiesToLoad.Add("givenName");
+                dirSearcher.PropertiesToLoad.Add("sn");
+                dirSearcher.PropertiesToLoad.Add("title");
+                dirSearcher.PropertiesToLoad.Add("telephoneNumber");
+                dirSearcher.PropertiesToLoad.Add("sAMAccountName");
+                //var searchResults = dirSearcher.FindAll();
+                SearchResult result;
+                SearchResultCollection resultCol = dirSearcher.FindAll();
+                if (resultCol != null)
+                {
+                    for (int i = 0; i < resultCol.Count; i++)
+                    {
+
+                        result = resultCol[i];
+                        if (result.Properties.Contains("givenName") &&
+                            result.Properties.Contains("sn") &&
+                            result.Properties.Contains("telephoneNumber"))
+                        {
+                            PBPlusrecord objSurveyUsers = new PBPlusrecord();
+                            objSurveyUsers.name = (String) result.Properties["givenName"][0];
+                            objSurveyUsers.surname = (String) result.Properties["sn"][0];
+                            objSurveyUsers.tel_int = (String) result.Properties["telephoneNumber"][0];
+                            objSurveyUsers.position = (String) result.Properties["title"][0];
+                            objSurveyUsers.samaccountname = (String)result.Properties["sAMAccountName"][0];
+                            allreco.Add(objSurveyUsers);
+                        }
+                    }
+
+                }
+                else{}
+                CompareUsers(allreco);
+
+            }
+            catch (Exception er)
+            {
+                Debug.WriteLine(er.HResult);
+                Debug.WriteLine(er.Message);
+            }
+            return allreco;
+
+        }
+
+        public  void CompareUsers(List<PBPlusrecord> adusList)
         {
             ServiceDataContext db = new ServiceDataContext();
-            //PBRecords singlestroke = new PBRecords();
-            List<PBRecords> selected = new List<PBRecords>();
-            //singlestroke = db.Phonebooks.Select(c => c.UserName == Uname).A
-            List<PBRecords> phonebookrecs = (db.Phonebooks.OfType<PBRecords>().ToList());
-            foreach (var record in phonebookrecs)
+            var temp_list = new List<string>();
+            List<PBPlusrecord> allr = new List<PBPlusrecord>();
+            var NameQuery =
+                    from samaccountname in db.PhonebookDBs
+                    select samaccountname;
+            if (NameQuery != null)
             {
-               Debug.WriteLine(record.GroupName);
-                if (record.UserName == Uname)
+                foreach (var customer in NameQuery)
                 {
-                    selected.Add(record);
+                    if ((!adusList.Exists(x => x.samaccountname == customer.samaccountname) && !customer.location))
+                    {
+                        temp_list.Add(customer.samaccountname);
+                    }
+                    Debug.WriteLine("Все уже есть");
+                }
+                foreach (var stroke in temp_list)
+                {
+                    var deleteUsers =
+                        from samaccountname in db.PhonebookDBs
+                        where samaccountname.samaccountname == stroke
+                        select samaccountname;
+                    db.PhonebookDBs.DeleteOnSubmit(deleteUsers.First());
+                    db.SubmitChanges();
                 }
                 
             }
-            return selected;
+            
+                foreach (var adus in adusList)
+                {
+                    if (!NameQuery.AsEnumerable().ToList().Exists(x => x.samaccountname == adus.samaccountname))
+                    {
+                        PhonebookDB new_rec = new PhonebookDB();
+                        new_rec.Name = adus.name;
+                        new_rec.Surname = adus.surname;
+                        new_rec.Position = adus.position;
+                        new_rec.samaccountname = adus.samaccountname;
+                        new_rec.Phone_int = adus.tel_int;
+                        new_rec.location = false;
+                        db.PhonebookDBs.InsertOnSubmit(new_rec);
+                        db.SubmitChanges();
+                        Debug.WriteLine("Был добавлен " + new_rec.Name + " " + new_rec.Surname);
+                    }
+                }
+            
+
+            foreach (var temp in temp_list)
+            {
+                Debug.WriteLine(temp);
+            }
         }
 
-        public PBPlusrecord AddRecordsToPB(string in_name)
+        public bool DeleteRecFromDb(int id, string ownm)
         {
-            throw new NotImplementedException();
+            ServiceDataContext db = new ServiceDataContext();
+            var deleteDetails =
+            from prop in db.PrivatePhBs
+            where prop.IdREC == id && prop.OwSAN == ownm
+            select prop;
+            foreach (var detal in deleteDetails)
+            {
+                db.PrivatePhBs.DeleteOnSubmit(detal);
+            }
+
+            try
+            {
+                db.SubmitChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return false;
+            }
         }
 
-        //public PBPlusrecord AddRecordsToPB(string in_name)
-        //{
-        //    PBPlusrecord selected_user = new PBPlusrecord();
-        //    ServiceDataContext db = new ServiceDataContext();
-        //    int sel_id = (int)db.VmrAliases.FirstOrDefault(m => m.alias == in_name).vmid;
-        //    try
-        //    {
+        public List<PhonebookDB> GetPB()
+        {
+            ServiceDataContext db = new ServiceDataContext();
+            List<PhonebookDB> allpbrecs = new List<PhonebookDB>();
+            var records =
+            from prop in db.PhonebookDBs
+            select prop;
+            foreach (var record in records)
+            {
+                allpbrecs.Add(record);
+            }
+            return allpbrecs;
+        }
+
+        public PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam)
+        {
+            PhonebookDB nr = new PhonebookDB();
+            
+            nr.Name = in_name;
+            nr.Surname = in_surname;
+            nr.Position = in_position;
+            nr.Phone_int = tel_int;
+            nr.Phone_ext = tel_ext;
+            nr.Phone_mob = tel_mob;
+            nr.H323Add = h323_add;
+            nr.SipAdd = sip_add;
+            nr.TimeZone = timezone;
+            nr.location = true;
+            AddRecToPB(nr, group, OwNam);
+            return nr;
+        }
+
+        public void AddRecToPB(PhonebookDB obj, string group, string Ownam)
+        {
+            ServiceDataContext db = new ServiceDataContext();
+            db.PhonebookDBs.InsertOnSubmit(obj);
+            db.SubmitChanges();
+            PrivatePhB owPhB = new PrivatePhB();
+            owPhB.OwSAN = Ownam;
+            owPhB.IdREC = obj.Id;
+            owPhB.Group = group;
+            db.PrivatePhBs.InsertOnSubmit(owPhB);
+            db.SubmitChanges();
+            Debug.WriteLine(obj.Id);
+        }
 
 
-        //    }
-        //    catch (Exception er)
-        //    {
-        //        Debug.WriteLine(er.HResult);
-        //        Debug.WriteLine(er.Message);
-        //    }
-        //    return lstADUsers;
-        //    return selected_user;
-        //}
         #endregion
         public bool Authenticate(string userName,string password, string domain)
         {
@@ -478,16 +621,53 @@ namespace PepuxService
             catch (DirectoryServicesCOMException) { }
             return authentic;
         }
-        public ArrayList Groups()
+
+        public List<PBPlusrecord> GetPhBOw(string OwName, string Group) //get phonebook filtered
         {
-            ArrayList groups = new ArrayList();
-            foreach (System.Security.Principal.IdentityReference group in
-                System.Web.HttpContext.Current.Request.LogonUserIdentity.Groups)
+            ServiceDataContext db = new ServiceDataContext();
+            List<PBPlusrecord> selrec = new List<PBPlusrecord>();
+            List<PBPlusrecord> selrec2 = new List<PBPlusrecord>();
+            var selectets = db.PrivatePhBs.Where(m => m.OwSAN == OwName);
+            foreach (var sel in selectets)
             {
-                groups.Add(group.Translate(typeof
-                    (System.Security.Principal.NTAccount)).ToString());
+                PBPlusrecord temp = new PBPlusrecord();
+                var srec = db.PhonebookDBs.FirstOrDefault(m => m.Id == sel.IdREC);
+                temp.name = srec.Name;
+                temp.surname = srec.Surname;
+                temp.position = srec.Position;
+                temp.tel_int = srec.Phone_int;
+                temp.tel_ext = srec.Phone_ext;
+                temp.tel_mob = srec.Phone_mob;
+                temp.h323_add = srec.H323Add;
+                temp.sip_add = srec.SipAdd;
+                temp.timezone = srec.TimeZone;
+                selrec.Add(temp);
+                
             }
-            return groups;
+            if (String.IsNullOrEmpty(Group))
+                return selrec;
+            if (!String.IsNullOrEmpty(Group))
+                {
+                    var gr_selectets = selectets.Where(m => m.Group == Group);
+
+                    foreach (var grsel in gr_selectets)
+                    {
+                        PBPlusrecord temp = new PBPlusrecord();
+                        var srec = db.PhonebookDBs.FirstOrDefault(m => m.Id == grsel.IdREC);
+                        temp.name = srec.Name;
+                        temp.surname = srec.Surname;
+                        temp.position = srec.Position;
+                        temp.tel_int = srec.Phone_int;
+                        temp.tel_ext = srec.Phone_ext;
+                        temp.tel_mob = srec.Phone_mob;
+                        temp.h323_add = srec.H323Add;
+                        temp.sip_add = srec.SipAdd;
+                        temp.timezone = srec.TimeZone;
+                        selrec2.Add(temp);
+                    }
+                    selrec = selrec2;
+                }
+            return selrec;
         }
     }
 }

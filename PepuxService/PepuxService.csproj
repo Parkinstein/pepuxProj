@@ -147,6 +147,7 @@
     <Content Include="Content\DataTables\images\xls_hover.png" />
     <Content Include="Content\DataTables\swf\copy_csv_xls.swf" />
     <Content Include="Content\DataTables\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Global.asax" />
     <Content Include="IpService.svc" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />
@@ -179,6 +180,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="LogExtensions.cs" />
     <Compile Include="ServiceDB.designer.cs">
       <AutoGen>True</AutoGen>

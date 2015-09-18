@@ -17,6 +17,7 @@ namespace PepuxFront.Controllers
     public class AccountController : Controller
     {
         public static string Uname;
+        public static string SAMUname;
         public static string Ugroup;
         public static bool IsAuth;
         public ActionResult Login()
@@ -93,14 +94,6 @@ namespace PepuxFront.Controllers
                     {
                         groups.Add(grp.Name);
                     }
-                    //foreach (System.Security.Principal.IdentityReference group in
-                    //    System.Web.HttpContext.Current.Request.LogonUserIdentity.Groups)
-                    //{
-                    //    Debug.WriteLine(group.Translate(typeof
-                    //        (System.Security.Principal.NTAccount)).ToString());
-                    //    groups.Add(group.Translate(typeof
-                    //        (System.Security.Principal.NTAccount)).ToString());
-                    //}
                     
                     if (groups.Contains("PepuxAdmins"))
                     {
@@ -136,6 +129,8 @@ namespace PepuxFront.Controllers
             {
                 PrincipalSearchResult<Principal> groups = user.GetAuthorizationGroups();
                 Uname = user.DisplayName;
+                SAMUname = user.SamAccountName;
+
                 // iterate over all groups
                 foreach (Principal p in groups)
                 {

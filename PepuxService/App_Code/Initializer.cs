@@ -13,12 +13,12 @@ namespace PepuxService.App_Code
     {
         public static void AppInitialize()
         {
-            
+
+
         }
 
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-
         } 
 
     }

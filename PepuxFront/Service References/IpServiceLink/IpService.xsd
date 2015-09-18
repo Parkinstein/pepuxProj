@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/PepuxService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/PepuxService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfADUsers">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ADUsers" nillable="true" type="tns:ADUsers" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfADUsers" nillable="true" type="tns:ArrayOfADUsers" />
+  <xs:complexType name="ADUsers">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DisplayName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ADUsers" nillable="true" type="tns:ADUsers" />
   <xs:complexType name="ArrayOfActiveConfs">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="ActiveConfs" nillable="true" type="tns:ActiveConfs" />
@@ -31,29 +46,11 @@
       <xs:element minOccurs="0" name="AdName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="Phonebooks" nillable="true" type="tns:ArrayOfPhonebook" />
       <xs:element minOccurs="0" name="Role" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Service" nillable="true" type="tns:Service" />
-  <xs:complexType name="ArrayOfPhonebook">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Phonebook" nillable="true" type="tns:Phonebook" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfPhonebook" nillable="true" type="tns:ArrayOfPhonebook" />
-  <xs:complexType name="Phonebook">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="GroupName" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="Service" nillable="true" type="tns:Service" />
-      <xs:element minOccurs="0" name="UserId" nillable="true" type="xs:int" />
-      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="VMRiD" nillable="true" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Phonebook" nillable="true" type="tns:Phonebook" />
   <xs:complexType name="ArrayOfparticipants">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="participants" nillable="true" type="tns:participants" />
@@ -175,26 +172,18 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="allrecords" nillable="true" type="tns:allrecords" />
-  <xs:complexType name="ArrayOfpbrec">
+  <xs:complexType name="ArrayOfaddrec">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="pbrec" nillable="true" type="tns:pbrec" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="addrec" nillable="true" type="tns:addrec" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOfpbrec" nillable="true" type="tns:ArrayOfpbrec" />
-  <xs:complexType name="pbrec">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="GroupName" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="UserId" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="pbrec" nillable="true" type="tns:pbrec" />
+  <xs:element name="ArrayOfaddrec" nillable="true" type="tns:ArrayOfaddrec" />
   <xs:complexType name="addrec">
     <xs:sequence>
       <xs:element minOccurs="0" name="h323_add" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="position" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="samaccountname" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="sip_add" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="surname" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="tel_ext" nillable="true" type="xs:string" />
@@ -204,4 +193,27 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="addrec" nillable="true" type="tns:addrec" />
+  <xs:complexType name="PhonebookDB">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="H323Add" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Phone_ext" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Phone_int" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Phone_mob" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Position" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SipAdd" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TimeZone" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="location" type="xs:boolean" />
+      <xs:element minOccurs="0" name="samaccountname" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PhonebookDB" nillable="true" type="tns:PhonebookDB" />
+  <xs:complexType name="ArrayOfPhonebookDB">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PhonebookDB" nillable="true" type="tns:PhonebookDB" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPhonebookDB" nillable="true" type="tns:ArrayOfPhonebookDB" />
 </xs:schema>

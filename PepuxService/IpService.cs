@@ -14,6 +14,8 @@ namespace PepuxService
     [ServiceContract]
     public interface IPService
     {
+        [OperationContract]
+        List<ADUsers> GetADUsvrs(string groupname);
 
         [OperationContract]
         List<ActiveConfs> GetActiveConfs();
@@ -31,20 +33,20 @@ namespace PepuxService
         List<Vrecords> Videorecords(string val);
 
         [OperationContract]
-        List<PBRecords> GetPhonebookUsers(string Uname);
+        List<PBPlusrecord> GetPhonebookUsers();
         [OperationContract]
-        PBPlusrecord AddRecordsToPB(string in_name);
+        PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam);
         //[OperationContract]
         //List<PBPlusrecord> GetAllMembers(string in_name);
         [OperationContract]
          bool Authenticate(string userName,string password, string domain);
         [OperationContract]
-        ArrayList Groups();
+        List<PBPlusrecord> GetPhBOw(string OwName, string Group);
+        [OperationContract]
+        bool DeleteRecFromDb(int id, string ownm);
 
-
-
-
-
+        [OperationContract]
+        List<PhonebookDB> GetPB();
     }
 
 
@@ -475,6 +477,9 @@ namespace PepuxService
         public string surname { get; set; }
         [DataMember]
         public string position { get; set; }
+        [DataMember]
+        
+        public string samaccountname { get; set; }
         [DataMember]
         public string tel_int { get; set; }
         [DataMember]

@@ -15,6 +15,99 @@ namespace PepuxFront.IpServiceLink {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ADUsers", Namespace="http://schemas.datacontract.org/2004/07/PepuxService")]
+    [System.SerializableAttribute()]
+    public partial class ADUsers : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DisplayNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string EmailField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GroupField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UserNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string DisplayName {
+            get {
+                return this.DisplayNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DisplayNameField, value) != true)) {
+                    this.DisplayNameField = value;
+                    this.RaisePropertyChanged("DisplayName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Email {
+            get {
+                return this.EmailField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.EmailField, value) != true)) {
+                    this.EmailField = value;
+                    this.RaisePropertyChanged("Email");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Group {
+            get {
+                return this.GroupField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GroupField, value) != true)) {
+                    this.GroupField = value;
+                    this.RaisePropertyChanged("Group");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string UserName {
+            get {
+                return this.UserNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
+                    this.UserNameField = value;
+                    this.RaisePropertyChanged("UserName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ActiveConfs", Namespace="http://schemas.datacontract.org/2004/07/PepuxService")]
     [System.SerializableAttribute()]
     public partial class ActiveConfs : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -205,9 +298,6 @@ namespace PepuxFront.IpServiceLink {
         private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private PepuxFront.IpServiceLink.Phonebook[] PhonebooksField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string RoleField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -263,19 +353,6 @@ namespace PepuxFront.IpServiceLink {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public PepuxFront.IpServiceLink.Phonebook[] Phonebooks {
-            get {
-                return this.PhonebooksField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.PhonebooksField, value) != true)) {
-                    this.PhonebooksField = value;
-                    this.RaisePropertyChanged("Phonebooks");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
         public string Role {
             get {
                 return this.RoleField;
@@ -297,131 +374,6 @@ namespace PepuxFront.IpServiceLink {
                 if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
                     this.UserNameField = value;
                     this.RaisePropertyChanged("UserName");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Phonebook", Namespace="http://schemas.datacontract.org/2004/07/PepuxService")]
-    [System.SerializableAttribute()]
-    public partial class Phonebook : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string GroupNameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private PepuxFront.IpServiceLink.Service ServiceField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> UserIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string UserNameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> VMRiDField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string GroupName {
-            get {
-                return this.GroupNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.GroupNameField, value) != true)) {
-                    this.GroupNameField = value;
-                    this.RaisePropertyChanged("GroupName");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public PepuxFront.IpServiceLink.Service Service {
-            get {
-                return this.ServiceField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ServiceField, value) != true)) {
-                    this.ServiceField = value;
-                    this.RaisePropertyChanged("Service");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> UserId {
-            get {
-                return this.UserIdField;
-            }
-            set {
-                if ((this.UserIdField.Equals(value) != true)) {
-                    this.UserIdField = value;
-                    this.RaisePropertyChanged("UserId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string UserName {
-            get {
-                return this.UserNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
-                    this.UserNameField = value;
-                    this.RaisePropertyChanged("UserName");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> VMRiD {
-            get {
-                return this.VMRiDField;
-            }
-            set {
-                if ((this.VMRiDField.Equals(value) != true)) {
-                    this.VMRiDField = value;
-                    this.RaisePropertyChanged("VMRiD");
                 }
             }
         }
@@ -1639,99 +1591,6 @@ namespace PepuxFront.IpServiceLink {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="pbrec", Namespace="http://schemas.datacontract.org/2004/07/PepuxService")]
-    [System.SerializableAttribute()]
-    public partial class pbrec : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string GroupNameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string UserIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string UserNameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string GroupName {
-            get {
-                return this.GroupNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.GroupNameField, value) != true)) {
-                    this.GroupNameField = value;
-                    this.RaisePropertyChanged("GroupName");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string UserId {
-            get {
-                return this.UserIdField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.UserIdField, value) != true)) {
-                    this.UserIdField = value;
-                    this.RaisePropertyChanged("UserId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string UserName {
-            get {
-                return this.UserNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
-                    this.UserNameField = value;
-                    this.RaisePropertyChanged("UserName");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="addrec", Namespace="http://schemas.datacontract.org/2004/07/PepuxService")]
     [System.SerializableAttribute()]
     public partial class addrec : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -1747,6 +1606,9 @@ namespace PepuxFront.IpServiceLink {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string positionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string samaccountnameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string sip_addField;
@@ -1811,6 +1673,19 @@ namespace PepuxFront.IpServiceLink {
                 if ((object.ReferenceEquals(this.positionField, value) != true)) {
                     this.positionField = value;
                     this.RaisePropertyChanged("position");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string samaccountname {
+            get {
+                return this.samaccountnameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.samaccountnameField, value) != true)) {
+                    this.samaccountnameField = value;
+                    this.RaisePropertyChanged("samaccountname");
                 }
             }
         }
@@ -1903,9 +1778,236 @@ namespace PepuxFront.IpServiceLink {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PhonebookDB", Namespace="http://schemas.datacontract.org/2004/07/PepuxService")]
+    [System.SerializableAttribute()]
+    public partial class PhonebookDB : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string H323AddField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Phone_extField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Phone_intField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Phone_mobField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PositionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SipAddField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SurnameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TimeZoneField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool locationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string samaccountnameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string H323Add {
+            get {
+                return this.H323AddField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.H323AddField, value) != true)) {
+                    this.H323AddField = value;
+                    this.RaisePropertyChanged("H323Add");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Phone_ext {
+            get {
+                return this.Phone_extField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Phone_extField, value) != true)) {
+                    this.Phone_extField = value;
+                    this.RaisePropertyChanged("Phone_ext");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Phone_int {
+            get {
+                return this.Phone_intField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Phone_intField, value) != true)) {
+                    this.Phone_intField = value;
+                    this.RaisePropertyChanged("Phone_int");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Phone_mob {
+            get {
+                return this.Phone_mobField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Phone_mobField, value) != true)) {
+                    this.Phone_mobField = value;
+                    this.RaisePropertyChanged("Phone_mob");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Position {
+            get {
+                return this.PositionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PositionField, value) != true)) {
+                    this.PositionField = value;
+                    this.RaisePropertyChanged("Position");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SipAdd {
+            get {
+                return this.SipAddField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SipAddField, value) != true)) {
+                    this.SipAddField = value;
+                    this.RaisePropertyChanged("SipAdd");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Surname {
+            get {
+                return this.SurnameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SurnameField, value) != true)) {
+                    this.SurnameField = value;
+                    this.RaisePropertyChanged("Surname");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TimeZone {
+            get {
+                return this.TimeZoneField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TimeZoneField, value) != true)) {
+                    this.TimeZoneField = value;
+                    this.RaisePropertyChanged("TimeZone");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool location {
+            get {
+                return this.locationField;
+            }
+            set {
+                if ((this.locationField.Equals(value) != true)) {
+                    this.locationField = value;
+                    this.RaisePropertyChanged("location");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string samaccountname {
+            get {
+                return this.samaccountnameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.samaccountnameField, value) != true)) {
+                    this.samaccountnameField = value;
+                    this.RaisePropertyChanged("samaccountname");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="IpServiceLink.IPService")]
     public interface IPService {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetADUsvrs", ReplyAction="http://tempuri.org/IPService/GetADUsvrsResponse")]
+        PepuxFront.IpServiceLink.ADUsers[] GetADUsvrs(string groupname);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetADUsvrs", ReplyAction="http://tempuri.org/IPService/GetADUsvrsResponse")]
+        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.ADUsers[]> GetADUsvrsAsync(string groupname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetActiveConfs", ReplyAction="http://tempuri.org/IPService/GetActiveConfsResponse")]
         PepuxFront.IpServiceLink.ActiveConfs[] GetActiveConfs();
@@ -1950,16 +2052,16 @@ namespace PepuxFront.IpServiceLink {
         System.Threading.Tasks.Task<PepuxFront.IpServiceLink.allrecords[]> VideorecordsAsync(string val);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetPhonebookUsers", ReplyAction="http://tempuri.org/IPService/GetPhonebookUsersResponse")]
-        PepuxFront.IpServiceLink.pbrec[] GetPhonebookUsers(string Uname);
+        PepuxFront.IpServiceLink.addrec[] GetPhonebookUsers();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetPhonebookUsers", ReplyAction="http://tempuri.org/IPService/GetPhonebookUsersResponse")]
-        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.pbrec[]> GetPhonebookUsersAsync(string Uname);
+        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec[]> GetPhonebookUsersAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/AddRecordsToPB", ReplyAction="http://tempuri.org/IPService/AddRecordsToPBResponse")]
-        PepuxFront.IpServiceLink.addrec AddRecordsToPB(string in_name);
+        PepuxFront.IpServiceLink.PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/AddRecordsToPB", ReplyAction="http://tempuri.org/IPService/AddRecordsToPBResponse")]
-        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec> AddRecordsToPBAsync(string in_name);
+        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.PhonebookDB> AddRecordsToPBAsync(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Authenticate", ReplyAction="http://tempuri.org/IPService/AuthenticateResponse")]
         bool Authenticate(string userName, string password, string domain);
@@ -1967,31 +2069,23 @@ namespace PepuxFront.IpServiceLink {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Authenticate", ReplyAction="http://tempuri.org/IPService/AuthenticateResponse")]
         System.Threading.Tasks.Task<bool> AuthenticateAsync(string userName, string password, string domain);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Groups", ReplyAction="http://tempuri.org/IPService/GroupsResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.ActiveConfs[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.ActiveConfs))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Service[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Service))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Phonebook[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Phonebook))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.participants[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.participants))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.AllVmrs[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.AllVmrs))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Aliasess[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.Aliasess))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.AutoPartis[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.AutoPartis))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.allrecords[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.allrecords))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.pbrec[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.pbrec))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PepuxFront.IpServiceLink.addrec))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        object[] Groups();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetPhBOw", ReplyAction="http://tempuri.org/IPService/GetPhBOwResponse")]
+        PepuxFront.IpServiceLink.addrec[] GetPhBOw(string OwName, string Group);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Groups", ReplyAction="http://tempuri.org/IPService/GroupsResponse")]
-        System.Threading.Tasks.Task<object[]> GroupsAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetPhBOw", ReplyAction="http://tempuri.org/IPService/GetPhBOwResponse")]
+        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec[]> GetPhBOwAsync(string OwName, string Group);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/DeleteRecFromDb", ReplyAction="http://tempuri.org/IPService/DeleteRecFromDbResponse")]
+        bool DeleteRecFromDb(int id, string ownm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/DeleteRecFromDb", ReplyAction="http://tempuri.org/IPService/DeleteRecFromDbResponse")]
+        System.Threading.Tasks.Task<bool> DeleteRecFromDbAsync(int id, string ownm);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetPB", ReplyAction="http://tempuri.org/IPService/GetPBResponse")]
+        PepuxFront.IpServiceLink.PhonebookDB[] GetPB();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetPB", ReplyAction="http://tempuri.org/IPService/GetPBResponse")]
+        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.PhonebookDB[]> GetPBAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -2019,6 +2113,14 @@ namespace PepuxFront.IpServiceLink {
         
         public PServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public PepuxFront.IpServiceLink.ADUsers[] GetADUsvrs(string groupname) {
+            return base.Channel.GetADUsvrs(groupname);
+        }
+        
+        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.ADUsers[]> GetADUsvrsAsync(string groupname) {
+            return base.Channel.GetADUsvrsAsync(groupname);
         }
         
         public PepuxFront.IpServiceLink.ActiveConfs[] GetActiveConfs() {
@@ -2077,20 +2179,20 @@ namespace PepuxFront.IpServiceLink {
             return base.Channel.VideorecordsAsync(val);
         }
         
-        public PepuxFront.IpServiceLink.pbrec[] GetPhonebookUsers(string Uname) {
-            return base.Channel.GetPhonebookUsers(Uname);
+        public PepuxFront.IpServiceLink.addrec[] GetPhonebookUsers() {
+            return base.Channel.GetPhonebookUsers();
         }
         
-        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.pbrec[]> GetPhonebookUsersAsync(string Uname) {
-            return base.Channel.GetPhonebookUsersAsync(Uname);
+        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec[]> GetPhonebookUsersAsync() {
+            return base.Channel.GetPhonebookUsersAsync();
         }
         
-        public PepuxFront.IpServiceLink.addrec AddRecordsToPB(string in_name) {
-            return base.Channel.AddRecordsToPB(in_name);
+        public PepuxFront.IpServiceLink.PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam) {
+            return base.Channel.AddRecordsToPB(in_name, in_surname, in_position, tel_int, tel_ext, tel_mob, h323_add, sip_add, timezone, group, OwNam);
         }
         
-        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec> AddRecordsToPBAsync(string in_name) {
-            return base.Channel.AddRecordsToPBAsync(in_name);
+        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.PhonebookDB> AddRecordsToPBAsync(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam) {
+            return base.Channel.AddRecordsToPBAsync(in_name, in_surname, in_position, tel_int, tel_ext, tel_mob, h323_add, sip_add, timezone, group, OwNam);
         }
         
         public bool Authenticate(string userName, string password, string domain) {
@@ -2101,12 +2203,28 @@ namespace PepuxFront.IpServiceLink {
             return base.Channel.AuthenticateAsync(userName, password, domain);
         }
         
-        public object[] Groups() {
-            return base.Channel.Groups();
+        public PepuxFront.IpServiceLink.addrec[] GetPhBOw(string OwName, string Group) {
+            return base.Channel.GetPhBOw(OwName, Group);
         }
         
-        public System.Threading.Tasks.Task<object[]> GroupsAsync() {
-            return base.Channel.GroupsAsync();
+        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec[]> GetPhBOwAsync(string OwName, string Group) {
+            return base.Channel.GetPhBOwAsync(OwName, Group);
+        }
+        
+        public bool DeleteRecFromDb(int id, string ownm) {
+            return base.Channel.DeleteRecFromDb(id, ownm);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteRecFromDbAsync(int id, string ownm) {
+            return base.Channel.DeleteRecFromDbAsync(id, ownm);
+        }
+        
+        public PepuxFront.IpServiceLink.PhonebookDB[] GetPB() {
+            return base.Channel.GetPB();
+        }
+        
+        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.PhonebookDB[]> GetPBAsync() {
+            return base.Channel.GetPBAsync();
         }
     }
 }
