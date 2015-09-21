@@ -1599,6 +1599,9 @@ namespace PepuxFront.IpServiceLink {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string groupField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string h323_addField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -1635,6 +1638,19 @@ namespace PepuxFront.IpServiceLink {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string group {
+            get {
+                return this.groupField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.groupField, value) != true)) {
+                    this.groupField = value;
+                    this.RaisePropertyChanged("group");
+                }
             }
         }
         
@@ -2070,10 +2086,10 @@ namespace PepuxFront.IpServiceLink {
         System.Threading.Tasks.Task<bool> AuthenticateAsync(string userName, string password, string domain);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetPhBOw", ReplyAction="http://tempuri.org/IPService/GetPhBOwResponse")]
-        PepuxFront.IpServiceLink.addrec[] GetPhBOw(string OwName, string Group);
+        PepuxFront.IpServiceLink.addrec[] GetPhBOw(string OwName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetPhBOw", ReplyAction="http://tempuri.org/IPService/GetPhBOwResponse")]
-        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec[]> GetPhBOwAsync(string OwName, string Group);
+        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec[]> GetPhBOwAsync(string OwName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/DeleteRecFromDb", ReplyAction="http://tempuri.org/IPService/DeleteRecFromDbResponse")]
         bool DeleteRecFromDb(int id, string ownm);
@@ -2203,12 +2219,12 @@ namespace PepuxFront.IpServiceLink {
             return base.Channel.AuthenticateAsync(userName, password, domain);
         }
         
-        public PepuxFront.IpServiceLink.addrec[] GetPhBOw(string OwName, string Group) {
-            return base.Channel.GetPhBOw(OwName, Group);
+        public PepuxFront.IpServiceLink.addrec[] GetPhBOw(string OwName) {
+            return base.Channel.GetPhBOw(OwName);
         }
         
-        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec[]> GetPhBOwAsync(string OwName, string Group) {
-            return base.Channel.GetPhBOwAsync(OwName, Group);
+        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec[]> GetPhBOwAsync(string OwName) {
+            return base.Channel.GetPhBOwAsync(OwName);
         }
         
         public bool DeleteRecFromDb(int id, string ownm) {

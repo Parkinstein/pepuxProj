@@ -1,7 +1,7 @@
 ﻿@using System.ServiceModel.Configuration
 @using Microsoft.Ajax.Utilities
 @using PepuxFront.Controllers
-@model PepuxFront.IpServiceLink.ActiveConfs
+@model PepuxFront.IpServiceLink.addrec
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -64,7 +64,7 @@
             "paging": false,
             "autoWidth": false,
             "processing": true,
-            "order": [[7, 'asc']],
+            "order": [[5, 'asc']],
             "lengthChange": false,
             "serverSide": true,
 
@@ -78,7 +78,7 @@
             "columns": [
                 { "data": "name", "searchable": true},
                 { "data": "surname", "searchable": true },
-                { "data": "postion", "searchable": false },
+                { "data": "position", "searchable": false },
                 { "data": "tel_int", "searchable": false },
                 { "data": "tel_ext", "searchable": false },
                 { "data": "tel_mob", "searchable": false },
@@ -96,7 +96,7 @@
                 var rows = api.rows( {page:'current'} ).nodes();
                 var last=null;
 
-                api.column(2, {page:'current'} ).data().each( function ( group, i ) {
+                api.column(7, {page:'current'} ).data().each( function ( group, i ) {
                     if ( last !== group ) {
                         $(rows).eq( i ).before(
                             '<tr class="group"><td colspan="10">'+group+'</td></tr>'

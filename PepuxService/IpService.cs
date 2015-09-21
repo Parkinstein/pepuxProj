@@ -41,7 +41,7 @@ namespace PepuxService
         [OperationContract]
          bool Authenticate(string userName,string password, string domain);
         [OperationContract]
-        List<PBPlusrecord> GetPhBOw(string OwName, string Group);
+        List<PBPlusrecord> GetPhBOw(string OwName);
         [OperationContract]
         bool DeleteRecFromDb(int id, string ownm);
 
@@ -492,6 +492,8 @@ namespace PepuxService
         public string sip_add { get; set; }
         [DataMember]
         public string h323_add { get; set; }
+        [DataMember]
+        public string group { get; set; }
     }
     #endregion
 

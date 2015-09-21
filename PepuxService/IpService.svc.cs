@@ -622,11 +622,10 @@ namespace PepuxService
             return authentic;
         }
 
-        public List<PBPlusrecord> GetPhBOw(string OwName, string Group) //get phonebook filtered
+        public List<PBPlusrecord> GetPhBOw(string OwName) //get phonebook
         {
             ServiceDataContext db = new ServiceDataContext();
             List<PBPlusrecord> selrec = new List<PBPlusrecord>();
-            List<PBPlusrecord> selrec2 = new List<PBPlusrecord>();
             var selectets = db.PrivatePhBs.Where(m => m.OwSAN == OwName);
             foreach (var sel in selectets)
             {
@@ -641,32 +640,16 @@ namespace PepuxService
                 temp.h323_add = srec.H323Add;
                 temp.sip_add = srec.SipAdd;
                 temp.timezone = srec.TimeZone;
+                if (String.IsNullOrEmpty(sel.Group))
+                {
+                    temp.group = "Не назначена";
+                }
+                temp.group = sel.Group;
+                
                 selrec.Add(temp);
                 
             }
-            if (String.IsNullOrEmpty(Group))
-                return selrec;
-            if (!String.IsNullOrEmpty(Group))
-                {
-                    var gr_selectets = selectets.Where(m => m.Group == Group);
-
-                    foreach (var grsel in gr_selectets)
-                    {
-                        PBPlusrecord temp = new PBPlusrecord();
-                        var srec = db.PhonebookDBs.FirstOrDefault(m => m.Id == grsel.IdREC);
-                        temp.name = srec.Name;
-                        temp.surname = srec.Surname;
-                        temp.position = srec.Position;
-                        temp.tel_int = srec.Phone_int;
-                        temp.tel_ext = srec.Phone_ext;
-                        temp.tel_mob = srec.Phone_mob;
-                        temp.h323_add = srec.H323Add;
-                        temp.sip_add = srec.SipAdd;
-                        temp.timezone = srec.TimeZone;
-                        selrec2.Add(temp);
-                    }
-                    selrec = selrec2;
-                }
+            
             return selrec;
         }
     }

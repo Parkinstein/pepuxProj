@@ -20,6 +20,7 @@ namespace PepuxFront.Models
             public string timezone { get; set; }
             public string sip_add { get; set; }
             public string h323_add { get; set; }
+            public string group { get; set; }
         }
         public class DTResult
         {
