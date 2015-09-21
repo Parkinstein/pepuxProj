@@ -6,6 +6,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="@Url.Content("~/Scripts/DataTables/datatables.select.js")"></script>
 
 <div class="control_grid">
     <table id="table_pb" class="display">
@@ -54,14 +55,11 @@
 <script type="text/javascript">
     var oPhonebookTable;
     var oDomainusersTable;
-    var events = $('#events');
 
     function refresh() {
         if (oPhonebookTable != null)
             oPhonebookTable.ajax.reload();
     };
-
-    setInterval("refresh()", 100000);
 
     $(document).ready(function() {
         oPhonebookTable = $('#table_pb').DataTable({
@@ -71,31 +69,33 @@
             "autoWidth": false,
             "processing": true,
             "order": [[8, 'asc']],
+            "pageLength": 30,
             "lengthChange": false,
             "serverSide": true,
             "select": {
-                "style": 'multi'
+                "style": 'multi',
             },
+            rowId: 'surname',
 
             "ajax": {
                 "type": "POST",
-                "url": "/Phonebook/Phonebook_Ajax?Uname=@AccountController.Uname",
+                "url": "/Phonebook/Phonebook_Ajax",
                 "contentType": 'application/json; charset=utf-8',
                 "data": function(data) { return data = JSON.stringify(data); }
             },
 
             "columns": [
-                { "data": "name", "searchable": true },
-                { "data": "surname", "searchable": true },
+                { "data": "name" },
+                { "data": "surname", "searchable": false },
                 { "data": "postion", "searchable": false },
                 { "data": "tel_int", "searchable": false },
                 { "data": "tel_ext", "searchable": false },
                 { "data": "tel_mob", "searchable": false },
-                { "data": "email", "searchable": true },
+                { "data": "email", "searchable": false },
                 { "data": "timezone", "searchable": false },
                 { "data": "group", "searchable": false },
                 { "data": "sip_add", "searchable": false },
-                { "data": "h323_add", "searchable": false }
+                { "data": "h323_add", "searchable": false },
             ],
             "columnDefs": [
                 { "visible": true, "targets": 7 }
@@ -147,7 +147,7 @@
         var arrayToDelete = JSON.stringify(oPhonebookTable.cells({ selected: true}, 0, { page: 'current' }).data());
         if (arrayToDelete !== '') {
             $.ajax({
-                url: '/Phonebook/Phonebook_Delete',
+                url: '/Phonebook/Delete?Uname=@AccountController.Uname',
                 type: 'POST',
                 data: arrayToDelete,
             });
@@ -156,8 +156,7 @@
     };
 
     function add_pb_users() {
-        //var arrayToAdd = JSON.stringify(oDomainusersTable.cells('.selected', 0).data());
-        var arrayToAdd;
+        var arrayToAdd = JSON.stringify(oPhonebookTable.cells({ selected: true }, 0, { page: 'current' }).data());
         if (arrayToAdd !== '') {
             $.ajax({
                 url: '/Phonebook/Phonebook_Add',
@@ -190,24 +189,26 @@
             "autoWidth": false,
             "processing": true,
             "lengthChange": false,
+            "order": [[1, 'asc']],
+            "pageLength": 30,
             "serverSide": true,
             "select": {
-                "style": 'multi'
+                "style": 'multi',
             },
 
             "ajax": {
                 "type": "POST",
-                "url": "/Phonebook/Phonebook?",
+                "url": "/Phonebook/PhonebookAll_Ajax",
                 "contentType": 'application/json; charset=utf-8',
-                "data": function (data) { return data = JSON.stringify(data); }
+                "data": function(data) { return data = JSON.stringify(data); }
             },
 
             "columns": [
-                { "data": "name", "searchable": true },
-                { "data": "surname", "searchable": true },
-                { "data": "postion", "searchable": false },
-                { "data": "tel_int", "searchable": false },
-                { "data": "email", "searchable": true },
+                { "data": "Name" },
+                { "data": "Surname", "searchable": false },
+                { "data": "Position", "searchable": false },
+                { "data": "Phone_int", "searchable": false },
+                //{ "data": "Email" },
             ],
 
             "language": {
@@ -232,8 +233,7 @@
                     "sortDescending": ": активировать для сортировки столбца по убыванию"
                 }
             },
-            "order": [[1, 'asc']],
-            "pageLength": 30
+
         });
     };
 </script>

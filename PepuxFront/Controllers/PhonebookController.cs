@@ -16,39 +16,37 @@ namespace PepuxFront.Controllers
 {
     public class PhonebookController : Controller
     {
-        //public ActionResult Phonebook_Ajax(Phonebook.DTResult param, string Uname)
-        //{
-        //    IEnumerable<Phonebook> filteredresult;
+        // GET: Phonebook view
+        public ActionResult Phonebook()
+        {
+            return View();
+        }
 
-        //    if (!string.IsNullOrEmpty(param.Search.Value))
-        //    {
-        //        filteredresult = GetData(Uname).Where(c => (c.UserName.Contains(param.Search.Value) || c.AdName.Contains(param.Search.Value)));
-        //    }
-        //    else
-        //    {
-        //        filteredresult = GetData(Uname);
-        //    }
 
-        //    return Json(new
-        //    {
-        //        recordsTotal = GetData(Uname).Count(),
-        //        recordsFiltered = filteredresult.Count(),
-        //        data = filteredresult,
-        //    }, JsonRequestBehavior.AllowGet);
-        //}
-        
-        //private ActionResult Phonebook_Ajax([DataSourceRequest]DataSourceRequest request)
-        //{
-        //    using (var allrecs = new PServiceClient())
-        //    {
+        //Get Full Phonebook
+        public ActionResult PhonebookAll_Ajax(Phonebook.DTResult param)
+        {
+            IEnumerable<IpServiceLink.PhonebookDB> filteredresult = GetAllPB();
 
-        //        IQueryable<addrec> recs = allrecs.GetPhBOw(AccountController.SAMUname,null).AsQueryable();
+            if (!string.IsNullOrEmpty(param.Search.Value))
+            {
+                filteredresult = GetAllPB().Where(c => (c.Surname.Contains(param.Search.Value) || c.Name.Contains(param.Search.Value) || c.Phone_int.Contains(param.Search.Value) || c.Phone_ext.Contains(param.Search.Value)));
+            }
+            else
+            {
+                filteredresult = GetAllPB();
+            }
 
-        //        DataSourceResult result = recs.ToDataSourceResult(request);
+            return Json(new
+            {
+                recordsTotal = GetAllPB().Count(),
+                recordsFiltered = filteredresult.Count(),
+                data = filteredresult,
+            }, JsonRequestBehavior.AllowGet);
+        }
 
-        //        return Json(result, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+
+        //Get Personal Phonebook
         public ActionResult Phonebook_Ajax(Phonebook.DTResult param)
         {
             IEnumerable<IpServiceLink.addrec> filteredresult = GetPB();
@@ -69,13 +67,13 @@ namespace PepuxFront.Controllers
                 data = filteredresult,
             }, JsonRequestBehavior.AllowGet);
         }
-        // GET: Phonebook
-        public ActionResult Phonebook()
-        {
-            
-            return View();
-        }
 
+
+        // Add Phonebook records method
+
+
+
+        // Delete Phonebook records method
         public void Delete(int[] ids, string owner)
         {
             IpServiceLink.PServiceClient act = new PServiceClient();
@@ -91,19 +89,22 @@ namespace PepuxFront.Controllers
             }
             ViewBag.DeletedRecs = String.Format("Удалено {0} записей", i);
         }
-        private IEnumerable<IpServiceLink.addrec> GetPB()
-        {
-            IpServiceLink.PServiceClient obj = new PServiceClient();
-            var data = obj.GetPhBOw(AccountController.SAMUname);
 
-            return data;
-        }
 
+        // Get full phonebook from service
         private IEnumerable<IpServiceLink.PhonebookDB> GetAllPB()
         {
             IpServiceLink.PServiceClient obj = new PServiceClient();
             var data = obj.GetPB();
+            return data;
+        }
 
+
+        // Get personal phonebook from service
+        private IEnumerable<IpServiceLink.addrec> GetPB()
+        {
+            IpServiceLink.PServiceClient obj = new PServiceClient();
+            var data = obj.GetPhBOw(AccountController.SAMUname);
             return data;
         }
     }
