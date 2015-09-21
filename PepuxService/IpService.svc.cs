@@ -640,11 +640,15 @@ namespace PepuxService
                 temp.h323_add = srec.H323Add;
                 temp.sip_add = srec.SipAdd;
                 temp.timezone = srec.TimeZone;
+                if (!String.IsNullOrEmpty(sel.Group))
+                {
+                    temp.group = sel.Group;
+                }
                 if (String.IsNullOrEmpty(sel.Group))
                 {
                     temp.group = "Не назначена";
                 }
-                temp.group = sel.Group;
+                
                 
                 selrec.Add(temp);
                 
