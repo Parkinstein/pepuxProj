@@ -51,16 +51,16 @@ namespace PepuxFront.Controllers
         //}
         public ActionResult Phonebook_Ajax(Phonebook.DTResult param)
         {
-            IEnumerable<IpServiceLink.addrec> filteredresult = GetPB(); 
+            IEnumerable<IpServiceLink.addrec> filteredresult = GetPB();
 
-            //if (!string.IsNullOrEmpty(param.Search.Value))
-            //{
-            //    filteredresult = GetPB().Where(c => c.Name.Contains(param.Search.Value));
-            //}
-            //else
-            //{
-            //    filteredresult = GetPB();
-            //}
+            if (!string.IsNullOrEmpty(param.Search.Value))
+            {
+                filteredresult = GetPB().Where(c => c.surname.Contains(param.Search.Value));
+            }
+            else
+            {
+                filteredresult = GetPB();
+            }
 
             return Json(new
             {
@@ -76,10 +76,20 @@ namespace PepuxFront.Controllers
             return View();
         }
 
-        public ActionResult Delete(int id)
+        public void Delete(int[] ids, string owner)
         {
-            Debug.WriteLine(id);
-            return null;
+            IpServiceLink.PServiceClient act = new PServiceClient();
+            int i = 0;
+            foreach (var id in ids)
+            {
+                try
+                {
+                    i++;
+                    act.DeleteRecFromDb(id, owner);
+                }
+                catch(Exception ex) { Debug.WriteLine(ex.Message);}
+            }
+            ViewBag.DeletedRecs = String.Format("Удалено {0} записей", i);
         }
         private IEnumerable<IpServiceLink.addrec> GetPB()
         {

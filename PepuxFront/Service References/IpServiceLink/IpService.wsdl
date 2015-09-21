@@ -85,6 +85,12 @@
   <wsdl:message name="IPService_DeleteRecFromDb_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeleteRecFromDbResponse" />
   </wsdl:message>
+  <wsdl:message name="IPService_addUserToPrivat_InputMessage">
+    <wsdl:part name="parameters" element="tns:addUserToPrivat" />
+  </wsdl:message>
+  <wsdl:message name="IPService_addUserToPrivat_OutputMessage">
+    <wsdl:part name="parameters" element="tns:addUserToPrivatResponse" />
+  </wsdl:message>
   <wsdl:message name="IPService_GetPB_InputMessage">
     <wsdl:part name="parameters" element="tns:GetPB" />
   </wsdl:message>
@@ -143,6 +149,10 @@
     <wsdl:operation name="DeleteRecFromDb">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/DeleteRecFromDb" message="tns:IPService_DeleteRecFromDb_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPService/DeleteRecFromDbResponse" message="tns:IPService_DeleteRecFromDb_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="addUserToPrivat">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPService/addUserToPrivat" message="tns:IPService_addUserToPrivat_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPService/addUserToPrivatResponse" message="tns:IPService_addUserToPrivat_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetPB">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetPB" message="tns:IPService_GetPB_InputMessage" />
@@ -261,6 +271,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteRecFromDb">
       <soap:operation soapAction="http://tempuri.org/IPService/DeleteRecFromDb" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addUserToPrivat">
+      <soap:operation soapAction="http://tempuri.org/IPService/addUserToPrivat" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

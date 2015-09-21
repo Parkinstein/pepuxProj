@@ -2113,6 +2113,12 @@ namespace PepuxFront.IpServiceLink {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/DeleteRecFromDb", ReplyAction="http://tempuri.org/IPService/DeleteRecFromDbResponse")]
         System.Threading.Tasks.Task<bool> DeleteRecFromDbAsync(int id, string ownm);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/addUserToPrivat", ReplyAction="http://tempuri.org/IPService/addUserToPrivatResponse")]
+        bool addUserToPrivat(string Owner, int IdRec, string Group);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/addUserToPrivat", ReplyAction="http://tempuri.org/IPService/addUserToPrivatResponse")]
+        System.Threading.Tasks.Task<bool> addUserToPrivatAsync(string Owner, int IdRec, string Group);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetPB", ReplyAction="http://tempuri.org/IPService/GetPBResponse")]
         PepuxFront.IpServiceLink.PhonebookDB[] GetPB();
         
@@ -2249,6 +2255,14 @@ namespace PepuxFront.IpServiceLink {
         
         public System.Threading.Tasks.Task<bool> DeleteRecFromDbAsync(int id, string ownm) {
             return base.Channel.DeleteRecFromDbAsync(id, ownm);
+        }
+        
+        public bool addUserToPrivat(string Owner, int IdRec, string Group) {
+            return base.Channel.addUserToPrivat(Owner, IdRec, Group);
+        }
+        
+        public System.Threading.Tasks.Task<bool> addUserToPrivatAsync(string Owner, int IdRec, string Group) {
+            return base.Channel.addUserToPrivatAsync(Owner, IdRec, Group);
         }
         
         public PepuxFront.IpServiceLink.PhonebookDB[] GetPB() {

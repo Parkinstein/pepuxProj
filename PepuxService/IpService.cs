@@ -44,7 +44,8 @@ namespace PepuxService
         List<PBPlusrecord> GetPhBOw(string OwName);
         [OperationContract]
         bool DeleteRecFromDb(int id, string ownm);
-
+        [OperationContract]
+        bool addUserToPrivat(string Owner, int IdRec, string Group);
         [OperationContract]
         List<PhonebookDB> GetPB();
     }
