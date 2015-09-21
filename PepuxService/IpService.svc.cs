@@ -570,6 +570,28 @@ namespace PepuxService
             }
         }
 
+        public bool addUserToPrivat(string Owner, int IdRec, string Group)
+        {
+            ServiceDataContext db = new ServiceDataContext();
+            
+                PrivatePhB newrecpriv = new PrivatePhB();
+                newrecpriv.OwSAN = Owner;
+                newrecpriv.IdREC = IdRec;
+                newrecpriv.Group = Group;
+                db.PrivatePhBs.InsertOnSubmit(newrecpriv);
+            
+            try
+            {
+                db.SubmitChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
         public List<PhonebookDB> GetPB()
         {
             ServiceDataContext db = new ServiceDataContext();
@@ -658,7 +680,7 @@ namespace PepuxService
                 }
                 if (String.IsNullOrEmpty(sel.Group))
                 {
-                    temp.group = "Не назначена";
+                    temp.group = "Группа не назначена";
                 }
                 
                 

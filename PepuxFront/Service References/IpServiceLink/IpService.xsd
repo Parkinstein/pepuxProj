@@ -190,6 +190,22 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="addUserToPrivat">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Owner" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdRec" type="xs:int" />
+        <xs:element minOccurs="0" name="Group" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="addUserToPrivatResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="addUserToPrivatResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetPB">
     <xs:complexType>
       <xs:sequence />
