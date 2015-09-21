@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -36,17 +37,37 @@ namespace PepuxFront.Controllers
         //    }, JsonRequestBehavior.AllowGet);
         //}
         
-        private ActionResult Phonebook_Ajax([DataSourceRequest]DataSourceRequest request)
+        //private ActionResult Phonebook_Ajax([DataSourceRequest]DataSourceRequest request)
+        //{
+        //    using (var allrecs = new PServiceClient())
+        //    {
+
+        //        IQueryable<addrec> recs = allrecs.GetPhBOw(AccountController.SAMUname,null).AsQueryable();
+
+        //        DataSourceResult result = recs.ToDataSourceResult(request);
+
+        //        return Json(result, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+        public ActionResult Phonebook_Ajax(Phonebook.DTResult param)
         {
-            using (var allrecs = new PServiceClient())
+            IEnumerable<IpServiceLink.addrec> filteredresult = GetPB(); 
+
+            //if (!string.IsNullOrEmpty(param.Search.Value))
+            //{
+            //    filteredresult = GetPB().Where(c => c.Name.Contains(param.Search.Value));
+            //}
+            //else
+            //{
+            //    filteredresult = GetPB();
+            //}
+
+            return Json(new
             {
-
-                IQueryable<addrec> recs = allrecs.GetPhBOw(AccountController.SAMUname,null).AsQueryable();
-
-                DataSourceResult result = recs.ToDataSourceResult(request);
-
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
+                recordsTotal = GetPB().Count(),
+                recordsFiltered = filteredresult.Count(),
+                data = filteredresult,
+            }, JsonRequestBehavior.AllowGet);
         }
         // GET: Phonebook
         public ActionResult Phonebook()
@@ -59,6 +80,13 @@ namespace PepuxFront.Controllers
         {
             Debug.WriteLine(id);
             return null;
+        }
+        private IEnumerable<IpServiceLink.addrec> GetPB()
+        {
+            IpServiceLink.PServiceClient obj = new PServiceClient();
+            var data = obj.GetPhBOw(AccountController.SAMUname);
+
+            return data;
         }
     }
 }

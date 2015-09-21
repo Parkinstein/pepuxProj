@@ -2063,6 +2063,9 @@
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.addrec.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.ADUsers.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.allrecords.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -2072,13 +2075,10 @@
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.participants.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.Service.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.ADUsers.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.PhonebookDB.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.Service.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Service References\IpServiceLink\Reference.svcmap">
@@ -2132,10 +2132,10 @@
     <None Include="Service References\IpServiceLink\IpService.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\IpServiceLink\IpService2.xsd">
+    <None Include="Service References\IpServiceLink\IpService1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\IpServiceLink\IpService3.xsd">
+    <None Include="Service References\IpServiceLink\IpService2.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

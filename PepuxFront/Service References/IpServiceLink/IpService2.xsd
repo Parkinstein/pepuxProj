@@ -1,206 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:10789/IpService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/PepuxService" />
-  <xs:element name="GetADUsvrs">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="groupname" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetADUsvrsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetADUsvrsResult" nillable="true" type="q1:ArrayOfADUsers" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetActiveConfs">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetActiveConfsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetActiveConfsResult" nillable="true" type="q2:ArrayOfActiveConfs" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetDataLocal">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetDataLocalResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetDataLocalResult" nillable="true" type="q3:ArrayOfService" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetActiveParts">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="confname" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetActivePartsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetActivePartsResult" nillable="true" type="q4:ArrayOfparticipants" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetVmrList">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetVmrListResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetVmrListResult" nillable="true" type="q5:ArrayOfAllVmrs" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetToken">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="confname" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="dispname" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetTokenResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="GetTokenResult" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="Token_refresh">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="confname" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="old_token" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="Token_refreshResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="Token_refreshResult" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="Videorecords">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="val" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="VideorecordsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="VideorecordsResult" nillable="true" type="q6:ArrayOfallrecords" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetPhonebookUsers">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetPhonebookUsersResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetPhonebookUsersResult" nillable="true" type="q7:ArrayOfaddrec" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AddRecordsToPB">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="in_name" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="in_surname" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="in_position" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="tel_int" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="tel_ext" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="tel_mob" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="h323_add" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="sip_add" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="timezone" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="group" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="OwNam" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AddRecordsToPBResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="AddRecordsToPBResult" nillable="true" type="q8:PhonebookDB" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="Authenticate">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="domain" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AuthenticateResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="AuthenticateResult" type="xs:boolean" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetPhBOw">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="OwName" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="Group" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetPhBOwResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetPhBOwResult" nillable="true" type="q9:ArrayOfaddrec" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="DeleteRecFromDb">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="id" type="xs:int" />
-        <xs:element minOccurs="0" name="ownm" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="DeleteRecFromDbResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="DeleteRecFromDbResult" type="xs:boolean" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetPB">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetPBResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetPBResult" nillable="true" type="q10:ArrayOfPhonebookDB" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/PepuxService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/PepuxService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfADUsers">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ADUsers" nillable="true" type="tns:ADUsers" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfADUsers" nillable="true" type="tns:ArrayOfADUsers" />
+  <xs:complexType name="ADUsers">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DisplayName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Group" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ADUsers" nillable="true" type="tns:ADUsers" />
+  <xs:complexType name="ArrayOfActiveConfs">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ActiveConfs" nillable="true" type="tns:ActiveConfs" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfActiveConfs" nillable="true" type="tns:ArrayOfActiveConfs" />
+  <xs:complexType name="ActiveConfs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="is_locked" type="xs:boolean" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="resource_uri" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="service_type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="start_time" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="start_time2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="tag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="lock_path" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ActiveConfs" nillable="true" type="tns:ActiveConfs" />
+  <xs:complexType name="ArrayOfService">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Service" nillable="true" type="tns:Service" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfService" nillable="true" type="tns:ArrayOfService" />
+  <xs:complexType name="Service">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AdName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Role" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Service" nillable="true" type="tns:Service" />
+  <xs:complexType name="ArrayOfparticipants">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="participants" nillable="true" type="tns:participants" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfparticipants" nillable="true" type="tns:ArrayOfparticipants" />
+  <xs:complexType name="participants">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bandwidth" type="xs:int" />
+      <xs:element minOccurs="0" name="call_direction" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="call_uuid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="conference" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="connect_time" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="destination_alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="display_name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="encryption" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="has_media" type="xs:boolean" />
+      <xs:element minOccurs="0" name="id" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="is_muted" type="xs:boolean" />
+      <xs:element minOccurs="0" name="is_on_hold" type="xs:boolean" />
+      <xs:element minOccurs="0" name="is_presentation_supported" type="xs:boolean" />
+      <xs:element minOccurs="0" name="is_presenting" type="xs:boolean" />
+      <xs:element minOccurs="0" name="is_streaming" type="xs:boolean" />
+      <xs:element minOccurs="0" name="license_count" type="xs:int" />
+      <xs:element minOccurs="0" name="media_node" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="parent_id" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="participant_alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="protocol" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="remote_address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="remote_port" type="xs:int" />
+      <xs:element minOccurs="0" name="resource_uri" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="role" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="service_tag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="service_type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="signalling_node" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="source_alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="system_location" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="vendor" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="participants" nillable="true" type="tns:participants" />
+  <xs:complexType name="ArrayOfAllVmrs">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AllVmrs" nillable="true" type="tns:AllVmrs" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAllVmrs" nillable="true" type="tns:ArrayOfAllVmrs" />
+  <xs:complexType name="AllVmrs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aliases" nillable="true" type="tns:ArrayOfAliasess" />
+      <xs:element minOccurs="0" name="allow_guests" type="xs:boolean" />
+      <xs:element minOccurs="0" name="automatic_participants" nillable="true" type="tns:ArrayOfAutoPartis" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="force_presenter_into_main" type="xs:boolean" />
+      <xs:element minOccurs="0" name="guest_pin" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="guest_view" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="host_view" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="ivr_theme" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="max_callrate_in" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="max_callrate_out" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="participant_limit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="pin" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="resource_uri" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="service_type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sync_tag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="tag" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AllVmrs" nillable="true" type="tns:AllVmrs" />
+  <xs:complexType name="ArrayOfAliasess">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Aliasess" nillable="true" type="tns:Aliasess" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAliasess" nillable="true" type="tns:ArrayOfAliasess" />
+  <xs:complexType name="Aliasess">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="conference" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Aliasess" nillable="true" type="tns:Aliasess" />
+  <xs:complexType name="ArrayOfAutoPartis">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AutoPartis" nillable="true" type="tns:AutoPartis" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAutoPartis" nillable="true" type="tns:ArrayOfAutoPartis" />
+  <xs:complexType name="AutoPartis">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="dtmf_sequence" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="protocol" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="role" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="streaming" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AutoPartis" nillable="true" type="tns:AutoPartis" />
+  <xs:complexType name="ArrayOfallrecords">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="allrecords" nillable="true" type="tns:allrecords" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfallrecords" nillable="true" type="tns:ArrayOfallrecords" />
+  <xs:complexType name="allrecords">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="Conf" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tstart" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Tfinish" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Link" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="allrecords" nillable="true" type="tns:allrecords" />
+  <xs:complexType name="ArrayOfaddrec">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="addrec" nillable="true" type="tns:addrec" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfaddrec" nillable="true" type="tns:ArrayOfaddrec" />
+  <xs:complexType name="addrec">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="group" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="h323_add" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="position" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="samaccountname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sip_add" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="surname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="tel_ext" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="tel_int" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="tel_mob" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="timezone" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="addrec" nillable="true" type="tns:addrec" />
+  <xs:complexType name="PhonebookDB">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="H323Add" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Phone_ext" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Phone_int" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Phone_mob" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Position" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SipAdd" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TimeZone" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="location" type="xs:boolean" />
+      <xs:element minOccurs="0" name="samaccountname" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PhonebookDB" nillable="true" type="tns:PhonebookDB" />
+  <xs:complexType name="ArrayOfPhonebookDB">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PhonebookDB" nillable="true" type="tns:PhonebookDB" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPhonebookDB" nillable="true" type="tns:ArrayOfPhonebookDB" />
 </xs:schema>

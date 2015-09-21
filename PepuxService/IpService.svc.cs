@@ -485,6 +485,7 @@ namespace PepuxService
         {
             ServiceDataContext db = new ServiceDataContext();
             var temp_list = new List<string>();
+            var id_list = new List<int>();
             List<PBPlusrecord> allr = new List<PBPlusrecord>();
             var NameQuery =
                     from samaccountname in db.PhonebookDBs
@@ -496,8 +497,8 @@ namespace PepuxService
                     if ((!adusList.Exists(x => x.samaccountname == customer.samaccountname) && !customer.location))
                     {
                         temp_list.Add(customer.samaccountname);
+                        id_list.Add(customer.Id);
                     }
-                    Debug.WriteLine("Все уже есть");
                 }
                 foreach (var stroke in temp_list)
                 {
@@ -506,9 +507,19 @@ namespace PepuxService
                         where samaccountname.samaccountname == stroke
                         select samaccountname;
                     db.PhonebookDBs.DeleteOnSubmit(deleteUsers.First());
-                    db.SubmitChanges();
+                    
+                    
                 }
-                
+                foreach (var ids in id_list)
+                {
+                    var deleteRecs =
+                        from Id in db.PrivatePhBs
+                        where Id.IdREC == ids
+                        select Id;
+                    db.PrivatePhBs.DeleteOnSubmit(deleteRecs.First());
+                }
+                db.SubmitChanges();
+
             }
             
                 foreach (var adus in adusList)
@@ -622,16 +633,16 @@ namespace PepuxService
             return authentic;
         }
 
-        public List<PBPlusrecord> GetPhBOw(string OwName, string Group) //get phonebook filtered
+        public List<PBPlusrecord> GetPhBOw(string OwName) //get phonebook
         {
             ServiceDataContext db = new ServiceDataContext();
             List<PBPlusrecord> selrec = new List<PBPlusrecord>();
-            List<PBPlusrecord> selrec2 = new List<PBPlusrecord>();
             var selectets = db.PrivatePhBs.Where(m => m.OwSAN == OwName);
             foreach (var sel in selectets)
             {
                 PBPlusrecord temp = new PBPlusrecord();
                 var srec = db.PhonebookDBs.FirstOrDefault(m => m.Id == sel.IdREC);
+                temp.id = srec.Id;
                 temp.name = srec.Name;
                 temp.surname = srec.Surname;
                 temp.position = srec.Position;
@@ -641,32 +652,20 @@ namespace PepuxService
                 temp.h323_add = srec.H323Add;
                 temp.sip_add = srec.SipAdd;
                 temp.timezone = srec.TimeZone;
+                if (!String.IsNullOrEmpty(sel.Group))
+                {
+                    temp.group = sel.Group;
+                }
+                if (String.IsNullOrEmpty(sel.Group))
+                {
+                    temp.group = "Не назначена";
+                }
+                
+                
                 selrec.Add(temp);
                 
             }
-            if (String.IsNullOrEmpty(Group))
-                return selrec;
-            if (!String.IsNullOrEmpty(Group))
-                {
-                    var gr_selectets = selectets.Where(m => m.Group == Group);
-
-                    foreach (var grsel in gr_selectets)
-                    {
-                        PBPlusrecord temp = new PBPlusrecord();
-                        var srec = db.PhonebookDBs.FirstOrDefault(m => m.Id == grsel.IdREC);
-                        temp.name = srec.Name;
-                        temp.surname = srec.Surname;
-                        temp.position = srec.Position;
-                        temp.tel_int = srec.Phone_int;
-                        temp.tel_ext = srec.Phone_ext;
-                        temp.tel_mob = srec.Phone_mob;
-                        temp.h323_add = srec.H323Add;
-                        temp.sip_add = srec.SipAdd;
-                        temp.timezone = srec.TimeZone;
-                        selrec2.Add(temp);
-                    }
-                    selrec = selrec2;
-                }
+            
             return selrec;
         }
     }
