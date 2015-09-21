@@ -883,7 +883,7 @@ footer {
 }
 .dataTables_wrapper {
     width: 100%;
-    height: 95%;
+    height: auto;
     padding: 10px;
     background-color: #fff;
     font-size: 1em;
