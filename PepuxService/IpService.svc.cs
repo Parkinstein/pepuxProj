@@ -485,6 +485,7 @@ namespace PepuxService
         {
             ServiceDataContext db = new ServiceDataContext();
             var temp_list = new List<string>();
+            var id_list = new List<int>();
             List<PBPlusrecord> allr = new List<PBPlusrecord>();
             var NameQuery =
                     from samaccountname in db.PhonebookDBs
@@ -496,8 +497,8 @@ namespace PepuxService
                     if ((!adusList.Exists(x => x.samaccountname == customer.samaccountname) && !customer.location))
                     {
                         temp_list.Add(customer.samaccountname);
+                        id_list.Add(customer.Id);
                     }
-                    Debug.WriteLine("Все уже есть");
                 }
                 foreach (var stroke in temp_list)
                 {
@@ -506,9 +507,19 @@ namespace PepuxService
                         where samaccountname.samaccountname == stroke
                         select samaccountname;
                     db.PhonebookDBs.DeleteOnSubmit(deleteUsers.First());
-                    db.SubmitChanges();
+                    
+                    
                 }
-                
+                foreach (var ids in id_list)
+                {
+                    var deleteRecs =
+                        from Id in db.PrivatePhBs
+                        where Id.IdREC == ids
+                        select Id;
+                    db.PrivatePhBs.DeleteOnSubmit(deleteRecs.First());
+                }
+                db.SubmitChanges();
+
             }
             
                 foreach (var adus in adusList)
@@ -631,6 +642,7 @@ namespace PepuxService
             {
                 PBPlusrecord temp = new PBPlusrecord();
                 var srec = db.PhonebookDBs.FirstOrDefault(m => m.Id == sel.IdREC);
+                temp.id = srec.Id;
                 temp.name = srec.Name;
                 temp.surname = srec.Surname;
                 temp.position = srec.Position;

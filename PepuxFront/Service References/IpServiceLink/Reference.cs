@@ -1605,6 +1605,9 @@ namespace PepuxFront.IpServiceLink {
         private string h323_addField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int idField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string nameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -1663,6 +1666,19 @@ namespace PepuxFront.IpServiceLink {
                 if ((object.ReferenceEquals(this.h323_addField, value) != true)) {
                     this.h323_addField = value;
                     this.RaisePropertyChanged("h323_add");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
                 }
             }
         }

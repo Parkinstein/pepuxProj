@@ -472,6 +472,8 @@ namespace PepuxService
     public class PBPlusrecord
     {
         [DataMember]
+        public int id { get; set; }
+        [DataMember]
         public string name { get; set; }
         [DataMember]
         public string surname { get; set; }
