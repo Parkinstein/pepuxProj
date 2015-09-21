@@ -98,5 +98,13 @@ namespace PepuxFront.Controllers
 
             return data;
         }
+
+        private IEnumerable<IpServiceLink.PhonebookDB> GetAllPB()
+        {
+            IpServiceLink.PServiceClient obj = new PServiceClient();
+            var data = obj.GetPB();
+
+            return data;
+        }
     }
 }
