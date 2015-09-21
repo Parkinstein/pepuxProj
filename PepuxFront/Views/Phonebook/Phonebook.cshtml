@@ -1,7 +1,7 @@
 ﻿@using System.ServiceModel.Configuration
 @using Microsoft.Ajax.Utilities
 @using PepuxFront.Controllers
-@model PepuxFront.IpServiceLink.ActiveConfs
+@model PepuxFront.IpServiceLink.addrec
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,6 +17,7 @@
             <th>Телефон (внут.)</th>
             <th>Телефон (внеш.)</th>
             <th>Телефон (моб.)</th>
+            <th>Email</th>
             <th>Часовой пояс</th>
             <th>Группа</th>
             <th>SIP-адрес</th>
@@ -35,9 +36,11 @@
         <table id="table_du">
             <thead>
             <tr>
-                <th>ФИО</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Должность</th>
+                <th>Телефон (внут.)</th>
                 <th>Email</th>
-                <th>Телефон</th>
             </tr>
             </thead>
             <tbody></tbody>
@@ -67,7 +70,7 @@
             "paging": false,
             "autoWidth": false,
             "processing": true,
-            "order": [[7, 'asc']],
+            "order": [[8, 'asc']],
             "lengthChange": false,
             "serverSide": true,
             "select": {
@@ -88,6 +91,7 @@
                 { "data": "tel_int", "searchable": false },
                 { "data": "tel_ext", "searchable": false },
                 { "data": "tel_mob", "searchable": false },
+                { "data": "email", "searchable": true },
                 { "data": "timezone", "searchable": false },
                 { "data": "group", "searchable": false },
                 { "data": "sip_add", "searchable": false },
@@ -199,9 +203,11 @@
             },
 
             "columns": [
-                { "searchable": true },
-                { "searchable": true },
-                { "searchable": true },
+                { "data": "name", "searchable": true },
+                { "data": "surname", "searchable": true },
+                { "data": "postion", "searchable": false },
+                { "data": "tel_int", "searchable": false },
+                { "data": "email", "searchable": true },
             ],
 
             "language": {
