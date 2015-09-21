@@ -26,7 +26,7 @@
         <tbody></tbody>
     </table>
     <div class="phonebook_buttons">
-        <input id="delete" type="button" onclick="" value="Удалить" class="phonebook_button_delete"/>
+        <input id="delete" type="button" onclick="delete_pb_users()" value="Удалить" class="phonebook_button_delete"/>
         <input id="add" type="button" onclick="popup_du_table()" value="Добавить..." class="phonebook_button_add"/>
     </div>
 </div>
@@ -43,7 +43,7 @@
             <tbody></tbody>
         </table>
         <div class="phonebook_buttons">
-            <input id="save" type="button" onclick="" value="Сохранить" class="phonebook_button_add" />
+            <input id="save" type="button" onclick="add_pb_users()" value="Сохранить" class="phonebook_button_add" />
         </div>
     </div>
 </div>
@@ -51,13 +51,16 @@
 <script type="text/javascript">
     var oPhonebookTable;
     var oDomainusersTable;
+    var events = $('#events');
+
     function refresh() {
         if (oPhonebookTable != null)
             oPhonebookTable.ajax.reload();
     };
-    setInterval("refresh()",100000);
 
-    $(document).ready(function () {
+    setInterval("refresh()", 100000);
+
+    $(document).ready(function() {
         oPhonebookTable = $('#table_pb').DataTable({
             "ordering": false,
             "searching": true,
@@ -67,16 +70,19 @@
             "order": [[7, 'asc']],
             "lengthChange": false,
             "serverSide": true,
+            "select": {
+                "style": 'multi'
+            },
 
             "ajax": {
                 "type": "POST",
                 "url": "/Phonebook/Phonebook_Ajax?Uname=@AccountController.Uname",
                 "contentType": 'application/json; charset=utf-8',
-                "data": function (data) { return data = JSON.stringify(data); }
+                "data": function(data) { return data = JSON.stringify(data); }
             },
 
             "columns": [
-                { "data": "name", "searchable": true},
+                { "data": "name", "searchable": true },
                 { "data": "surname", "searchable": true },
                 { "data": "postion", "searchable": false },
                 { "data": "tel_int", "searchable": false },
@@ -88,23 +94,23 @@
                 { "data": "h323_add", "searchable": false }
             ],
             "columnDefs": [
-            { "visible": true, "targets": 7 }
+                { "visible": true, "targets": 7 }
             ],
 
-            "drawCallback": function ( settings ) {
+            "drawCallback": function(settings) {
                 var api = this.api();
-                var rows = api.rows( {page:'current'} ).nodes();
-                var last=null;
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
 
-                api.column(2, {page:'current'} ).data().each( function ( group, i ) {
-                    if ( last !== group ) {
-                        $(rows).eq( i ).before(
-                            '<tr class="group"><td colspan="10">'+group+'</td></tr>'
+                api.column(2, { page: 'current' }).data().each(function(group, i) {
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr class="group"><td colspan="10">' + group + '</td></tr>'
                         );
 
                         last = group;
                     }
-                } );
+                });
             },
 
 
@@ -133,6 +139,34 @@
         });
     });
 
+    function delete_pb_users() {
+        var arrayToDelete = JSON.stringify(oPhonebookTable.cells({ selected: true}, 0, { page: 'current' }).data());
+        if (arrayToDelete !== '') {
+            $.ajax({
+                url: '/Phonebook/Phonebook_Delete',
+                type: 'POST',
+                data: arrayToDelete,
+            });
+        }
+        refresh();
+    };
+
+    function add_pb_users() {
+        //var arrayToAdd = JSON.stringify(oDomainusersTable.cells('.selected', 0).data());
+        var arrayToAdd;
+        if (arrayToAdd !== '') {
+            $.ajax({
+                url: '/Phonebook/Phonebook_Add',
+                type: 'POST',
+                data: arrayToAdd,
+            });
+        }
+        document.getElementById("popup_block").className = "hide";
+        if (oDomainusersTable != null)
+            oDomainusersTable.destroy();
+        refresh();
+    };
+
     $(document).on("click", function (e) {
         if (!$("#popup_content").is(e.target) && $("#popup_content").has(e.target).length == 0) {
             document.getElementById("popup_block").className = "hide";
@@ -152,8 +186,11 @@
             "autoWidth": false,
             "processing": true,
             "lengthChange": false,
-
             "serverSide": true,
+            "select": {
+                "style": 'multi'
+            },
+
             "ajax": {
                 "type": "POST",
                 "url": "/Phonebook/Phonebook?",
