@@ -6,7 +6,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="@Url.Content("~/Scripts/DataTables/datatables.select.js")"></script>
+<script src="@Url.Content("~/Scripts/DataTables/datatables.select.min.js")"></script>
 
 <div class="control_grid">
     <table id="table_pb" class="display">
@@ -29,7 +29,7 @@
     </table>
     <div class="phonebook_buttons">
         <input id="delete" type="button" onclick="delete_pb_users()" value="Удалить" class="phonebook_button_delete"/>
-        <input id="add" type="button" onclick="popup_du_table()" value="Добавить..." class="phonebook_button_add"/>
+        <input id="add" type="button" onclick="display_du_users()" value="Добавить..." class="phonebook_button_add"/>
     </div>
 </div>
 <div id="popup_block" class="hide">
@@ -55,11 +55,6 @@
 <script type="text/javascript">
     var oPhonebookTable;
     var oDomainusersTable;
-
-    function refresh() {
-        if (oPhonebookTable != null)
-            oPhonebookTable.ajax.reload();
-    };
 
     $(document).ready(function() {
         oPhonebookTable = $('#table_pb').DataTable({
@@ -143,45 +138,7 @@
         });
     });
 
-    function delete_pb_users() {
-        var arrayToDelete = JSON.stringify(oPhonebookTable.cells({ selected: true}, 0, { page: 'current' }).data());
-        if (arrayToDelete !== '') {
-            $.ajax({
-                url: '/Phonebook/Delete?Uname=@AccountController.Uname',
-                type: 'POST',
-                data: arrayToDelete,
-            });
-        }
-        refresh();
-    };
-
-    function add_pb_users() {
-        var arrayToAdd = JSON.stringify(oPhonebookTable.cells({ selected: true }, 0, { page: 'current' }).data());
-        if (arrayToAdd !== '') {
-            $.ajax({
-                url: '/Phonebook/Phonebook_Add',
-                type: 'POST',
-                data: arrayToAdd,
-            });
-        }
-        document.getElementById("popup_block").className = "hide";
-        if (oDomainusersTable != null)
-            oDomainusersTable.destroy();
-        refresh();
-    };
-
-    $(document).on("click", function (e) {
-        if (!$("#popup_content").is(e.target) && $("#popup_content").has(e.target).length == 0) {
-            document.getElementById("popup_block").className = "hide";
-            if (oDomainusersTable != null)
-                oDomainusersTable.destroy();
-        }
-    });
-
-    function popup_du_table () {
-        event.stopPropagation();
-        document.getElementById("popup_block").className = "b-popup b-popup-content";
-
+    function popup_du_table() {
         oDomainusersTable = $('#table_du').DataTable({
             "ordering": false,
             "searching": true,
@@ -200,7 +157,7 @@
                 "type": "POST",
                 "url": "/Phonebook/PhonebookAll_Ajax",
                 "contentType": 'application/json; charset=utf-8',
-                "data": function(data) { return data = JSON.stringify(data); }
+                "data": function (data) { return data = JSON.stringify(data); }
             },
 
             "columns": [
@@ -236,4 +193,62 @@
 
         });
     };
+
+    function refresh_pb() {
+        if (oPhonebookTable != null)
+            oPhonebookTable.ajax.reload();
+    };
+
+    function refresh_du() {
+        if (oDomainusersTable != null)
+            oDomainusersTable.ajax.reload();
+    };
+
+    function delete_pb_users() {
+        var arrayToDelete = JSON.stringify(oPhonebookTable.cells({ selected: true}, 0, { page: 'current' }).data());
+        if (arrayToDelete !== '') {
+            $.ajax({
+                url: '/Phonebook/Delete?Uname=@AccountController.Uname',
+                type: 'POST',
+                data: arrayToDelete,
+            });
+        }
+        refresh_pb();
+    };
+
+    function add_pb_users() {
+        var arrayToAdd = JSON.stringify(oPhonebookTable.cells({ selected: true }, 0, { page: 'current' }).data());
+        if (arrayToAdd !== '') {
+            $.ajax({
+                url: '/Phonebook/Phonebook_Add',
+                type: 'POST',
+                data: arrayToAdd,
+            });
+        }
+        document.getElementById("popup_block").className = "hide";
+        if (oDomainusersTable != null)
+            oDomainusersTable.destroy();
+        refresh_pb();
+    };
+
+    function display_du_users() {
+        event.stopPropagation();
+        document.getElementById("popup_block").className = "b-popup b-popup-content";
+        if (oDomainusersTable == null) {
+            popup_du_table();
+        } else {
+            refresh_du();
+        }
+        
+    };
+
+    $(document).on("click", function (e) {
+        if (!$("#popup_content").is(e.target) && $("#popup_content").has(e.target).length == 0 && document.getElementById("popup_block").className == "b-popup b-popup-content") {
+            document.getElementById("popup_block").className = "hide";
+            //if (oDomainusersTable != null)
+                //oDomainusersTable.destroy();
+        };
+    });
+
+    
 </script>
