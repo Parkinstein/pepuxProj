@@ -444,6 +444,7 @@ namespace PepuxService
                 dirSearcher.PropertiesToLoad.Add("title");
                 dirSearcher.PropertiesToLoad.Add("telephoneNumber");
                 dirSearcher.PropertiesToLoad.Add("sAMAccountName");
+                dirSearcher.PropertiesToLoad.Add("email");
                 //var searchResults = dirSearcher.FindAll();
                 SearchResult result;
                 SearchResultCollection resultCol = dirSearcher.FindAll();
@@ -462,6 +463,7 @@ namespace PepuxService
                             objSurveyUsers.surname = (String) result.Properties["sn"][0];
                             objSurveyUsers.tel_int = (String) result.Properties["telephoneNumber"][0];
                             objSurveyUsers.position = (String) result.Properties["title"][0];
+                            objSurveyUsers.email = (String)result.Properties["email"][0];
                             objSurveyUsers.samaccountname = (String)result.Properties["sAMAccountName"][0];
                             allreco.Add(objSurveyUsers);
                         }
@@ -532,6 +534,7 @@ namespace PepuxService
                         new_rec.Position = adus.position;
                         new_rec.samaccountname = adus.samaccountname;
                         new_rec.Phone_int = adus.tel_int;
+                        new_rec.email = adus.email;
                         new_rec.location = false;
                         db.PhonebookDBs.InsertOnSubmit(new_rec);
                         db.SubmitChanges();
@@ -606,7 +609,7 @@ namespace PepuxService
             return allpbrecs;
         }
 
-        public PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam)
+        public PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string email, string OwNam)
         {
             PhonebookDB nr = new PhonebookDB();
             
@@ -619,6 +622,7 @@ namespace PepuxService
             nr.H323Add = h323_add;
             nr.SipAdd = sip_add;
             nr.TimeZone = timezone;
+            nr.email = email;
             nr.location = true;
             AddRecToPB(nr, group, OwNam);
             return nr;
@@ -673,6 +677,7 @@ namespace PepuxService
                 temp.tel_mob = srec.Phone_mob;
                 temp.h323_add = srec.H323Add;
                 temp.sip_add = srec.SipAdd;
+                temp.email = srec.email;
                 temp.timezone = srec.TimeZone;
                 if (!String.IsNullOrEmpty(sel.Group))
                 {

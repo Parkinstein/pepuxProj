@@ -39,12 +39,12 @@ namespace PepuxService
     partial void InsertVmrAliase(VmrAliase instance);
     partial void UpdateVmrAliase(VmrAliase instance);
     partial void DeleteVmrAliase(VmrAliase instance);
-    partial void InsertPhonebookDB(PhonebookDB instance);
-    partial void UpdatePhonebookDB(PhonebookDB instance);
-    partial void DeletePhonebookDB(PhonebookDB instance);
     partial void InsertPrivatePhB(PrivatePhB instance);
     partial void UpdatePrivatePhB(PrivatePhB instance);
     partial void DeletePrivatePhB(PrivatePhB instance);
+    partial void InsertPhonebookDB(PhonebookDB instance);
+    partial void UpdatePhonebookDB(PhonebookDB instance);
+    partial void DeletePhonebookDB(PhonebookDB instance);
     #endregion
 		
 		public ServiceDataContext() : 
@@ -101,19 +101,19 @@ namespace PepuxService
 			}
 		}
 		
-		public System.Data.Linq.Table<PhonebookDB> PhonebookDBs
-		{
-			get
-			{
-				return this.GetTable<PhonebookDB>();
-			}
-		}
-		
 		public System.Data.Linq.Table<PrivatePhB> PrivatePhBs
 		{
 			get
 			{
 				return this.GetTable<PrivatePhB>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PhonebookDB> PhonebookDBs
+		{
+			get
+			{
+				return this.GetTable<PhonebookDB>();
 			}
 		}
 	}
@@ -949,6 +949,140 @@ namespace PepuxService
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PrivatePhB")]
+	public partial class PrivatePhB : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _OwSAN;
+		
+		private System.Nullable<int> _IdREC;
+		
+		private string _Group;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnOwSANChanging(string value);
+    partial void OnOwSANChanged();
+    partial void OnIdRECChanging(System.Nullable<int> value);
+    partial void OnIdRECChanged();
+    partial void OnGroupChanging(string value);
+    partial void OnGroupChanged();
+    #endregion
+		
+		public PrivatePhB()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwSAN", DbType="NVarChar(MAX)")]
+		public string OwSAN
+		{
+			get
+			{
+				return this._OwSAN;
+			}
+			set
+			{
+				if ((this._OwSAN != value))
+				{
+					this.OnOwSANChanging(value);
+					this.SendPropertyChanging();
+					this._OwSAN = value;
+					this.SendPropertyChanged("OwSAN");
+					this.OnOwSANChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdREC", DbType="Int")]
+		public System.Nullable<int> IdREC
+		{
+			get
+			{
+				return this._IdREC;
+			}
+			set
+			{
+				if ((this._IdREC != value))
+				{
+					this.OnIdRECChanging(value);
+					this.SendPropertyChanging();
+					this._IdREC = value;
+					this.SendPropertyChanged("IdREC");
+					this.OnIdRECChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Group]", Storage="_Group", DbType="NVarChar(50)")]
+		public string Group
+		{
+			get
+			{
+				return this._Group;
+			}
+			set
+			{
+				if ((this._Group != value))
+				{
+					this.OnGroupChanging(value);
+					this.SendPropertyChanging();
+					this._Group = value;
+					this.SendPropertyChanged("Group");
+					this.OnGroupChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Phonebook")]
 	public partial class PhonebookDB : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -979,6 +1113,8 @@ namespace PepuxService
 		
 		private bool _location;
 		
+		private string _email;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1007,6 +1143,8 @@ namespace PepuxService
     partial void OnsamaccountnameChanged();
     partial void OnlocationChanging(bool value);
     partial void OnlocationChanged();
+    partial void OnemailChanging(string value);
+    partial void OnemailChanged();
     #endregion
 		
 		public PhonebookDB()
@@ -1254,136 +1392,22 @@ namespace PepuxService
 			}
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PrivatePhB")]
-	public partial class PrivatePhB : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _OwSAN;
-		
-		private System.Nullable<int> _IdREC;
-		
-		private string _Group;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnOwSANChanging(string value);
-    partial void OnOwSANChanged();
-    partial void OnIdRECChanging(System.Nullable<int> value);
-    partial void OnIdRECChanged();
-    partial void OnGroupChanging(string value);
-    partial void OnGroupChanged();
-    #endregion
-		
-		public PrivatePhB()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="NVarChar(MAX)")]
+		public string email
 		{
 			get
 			{
-				return this._Id;
+				return this._email;
 			}
 			set
 			{
-				if ((this._Id != value))
+				if ((this._email != value))
 				{
-					this.OnIdChanging(value);
+					this.OnemailChanging(value);
 					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwSAN", DbType="NVarChar(MAX)")]
-		public string OwSAN
-		{
-			get
-			{
-				return this._OwSAN;
-			}
-			set
-			{
-				if ((this._OwSAN != value))
-				{
-					this.OnOwSANChanging(value);
-					this.SendPropertyChanging();
-					this._OwSAN = value;
-					this.SendPropertyChanged("OwSAN");
-					this.OnOwSANChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdREC", DbType="Int")]
-		public System.Nullable<int> IdREC
-		{
-			get
-			{
-				return this._IdREC;
-			}
-			set
-			{
-				if ((this._IdREC != value))
-				{
-					this.OnIdRECChanging(value);
-					this.SendPropertyChanging();
-					this._IdREC = value;
-					this.SendPropertyChanged("IdREC");
-					this.OnIdRECChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Group]", Storage="_Group", DbType="NVarChar(50)")]
-		public string Group
-		{
-			get
-			{
-				return this._Group;
-			}
-			set
-			{
-				if ((this._Group != value))
-				{
-					this.OnGroupChanging(value);
-					this.SendPropertyChanging();
-					this._Group = value;
-					this.SendPropertyChanged("Group");
-					this.OnGroupChanged();
+					this._email = value;
+					this.SendPropertyChanged("email");
+					this.OnemailChanged();
 				}
 			}
 		}

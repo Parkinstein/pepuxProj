@@ -41,6 +41,14 @@
       <Association Name="AllVmr_VmrAliase" Member="AllVmr" ThisKey="vmid" OtherKey="Id" Type="AllVmr" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.PrivatePhB" Member="PrivatePhBs">
+    <Type Name="PrivatePhB">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="OwSAN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IdREC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Group]" Member="Group" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Phonebook" Member="PhonebookDBs">
     <Type Name="PhonebookDB">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -55,14 +63,7 @@
       <Column Name="H323Add" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="samaccountname" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="location" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.PrivatePhB" Member="PrivatePhBs">
-    <Type Name="PrivatePhB">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="OwSAN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="IdREC" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="[Group]" Member="Group" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="email" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

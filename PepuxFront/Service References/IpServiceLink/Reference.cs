@@ -1599,6 +1599,9 @@ namespace PepuxFront.IpServiceLink {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string emailField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string groupField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -1641,6 +1644,19 @@ namespace PepuxFront.IpServiceLink {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string email {
+            get {
+                return this.emailField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.emailField, value) != true)) {
+                    this.emailField = value;
+                    this.RaisePropertyChanged("email");
+                }
             }
         }
         
@@ -1850,6 +1866,9 @@ namespace PepuxFront.IpServiceLink {
         private string TimeZoneField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string emailField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool locationField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -1996,6 +2015,19 @@ namespace PepuxFront.IpServiceLink {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string email {
+            get {
+                return this.emailField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.emailField, value) != true)) {
+                    this.emailField = value;
+                    this.RaisePropertyChanged("email");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public bool location {
             get {
                 return this.locationField;
@@ -2090,10 +2122,10 @@ namespace PepuxFront.IpServiceLink {
         System.Threading.Tasks.Task<PepuxFront.IpServiceLink.addrec[]> GetPhonebookUsersAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/AddRecordsToPB", ReplyAction="http://tempuri.org/IPService/AddRecordsToPBResponse")]
-        PepuxFront.IpServiceLink.PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam);
+        PepuxFront.IpServiceLink.PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string email, string OwNam);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/AddRecordsToPB", ReplyAction="http://tempuri.org/IPService/AddRecordsToPBResponse")]
-        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.PhonebookDB> AddRecordsToPBAsync(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam);
+        System.Threading.Tasks.Task<PepuxFront.IpServiceLink.PhonebookDB> AddRecordsToPBAsync(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string email, string OwNam);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Authenticate", ReplyAction="http://tempuri.org/IPService/AuthenticateResponse")]
         bool Authenticate(string userName, string password, string domain);
@@ -2225,12 +2257,12 @@ namespace PepuxFront.IpServiceLink {
             return base.Channel.GetPhonebookUsersAsync();
         }
         
-        public PepuxFront.IpServiceLink.PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam) {
-            return base.Channel.AddRecordsToPB(in_name, in_surname, in_position, tel_int, tel_ext, tel_mob, h323_add, sip_add, timezone, group, OwNam);
+        public PepuxFront.IpServiceLink.PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string email, string OwNam) {
+            return base.Channel.AddRecordsToPB(in_name, in_surname, in_position, tel_int, tel_ext, tel_mob, h323_add, sip_add, timezone, group, email, OwNam);
         }
         
-        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.PhonebookDB> AddRecordsToPBAsync(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam) {
-            return base.Channel.AddRecordsToPBAsync(in_name, in_surname, in_position, tel_int, tel_ext, tel_mob, h323_add, sip_add, timezone, group, OwNam);
+        public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.PhonebookDB> AddRecordsToPBAsync(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string email, string OwNam) {
+            return base.Channel.AddRecordsToPBAsync(in_name, in_surname, in_position, tel_int, tel_ext, tel_mob, h323_add, sip_add, timezone, group, email, OwNam);
         }
         
         public bool Authenticate(string userName, string password, string domain) {

@@ -21,6 +21,7 @@ namespace PepuxFront.Models
             public string sip_add { get; set; }
             public string h323_add { get; set; }
             public string group { get; set; }
+            public string email { get; set; }
         }
         public class DTResult
         {

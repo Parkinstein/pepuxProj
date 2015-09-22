@@ -134,6 +134,7 @@
         <xs:element minOccurs="0" name="sip_add" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="timezone" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="group" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="OwNam" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>

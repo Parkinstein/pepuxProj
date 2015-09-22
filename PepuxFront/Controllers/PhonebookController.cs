@@ -16,6 +16,7 @@ namespace PepuxFront.Controllers
 {
     public class PhonebookController : Controller
     {
+        IEnumerable<IpServiceLink.PhonebookDB> filteredresult1;
         // GET: Phonebook view
         public ActionResult Phonebook()
         {
@@ -27,21 +28,57 @@ namespace PepuxFront.Controllers
         public ActionResult PhonebookAll_Ajax(Phonebook.DTResult param)
         {
             IEnumerable<IpServiceLink.PhonebookDB> filteredresult = GetAllPB();
+            List<IpServiceLink.PhonebookDB> list = new List<PhonebookDB>();
 
-            if (!string.IsNullOrEmpty(param.Search.Value))
+            if (!String.IsNullOrEmpty(param.Search.Value))
             {
-                filteredresult = GetAllPB().Where(c => c.Surname.Contains(param.Search.Value)); //|| c.Name.Contains(param.Search.Value) || c.Phone_int.Contains(param.Search.Value) || c.Phone_ext.Contains(param.Search.Value)));
+                foreach (var recs in filteredresult)
+                {
+                    if (!String.IsNullOrEmpty(recs.Surname))
+                    {
+                        if (recs.Surname.Contains(param.Search.Value))
+                        {
+                            list.Add(recs);
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(recs.Name))
+                    {
+                        if (recs.Name.Contains(param.Search.Value))
+                        {
+                            list.Add(recs);
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(recs.Phone_int))
+                    {
+                        if (recs.Phone_int.Contains(param.Search.Value))
+                        {
+                            list.Add(recs);
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(recs.Phone_ext))
+                    {
+                        if (recs.Phone_ext.Contains(param.Search.Value))
+                        {
+                            list.Add(recs);
+                        }
+                    }
+                    
+                }
+                filteredresult = list;
+                //filteredresult = GetAllPB().Where(c => c.Surname.Contains(param.Search.Value)); //|| c.Name.Contains(param.Search.Value) || c.Phone_int.Contains(param.Search.Value) || c.Phone_ext.Contains(param.Search.Value)));
+                
+                
             }
-            else
+            if(String.IsNullOrEmpty(param.Search.Value))
             {
                 filteredresult = GetAllPB();
             }
-
+            
             return Json(new
             {
                 recordsTotal = GetAllPB().Count(),
                 recordsFiltered = filteredresult.Count(),
-                data = filteredresult,
+                data = filteredresult
             }, JsonRequestBehavior.AllowGet);
         }
 

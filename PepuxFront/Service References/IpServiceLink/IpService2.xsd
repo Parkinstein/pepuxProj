@@ -180,6 +180,7 @@
   <xs:element name="ArrayOfaddrec" nillable="true" type="tns:ArrayOfaddrec" />
   <xs:complexType name="addrec">
     <xs:sequence>
+      <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="group" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="h323_add" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="id" type="xs:int" />
@@ -207,6 +208,7 @@
       <xs:element minOccurs="0" name="SipAdd" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="TimeZone" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="location" type="xs:boolean" />
       <xs:element minOccurs="0" name="samaccountname" nillable="true" type="xs:string" />
     </xs:sequence>

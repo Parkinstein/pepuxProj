@@ -97,7 +97,7 @@ namespace PepuxService
                     {
                         temp_list.Add(customer.samaccountname);
                     }
-                    Debug.WriteLine("Все уже есть");
+                    //Debug.WriteLine("Все уже есть");
                 }
                 foreach (var stroke in temp_list)
                 {
@@ -125,7 +125,7 @@ namespace PepuxService
                     new_rec.location = false;
                     db.PhonebookDBs.InsertOnSubmit(new_rec);
                     db.SubmitChanges();
-                    Debug.WriteLine("Был добавлен " + new_rec.Name + " " + new_rec.Surname);
+                    //Debug.WriteLine("Был добавлен " + new_rec.Name + " " + new_rec.Surname);
                 }
             }
 
@@ -138,33 +138,33 @@ namespace PepuxService
 
         protected void Session_Start(object sender, EventArgs e)
         {
-            Debug.WriteLine("App_Session_started");
+           // Debug.WriteLine("App_Session_started");
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            Debug.WriteLine("App_Begin_request");
+           // Debug.WriteLine("App_Begin_request");
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
-            Debug.WriteLine("App_Auth_request");
+           // Debug.WriteLine("App_Auth_request");
         }
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            Debug.WriteLine("App_Error");
+            //Debug.WriteLine("App_Error");
         }
 
         protected void Session_End(object sender, EventArgs e)
         {
-            Debug.WriteLine("App_Session_ended");
+            //Debug.WriteLine("App_Session_ended");
             timer.Dispose();
         }
 
         protected void Application_End(object sender, EventArgs e)
         {
-            Debug.WriteLine("App_stopped");
+            //Debug.WriteLine("App_stopped");
         }
     }
 }

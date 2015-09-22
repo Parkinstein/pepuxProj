@@ -20,23 +20,23 @@
         <elementListCompartment Id="e5701428-3396-450b-bf95-cdf83ece1963" absoluteBounds="3.2650000000000006, 3.835, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 4.26044840494792); (3.25 : 4.26044840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.5 : 4.26044840494792); (3.25 : 4.26044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ServiceDataContext/AllVmr/AllVmr_VmrAliase" />
       <nodes>
         <classShapeMoniker Id="c3521955-e360-4355-b661-cea96e29103f" />
         <classShapeMoniker Id="0d9e54c2-7c71-4dac-b3a0-50562eb4db39" />
       </nodes>
     </associationConnector>
-    <classShape Id="5b3df66c-f4ea-433e-91c5-dd3b026831e5" absoluteBounds="5.875, 0.875, 2, 3.1170068359375">
-      <DataClassMoniker Name="/ServiceDataContext/PhonebookDB" />
-      <nestedChildShapes>
-        <elementListCompartment Id="99ff64cb-03b2-4d7e-b30d-306b7ef98c43" absoluteBounds="5.89, 1.335, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="f82e3227-859b-43db-ae88-4f3e5421ea09" absoluteBounds="8.375, 1.5, 2, 1.5785953776041666">
       <DataClassMoniker Name="/ServiceDataContext/PrivatePhB" />
       <nestedChildShapes>
         <elementListCompartment Id="e05f21c5-5b8b-4528-a186-dc447acc1b4d" absoluteBounds="8.39, 1.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2f2bc48b-95ce-47f7-9c79-7529c94d786d" absoluteBounds="5.5, 1.75, 2, 3.3093082682291666">
+      <DataClassMoniker Name="/ServiceDataContext/PhonebookDB" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a4c76564-7f76-4c43-8d73-67398cc268e9" absoluteBounds="5.515, 2.21, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

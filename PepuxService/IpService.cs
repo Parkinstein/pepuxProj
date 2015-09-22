@@ -35,7 +35,7 @@ namespace PepuxService
         [OperationContract]
         List<PBPlusrecord> GetPhonebookUsers();
         [OperationContract]
-        PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string OwNam);
+        PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string email, string OwNam);
         //[OperationContract]
         //List<PBPlusrecord> GetAllMembers(string in_name);
         [OperationContract]
@@ -497,6 +497,8 @@ namespace PepuxService
         public string h323_add { get; set; }
         [DataMember]
         public string group { get; set; }
+        [DataMember]
+        public string email { get; set; }
     }
     #endregion
 
