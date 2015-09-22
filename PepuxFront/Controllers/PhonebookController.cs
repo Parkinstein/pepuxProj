@@ -16,7 +16,6 @@ namespace PepuxFront.Controllers
 {
     public class PhonebookController : Controller
     {
-        IEnumerable<IpServiceLink.PhonebookDB> filteredresult1;
         // GET: Phonebook view
         public ActionResult Phonebook()
         {
@@ -143,6 +142,12 @@ namespace PepuxFront.Controllers
             IpServiceLink.PServiceClient obj = new PServiceClient();
             var data = obj.GetPhBOw(AccountController.SAMUname);
             return data;
+        }
+
+        public void AddToPrivat(string OwName,int ids)
+        {
+            IpServiceLink.PServiceClient obj = new PServiceClient();
+            bool result = obj.addUserToPrivat(OwName, ids, null);
         }
     }
 }
