@@ -36,28 +36,28 @@ namespace PepuxFront.Controllers
                 {
                     if (!String.IsNullOrEmpty(recs.Surname))
                     {
-                        if (recs.Surname.Contains(param.Search.Value))
+                        if (recs.Surname.IndexOf(param.Search.Value,0, StringComparison.CurrentCultureIgnoreCase) != -1)
                         {
                             list.Add(recs);
                         }
                     }
                     if (!String.IsNullOrEmpty(recs.Name))
                     {
-                        if (recs.Name.Contains(param.Search.Value))
+                        if (recs.Name.IndexOf(param.Search.Value, 0, StringComparison.CurrentCultureIgnoreCase) != -1)
                         {
                             list.Add(recs);
                         }
                     }
                     if (!String.IsNullOrEmpty(recs.Phone_int))
                     {
-                        if (recs.Phone_int.Contains(param.Search.Value))
+                        if (recs.Phone_int.IndexOf(param.Search.Value, 0, StringComparison.CurrentCultureIgnoreCase) != -1)
                         {
                             list.Add(recs);
                         }
                     }
                     if (!String.IsNullOrEmpty(recs.Phone_ext))
                     {
-                        if (recs.Phone_ext.Contains(param.Search.Value))
+                        if (recs.Phone_ext.IndexOf(param.Search.Value, 0, StringComparison.CurrentCultureIgnoreCase) != -1)
                         {
                             list.Add(recs);
                         }
