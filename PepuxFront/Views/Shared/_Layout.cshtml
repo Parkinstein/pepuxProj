@@ -6,18 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Система ВКС "Рерих"</title>
     
-    @Scripts.Render("~/bundles/modernizr")
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-	<!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
-	@Scripts.Render("~/bundles/jquery")
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.common.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.blueopal.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.dataviz.blueopal.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css"/>
-    <link href="@Url.Content("~/Content/DataTables/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
-    @Styles.Render("~/Content/css")
+    <link href="@Url.Content("~/Content/DataTables/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css"/>
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css"/>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/jquery.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.slimscroll.js")"></script>
 	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/jszip.min.js")"></script>
@@ -54,7 +51,6 @@
     </div>
 
     
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

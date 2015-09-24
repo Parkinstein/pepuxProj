@@ -8,7 +8,7 @@ body {
   background-color: #fff;
   padding-top: 50px;
   padding-bottom: 20px;
-  background: url('background.png') 0 0 no-repeat;
+  background: url('/images/background.png') 0 0 no-repeat;
   font-family: 'Calibri', sans-serif;
 }
 .body-content {
@@ -1019,8 +1019,7 @@ table#table_ap.dataTable tbody td{
     height: 5%;
 }
 .phonebook_groups {
-    background-color: #000000 !important;
-    background-color: rgba(0, 0, 0, 0.2) !important;
+    background-color: rgba(51 ,35 ,131, 0.4) !important;
     font-weight: bold;
     text-align: center;
 }

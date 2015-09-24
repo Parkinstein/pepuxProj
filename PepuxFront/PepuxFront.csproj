@@ -380,7 +380,12 @@
     <Content Include="Content\DataTables\swf\copy_csv_xls.swf" />
     <Content Include="Content\DataTables\swf\copy_csv_xls_pdf.swf" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="images\background.png" />
+    <Content Include="images\lock.png" />
+    <Content Include="images\lockunlock.png" />
+    <Content Include="images\logo.png" />
     <Content Include="images\logo_1x.png" />
+    <Content Include="images\unlock.png" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -1527,6 +1532,8 @@
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
+    <Content Include="images\logo.psd" />
+    <None Include="Properties\PublishProfiles\PepuxFront.pubxml" />
     <None Include="Properties\PublishProfiles\Service.pubxml" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />

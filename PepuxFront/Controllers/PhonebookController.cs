@@ -64,10 +64,7 @@ namespace PepuxFront.Controllers
                     }
                     
                 }
-                filteredresult = list;
-                //filteredresult = GetAllPB().Where(c => c.Surname.Contains(param.Search.Value)); //|| c.Name.Contains(param.Search.Value) || c.Phone_int.Contains(param.Search.Value) || c.Phone_ext.Contains(param.Search.Value)));
-                
-                
+                filteredresult = list; 
             }
             
             return Json(new
@@ -86,7 +83,7 @@ namespace PepuxFront.Controllers
 
             if (!string.IsNullOrEmpty(param.Search.Value))
             {
-                filteredresult = GetPB().Where(c => c.surname.Contains(param.Search.Value));
+                filteredresult = GetPB().Where(c => (c.surname.Contains(param.Search.Value) || c.name.Contains(param.Search.Value)));
             }
             else
             {
