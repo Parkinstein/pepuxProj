@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Timers;
+using System.Web.Services.Description;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using PepuxFront.IpServiceLink;
@@ -104,16 +105,20 @@ namespace PepuxFront.Controllers
         // Add Phonebook records method
         public void Phonebook_Add(object[] pbrArray)
         {
+            IpServiceLink.PServiceClient obj = new PServiceClient();
+            var allpriv = obj.GetPhBOw(AccountController.SAMUname).AsQueryable();
             foreach (int pbr in pbrArray)
             {
-                AddToPrivat(pbr);
+                if (!allpriv.Any(m => m.id == pbr))
+                    AddToPrivat(pbr);
+                else { ViewBag.Message = "Запись уже существует"; Debug.WriteLine("Запись уже существует");}
             }
         }
 
         // Delete Phonebook records method
         public void Phonebook_Delete(object[] pbrArray)
         {
-            foreach (int pbr in pbrArray)
+          foreach (int pbr in pbrArray)
             {
                 DeleteFromPrivat(pbr);
             }
@@ -142,14 +147,14 @@ namespace PepuxFront.Controllers
         public void AddToPrivat(int ids)
         {
             IpServiceLink.PServiceClient obj = new PServiceClient();
-            bool result = obj.addUserToPrivat("a_pilugin", ids, null);
+            bool result = obj.addUserToPrivat(AccountController.SAMUname, ids, null);
         }
 
         // Delete Phonebook records method
         public void DeleteFromPrivat(int ids)
         {
             IpServiceLink.PServiceClient act = new PServiceClient();
-            act.DeleteRecFromDb(ids, "a_pilugin");
+            act.DeleteRecFromDb(ids, AccountController.SAMUname);
             //ViewBag.DeletedRecs = String.Format("Удалено {0} записей", i);
         }
 
