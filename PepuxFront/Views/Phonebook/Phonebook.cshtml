@@ -12,6 +12,7 @@
     <table id="table_pb" class="display">
         <thead>
         <tr>
+            <th>ID</th>
             <th>Имя</th>
             <th>Фамилия</th>
             <th>Должность</th>
@@ -37,6 +38,7 @@
         <table id="table_du">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Имя</th>
                 <th>Фамилия</th>
                 <th>Должность</th>
@@ -80,6 +82,7 @@
             },
 
             "columns": [
+                { "data": "id", "visible": false },
                 { "data": "name" },
                 { "data": "surname", "searchable": false },
                 { "data": "position", "searchable": false },
@@ -104,7 +107,7 @@
                 api.column(8, { page: 'current' }).data().each(function(group, i) {
                     if (last !== group) {
                         $(rows).eq(i).before(
-                            '<tr class="group"><td colspan="10">' + group + '</td></tr>'
+                            '<tr class="phonebook_groups"><td colspan="12">' + group + '</td></tr>'
                         );
 
                         last = group;
@@ -161,6 +164,7 @@
             },
 
             "columns": [
+                { "data": "Id", "visible": false },
                 { "data": "Name" },
                 { "data": "Surname", "searchable": false },
                 { "data": "Position", "searchable": false },
@@ -205,29 +209,37 @@
     };
 
     function delete_pb_users() {
-        var arrayToDelete = JSON.stringify(oPhonebookTable.cells({ selected: true}, 0, { page: 'current' }).data());
-        if (arrayToDelete !== '') {
+        var data = [];
+        var arrayToDelete = oPhonebookTable.cells('.selected', 0, { page: 'current' }).data();
+        for (var i = 0; i < arrayToDelete.length; i++) {
+            data[i] = arrayToDelete[i];
+        }
+        if (data != null) {
             $.ajax({
-                url: '/Phonebook/Delete?Uname=@AccountController.Uname',
-                type: 'POST',
-                data: arrayToDelete,
+                "url": "/Phonebook/Phonebook_Delete",
+                "type": "POST",
+                "contentType": "application/json; charset=utf-8",
+                "data": JSON.stringify({ pbrArray: data }),
             });
         }
         refresh_pb();
     };
 
     function add_pb_users() {
-        var arrayToAdd = JSON.stringify(oPhonebookTable.cells({ selected: true }, 0, { page: 'current' }).data());
-        if (arrayToAdd !== '') {
+        var data = [];
+        var arrayToAdd = oDomainusersTable.cells('.selected', 0, { page: 'current' }).data();
+        for (var i = 0; i < arrayToAdd.length; i++) {
+            data[i] = arrayToAdd[i];
+        }
+        if (data != null) {
             $.ajax({
-                url: '/Phonebook/Phonebook_Add',
-                type: 'POST',
-                data: arrayToAdd,
+                "url": "/Phonebook/Phonebook_Add",
+                "type": "POST",
+                "contentType": "application/json; charset=utf-8",
+                "data": JSON.stringify({ pbrArray: data }),
             });
         }
         document.getElementById("popup_block").className = "hide";
-        if (oDomainusersTable != null)
-            oDomainusersTable.destroy();
         refresh_pb();
     };
 
@@ -239,16 +251,14 @@
         } else {
             refresh_du();
         }
-        
+
     };
 
     $(document).on("click", function (e) {
         if (!$("#popup_content").is(e.target) && $("#popup_content").has(e.target).length == 0 && document.getElementById("popup_block").className == "b-popup b-popup-content") {
             document.getElementById("popup_block").className = "hide";
-            //if (oDomainusersTable != null)
-                //oDomainusersTable.destroy();
         };
     });
 
-    
+
 </script>

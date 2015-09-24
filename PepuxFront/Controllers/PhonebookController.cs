@@ -54,9 +54,9 @@ namespace PepuxFront.Controllers
                             list.Add(recs);
                         }
                     }
-                    if (!String.IsNullOrEmpty(recs.Phone_ext))
+                    if (!String.IsNullOrEmpty(recs.email))
                     {
-                        if (recs.Phone_ext.IndexOf(param.Search.Value, 0, StringComparison.CurrentCultureIgnoreCase) != -1)
+                        if (recs.email.IndexOf(param.Search.Value, 0, StringComparison.CurrentCultureIgnoreCase) != -1)
                         {
                             list.Add(recs);
                         }
@@ -67,10 +67,6 @@ namespace PepuxFront.Controllers
                 //filteredresult = GetAllPB().Where(c => c.Surname.Contains(param.Search.Value)); //|| c.Name.Contains(param.Search.Value) || c.Phone_int.Contains(param.Search.Value) || c.Phone_ext.Contains(param.Search.Value)));
                 
                 
-            }
-            if(String.IsNullOrEmpty(param.Search.Value))
-            {
-                filteredresult = GetAllPB();
             }
             
             return Json(new
@@ -106,25 +102,23 @@ namespace PepuxFront.Controllers
 
 
         // Add Phonebook records method
-
-
+        public void Phonebook_Add(object[] pbrArray)
+        {
+            foreach (int pbr in pbrArray)
+            {
+                AddToPrivat(pbr);
+            }
+        }
 
         // Delete Phonebook records method
-        public void Delete(int[] ids, string owner)
+        public void Phonebook_Delete(object[] pbrArray)
         {
-            IpServiceLink.PServiceClient act = new PServiceClient();
-            int i = 0;
-            foreach (var id in ids)
+            foreach (int pbr in pbrArray)
             {
-                try
-                {
-                    i++;
-                    act.DeleteRecFromDb(id, owner);
-                }
-                catch(Exception ex) { Debug.WriteLine(ex.Message);}
+                DeleteFromPrivat(pbr);
             }
-            ViewBag.DeletedRecs = String.Format("Удалено {0} записей", i);
         }
+
 
 
         // Get full phonebook from service
@@ -144,10 +138,21 @@ namespace PepuxFront.Controllers
             return data;
         }
 
-        public void AddToPrivat(string OwName,int ids)
+        // Add records to private phonebook
+        public void AddToPrivat(int ids)
         {
             IpServiceLink.PServiceClient obj = new PServiceClient();
-            bool result = obj.addUserToPrivat(OwName, ids, null);
+            bool result = obj.addUserToPrivat("a_pilugin", ids, null);
         }
+
+        // Delete Phonebook records method
+        public void DeleteFromPrivat(int ids)
+        {
+            IpServiceLink.PServiceClient act = new PServiceClient();
+            act.DeleteRecFromDb(ids, "a_pilugin");
+            //ViewBag.DeletedRecs = String.Format("Удалено {0} записей", i);
+        }
+
+
     }
 }
