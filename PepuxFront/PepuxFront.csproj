@@ -380,6 +380,7 @@
     <Content Include="Content\DataTables\swf\copy_csv_xls.swf" />
     <Content Include="Content\DataTables\swf\copy_csv_xls_pdf.swf" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="images\background.png" />
     <Content Include="images\lock.png" />
     <Content Include="images\lockunlock.png" />
@@ -1534,6 +1535,12 @@
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="images\logo.psd" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\PepuxFront.pubxml" />
     <None Include="Properties\PublishProfiles\Service.pubxml" />
     <Content Include="Scripts\errors.json" />

@@ -51,6 +51,7 @@ namespace PepuxFront.Controllers
                     foreach (var grp in grps)
                     {
                         groups.Add(grp.Name);
+                        Debug.WriteLine(grp.Name);
                     }
                     
                     if (groups.Contains("PepuxAdmins"))
@@ -62,7 +63,7 @@ namespace PepuxFront.Controllers
                     else if (groups.Contains("PepuxUsers"))
                     {
                         Ugroup = "PepuxUsers";
-                        return this.RedirectToAction("Index", "User");
+                        return this.RedirectToAction("Phonebook", "Phonebook");
                     }
                 }
                 else { this.ModelState.AddModelError(string.Empty, "Имя пользователя или пароль указаны неверно.");
