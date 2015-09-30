@@ -1882,6 +1882,9 @@ namespace PepuxFront.IpServiceLink {
         private string TimeZoneField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string dispNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string emailField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -2026,6 +2029,19 @@ namespace PepuxFront.IpServiceLink {
                 if ((object.ReferenceEquals(this.TimeZoneField, value) != true)) {
                     this.TimeZoneField = value;
                     this.RaisePropertyChanged("TimeZone");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string dispName {
+            get {
+                return this.dispNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.dispNameField, value) != true)) {
+                    this.dispNameField = value;
+                    this.RaisePropertyChanged("dispName");
                 }
             }
         }

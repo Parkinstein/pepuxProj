@@ -428,6 +428,30 @@ namespace PepuxService
             return all_recs;
         }
 
+        public bool DeleteRecordsFromDb(int id)
+        {
+            var myConnectionString = "server=" + Properties.Settings.Default.SQLServ + ";uid=" + Properties.Settings.Default.SQLUser + ";" +
+                "pwd=" + Properties.Settings.Default.SQLPass + ";database=" + Properties.Settings.Default.SQLBd + ";Convert Zero Datetime=True";
+            try
+            {
+                string sql = "SELECT Link FROM records WHERE ID " + " = \"" + id + "\""; //
+                var daVrec = new MySqlDataAdapter(sql, myConnectionString);
+                int found = daVrec.ToString().IndexOf("/records");
+                Debug.WriteLine(daVrec.ToString().Substring(found - 8));
+
+
+                sql = "DELETE FROM records WHERE ID " + " = \"" + id + "\""; //
+                Debug.WriteLine(sql);
+                daVrec = new MySqlDataAdapter(sql, myConnectionString);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message.ToString());
+                return false;
+            }
+        }
+        
         public  List<PBPlusrecord> GetPhonebookUsers()
         {
            List<PBPlusrecord> allreco = new List<PBPlusrecord>();

@@ -7,16 +7,18 @@
 }
 
 <script src="@Url.Content("~/Scripts/DataTables/datatables.select.min.js")"></script>
+<script src="@Url.Content("~/Scripts/moment-with-locales.min.js")"></script>
 
 <div class="control_grid">
     <table id="table_rec" class="display">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Название конференции</th>
                 <th>Инициатор</th>
                 <th>Время начала</th>
                 <th>Время окончания</th>
-                <th>Ссылака</th>
+                <th>Ссылка</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -31,12 +33,11 @@
 
     $(document).ready(function () {
         oRecordsTable = $('#table_rec').DataTable({
-            "ordering": true,
+            "ordering": false,
             "searching": true,
             "paging": true,
             "autoWidth": false,
             "processing": true,
-            "order": [[2, 'asc']],
             "pageLength": 30,
             "lengthChange": false,
             "serverSide": true,
@@ -54,10 +55,36 @@
             "columns": [
                 { "data": "ID", "visible": false, "searchable": false },
                 { "data": "Conf" },
-                { "data": "Pname" },
+                { "data": "PName" },
                 { "data": "Tstart", "searchable": false },
                 { "data": "Tfinish", "searchable": false },
                 { "data": "Link", "searchable": false },
+            ],
+            "columnDefs": [
+                {
+                    "targets": 3, "data": "Tstart",
+                    "render": function (data)   {
+                        var datetime = new Date(parseInt(data.substr(6)));
+                        var datewrapper = moment(datetime);
+                        return datewrapper.format('LLL');
+                    }
+                 },
+
+                {
+                    "targets": 4, "data": "Tfinish",
+                    "render": function (data) {
+                        var datetime = new Date(parseInt(data.substr(6)));
+                        var datewrapper = moment(datetime);
+                        return datewrapper.format('LLL');
+                    }
+                },
+
+                {
+                    "targets": 5, "data": "Link",
+                    "render": function (data, type, full, meta)     {
+                         return '<a href="' + data + '">' + data + '</a>';
+                                                                    }
+                },
             ],
             "language": {
                 "processing": "Подождите...",
@@ -84,4 +111,24 @@
             },
         });
     });
+    function refresh_rec() {
+        if (oRecordsTable != null)
+            oRecordsTable.ajax.reload();
+    };
+    function delete_records() {
+        var data = [];
+        var arrayToDelete = oRecordsTable.cells('.selected', 0, { page: 'current' }).data();
+        for (var i = 0; i < arrayToDelete.length; i++) {
+            data[i] = arrayToDelete[i];
+        }
+        if (data != null) {
+            $.ajax({
+                "url": "/VideoRecords/VideoRecords_Delete",
+                "type": "POST",
+                "contentType": "application/json; charset=utf-8",
+                "data": JSON.stringify({ pbrArray: data }),
+            });
+        }
+        refresh_rec();
+    };
 </script>

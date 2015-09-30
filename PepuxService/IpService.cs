@@ -19,33 +19,49 @@ namespace PepuxService
 
         [OperationContract]
         List<ActiveConfs> GetActiveConfs();
+
         [OperationContract]
         List<Service> GetDataLocal();
+
         [OperationContract]
         List<Participants> GetActiveParts(string confname);
+
         [OperationContract]
         List<AllVmrs> GetVmrList();
+
         [OperationContract]
         string GetToken(string confname, string dispname);
+
         [OperationContract]
         string Token_refresh(string confname, string old_token);
+
         [OperationContract]
         List<Vrecords> Videorecords(string val);
 
         [OperationContract]
+        bool DeleteRecordsFromDb(int id);
+
+        [OperationContract]
         List<PBPlusrecord> GetPhonebookUsers();
+
         [OperationContract]
         PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string email, string OwNam);
+        
         //[OperationContract]
         //List<PBPlusrecord> GetAllMembers(string in_name);
+
         [OperationContract]
          bool Authenticate(string userName,string password, string domain);
+
         [OperationContract]
         List<PBPlusrecord> GetPhBOw(string OwName);
+
         [OperationContract]
         bool DeleteRecFromDb(int id, string ownm);
+
         [OperationContract]
         bool addUserToPrivat(string Owner, int IdRec, string Group);
+
         [OperationContract]
         List<PhonebookDB> GetPB();
     }

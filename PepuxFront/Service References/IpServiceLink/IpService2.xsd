@@ -209,6 +209,7 @@
       <xs:element minOccurs="0" name="SipAdd" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="TimeZone" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="dispName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="location" type="xs:boolean" />
       <xs:element minOccurs="0" name="samaccountname" nillable="true" type="xs:string" />
