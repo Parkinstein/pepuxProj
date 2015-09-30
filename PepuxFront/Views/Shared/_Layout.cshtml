@@ -6,19 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Система ВКС "Рерих"</title>
     
-    @Scripts.Render("~/bundles/modernizr")
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-	<!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
-	@Scripts.Render("~/bundles/jquery")
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.common.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.blueopal.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.dataviz.blueopal.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css"/>
-    <link href="@Url.Content("~/Content/DataTables/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
-    @Styles.Render("~/Content/css")
-	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/jquery.min.js")"></script>
+    <link href="@Url.Content("~/Content/DataTables/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css"/>
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css"/>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+	
+    <script src="@Url.Content("~/Scripts/jquery-1.11.3.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/modernizr-2.8.3.js")"></script>
+    <script src="@Url.Content("~/Scripts/modernizr-2.6.2.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Scripts/respond.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2015.1.408/jquery.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.slimscroll.js")"></script>
 	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/jszip.min.js")"></script>
 	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/kendo.all.min.js")"></script>
@@ -39,7 +42,7 @@
                     <li>@Html.ActionLink("Телефонная книга", "Phonebook", "Phonebook")</li>
                     <li>@Html.ActionLink("Управление конференциями", "Index", "Controlpanel")</li>
                     <li>@Html.ActionLink("Записи", "VideoRecords", "VideoRecords")</li>
-                    <li>@Html.ActionLink("Планировние", "Index", "Scheduler")</li>
+                    <li>@Html.ActionLink("Планирование", "Index", "Scheduler")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -54,7 +57,6 @@
     </div>
 
     
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

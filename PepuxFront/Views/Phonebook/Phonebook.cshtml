@@ -60,19 +60,18 @@
 
     $(document).ready(function() {
         oPhonebookTable = $('#table_pb').DataTable({
-            "ordering": false,
+            "ordering": true,
             "searching": true,
-            "paging": false,
+            "paging": true,
             "autoWidth": false,
             "processing": true,
-            "order": [[8, 'asc']],
+            "order": [[ 4, 'asc' ]],
             "pageLength": 30,
             "lengthChange": false,
             "serverSide": true,
             "select": {
                 "style": 'multi',
             },
-            rowId: 'surname',
 
             "ajax": {
                 "type": "POST",
@@ -82,9 +81,9 @@
             },
 
             "columns": [
-                { "data": "id", "visible": false },
+                { "data": "id", "visible": false, "searchable": false },
                 { "data": "name" },
-                { "data": "surname", "searchable": false },
+                { "data": "surname" },
                 { "data": "position", "searchable": false },
                 { "data": "tel_int", "searchable": false },
                 { "data": "tel_ext", "searchable": false },
@@ -104,12 +103,11 @@
                 var rows = api.rows({ page: 'current' }).nodes();
                 var last = null;
 
-                api.column(8, { page: 'current' }).data().each(function(group, i) {
+                api.column(9, { page: 'current' }).data().each(function(group, i) {
                     if (last !== group) {
                         $(rows).eq(i).before(
                             '<tr class="phonebook_groups"><td colspan="12">' + group + '</td></tr>'
                         );
-
                         last = group;
                     }
                 });
@@ -122,6 +120,7 @@
                 "lengthMenu": "Показать _MENU_ записей",
                 "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
                 "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "rowSelected": "0 рядов выделено",
                 "infoFiltered": "(отфильтровано из _MAX_ записей)",
                 "infoPostFix": "",
                 "loadingRecords": "Загрузка записей...",
