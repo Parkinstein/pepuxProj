@@ -5,23 +5,24 @@ using System.Web;
 using Kendo.Mvc.UI;
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 
 namespace PepuxFront.Models
 {
-    public  class SchedulerMeetingService : ISchedulerEventService<MeetingViewModel>
+    public sealed class SchedulerMeetingService : ISchedulerEventService<MeetingViewModel>
     {
-        private DatabsDataContext db;
+        private MeetingEntitys db;
 
-        public SchedulerMeetingService(DatabsDataContext context)
+        public SchedulerMeetingService(MeetingEntitys context)
         {
             db = context;
         }
 
         public SchedulerMeetingService()
-            : this(new DatabsDataContext())
+            : this(new MeetingEntitys())
         {
         }
 
@@ -37,50 +38,50 @@ namespace PepuxFront.Models
                 EndTimezone = meeting.EndTimezone,
                 Description = meeting.Description,
                 IsAllDay = meeting.IsAllDay,
-                RoomID = meeting.RoomID,
+                RoomID = (int)meeting.RoomID,
                 RecurrenceRule = meeting.RecurrenceRule,
                 RecurrenceException = meeting.RecurrenceException,
                 RecurrenceID = meeting.RecurrenceID,
-                Attendees = meeting.MeetingAttendees.Select(m => m.AttendeeID).ToArray()
+                Attendees = meeting.MeetingAttendees.Select(m => m.AttendeeID).ToArray(),
+                OpLink = meeting.Oplink,
+                AddAttend = meeting.AddAttend,
+                FileLink = meeting.FileLink,
+                Record = meeting.Record,
+                Recfile = meeting.Recfile
+
             }).AsQueryable();
         }
 
-        public void Insert(MeetingViewModel appointment, ModelStateDictionary modelState)
+        public void Insert(MeetingViewModel meeting, ModelStateDictionary modelState)
         {
-            throw new NotImplementedException();
+            if (ValidateModel(meeting, modelState))
+            {
+                if (meeting.Attendees == null)
+                {
+                    meeting.Attendees = new int[0];
+                }
+
+                if (string.IsNullOrEmpty(meeting.Title))
+                {
+                    meeting.Title = "";
+                }
+
+                var entity = meeting.ToEntity();
+
+                foreach (var attendeeId in meeting.Attendees)
+                {
+                    entity.MeetingAttendees.Add(new MeetingAttendees
+                    {
+                        AttendeeID = attendeeId
+                    });
+                }
+
+                db.Meetings.Add(entity);  //.Meetings.Add(entity);
+                db.SaveChanges();
+
+                meeting.MeetingID = entity.MeetingID;
+            }
         }
-
-
-        //public virtual void Insert(MeetingViewModel meeting, ModelStateDictionary modelState)
-        //{
-        //    if (ValidateModel(meeting, modelState))
-        //    {
-        //        if (meeting.Attendees == null)
-        //        {
-        //            meeting.Attendees = new int[0];
-        //        }
-
-        //        if (string.IsNullOrEmpty(meeting.Title))
-        //        {
-        //            meeting.Title = "";
-        //        }
-
-        //        var entity = meeting.ToEntity();
-
-        //        foreach (var attendeeId in meeting.Attendees)
-        //        {
-        //            entity.MeetingAttendees.Add(new MeetingAttendee
-        //            {
-        //                AttendeeID = attendeeId
-        //            });
-        //        }
-
-        //        db.Meetings.Attach(entity); //  .Add(entity);
-        //        db.SubmitChanges();//SaveChanges();
-
-        //        meeting.MeetingID = entity.MeetingID;
-        //    }
-        //}
 
         public void Update(MeetingViewModel meeting, ModelStateDictionary modelState)
         {
@@ -91,7 +92,7 @@ namespace PepuxFront.Models
                     meeting.Title = "";
                 }
 
-                var entity = db.Meetings.Include(model => model.MeetingAttendees).FirstOrDefault(m => m.MeetingID == meeting.MeetingID);
+                var entity = db.Meetings.Include("MeetingAttendees").FirstOrDefault(m => m.MeetingID == meeting.MeetingID);
 
                 entity.Title = meeting.Title;
                 entity.Start = meeting.Start;
@@ -104,6 +105,11 @@ namespace PepuxFront.Models
                 entity.RecurrenceException = meeting.RecurrenceException;
                 entity.StartTimezone = meeting.StartTimezone;
                 entity.EndTimezone = meeting.EndTimezone;
+                entity.Oplink = meeting.OpLink;
+                entity.AddAttend = meeting.AddAttend;
+                entity.FileLink = meeting.FileLink;
+                entity.Record = meeting.Record;
+                entity.Recfile = meeting.Recfile;
 
                 foreach (var meetingAttendee in entity.MeetingAttendees.ToList())
                 {
@@ -114,7 +120,7 @@ namespace PepuxFront.Models
                 {
                     foreach (var attendeeId in meeting.Attendees)
                     {
-                        var meetingAttendee = new MeetingAttendee
+                        var meetingAttendee = new MeetingAttendees
                         {
                             MeetingID = entity.MeetingID,
                             AttendeeID = attendeeId
@@ -124,7 +130,7 @@ namespace PepuxFront.Models
                     }
                 }
 
-                db.SubmitChanges();//   .SaveChanges();
+                db.SaveChanges();
             }
         }
 
@@ -139,7 +145,7 @@ namespace PepuxFront.Models
 
             db.Meetings.Attach(entity);
 
-            var attendees = meeting.Attendees.Select(attendee => new MeetingAttendee
+            var attendees = meeting.Attendees.Select(attendee => new MeetingAttendees
             {
                 AttendeeID = attendee,
                 MeetingID = entity.MeetingID
@@ -156,18 +162,18 @@ namespace PepuxFront.Models
 
             foreach (var recurrenceException in recurrenceExceptions)
             {
-                db.Meetings.DeleteOnSubmit(recurrenceException);//.Remove(recurrenceException);
+                db.Meetings.Remove(recurrenceException);
             }
 
-            db.Meetings.DeleteOnSubmit(entity);//.Remove(entity);
-            db.SubmitChanges();
+            db.Meetings.Remove(entity);
+            db.SaveChanges();
         }
 
         private bool ValidateModel(MeetingViewModel appointment, ModelStateDictionary modelState)
         {
             if (appointment.Start > appointment.End)
             {
-                modelState.AddModelError("errors", "End date must be greater or equal to Start date.");
+                modelState.AddModelError("errors", "Конечная дата должна быть позже начальной");
                 return false;
             }
 

@@ -465,6 +465,7 @@ namespace PepuxService
                             objSurveyUsers.position = (String) result.Properties["title"][0];
                             objSurveyUsers.email = (String)result.Properties["email"][0];
                             objSurveyUsers.samaccountname = (String)result.Properties["sAMAccountName"][0];
+                            objSurveyUsers.dispname = (String)result.Properties["displayName"][0];
                             allreco.Add(objSurveyUsers);
                         }
                     }
@@ -535,6 +536,7 @@ namespace PepuxService
                         new_rec.samaccountname = adus.samaccountname;
                         new_rec.Phone_int = adus.tel_int;
                         new_rec.email = adus.email;
+                        new_rec.dispName = adus.dispname;
                         new_rec.location = false;
                         db.PhonebookDBs.InsertOnSubmit(new_rec);
                         db.SubmitChanges();
@@ -623,6 +625,7 @@ namespace PepuxService
             nr.SipAdd = sip_add;
             nr.TimeZone = timezone;
             nr.email = email;
+            nr.dispName = in_name + " " + in_surname;
             nr.location = true;
             AddRecToPB(nr, group, OwNam);
             return nr;
@@ -677,6 +680,7 @@ namespace PepuxService
                 temp.tel_mob = srec.Phone_mob;
                 temp.h323_add = srec.H323Add;
                 temp.sip_add = srec.SipAdd;
+                temp.dispname = srec.dispName;
                 temp.email = srec.email;
                 temp.timezone = srec.TimeZone;
                 if (!String.IsNullOrEmpty(sel.Group))

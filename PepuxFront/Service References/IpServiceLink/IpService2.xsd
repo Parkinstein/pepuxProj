@@ -180,6 +180,7 @@
   <xs:element name="ArrayOfaddrec" nillable="true" type="tns:ArrayOfaddrec" />
   <xs:complexType name="addrec">
     <xs:sequence>
+      <xs:element minOccurs="0" name="dispname" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="group" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="h323_add" nillable="true" type="xs:string" />

@@ -481,7 +481,8 @@ namespace PepuxService
         [DataMember]
         public string position { get; set; }
         [DataMember]
-        
+        public string dispname { get; set; }
+        [DataMember]
         public string samaccountname { get; set; }
         [DataMember]
         public string tel_int { get; set; }

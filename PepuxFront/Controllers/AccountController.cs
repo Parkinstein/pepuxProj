@@ -20,6 +20,7 @@ namespace PepuxFront.Controllers
         public static string SAMUname;
         public static string Ugroup;
         public static bool IsAuth;
+        public static UserPrincipal currentuser;
         public ActionResult Login()
         {
             return this.View();
@@ -122,14 +123,14 @@ namespace PepuxFront.Controllers
             PrincipalContext yourDomain = new PrincipalContext(ContextType.Domain, domain, userName, pass);
 
             // find your user
-            UserPrincipal user = UserPrincipal.FindByIdentity(yourDomain, userName);
+            currentuser = UserPrincipal.FindByIdentity(yourDomain, userName);
 
             // if found - grab its groups
-            if (user != null)
+            if (currentuser != null)
             {
-                PrincipalSearchResult<Principal> groups = user.GetAuthorizationGroups();
-                Uname = user.DisplayName;
-                SAMUname = user.SamAccountName;
+                PrincipalSearchResult<Principal> groups = currentuser.GetAuthorizationGroups();
+                Uname = currentuser.DisplayName;
+                SAMUname = currentuser.SamAccountName;
 
                 // iterate over all groups
                 foreach (Principal p in groups)

@@ -64,6 +64,7 @@
       <Column Name="samaccountname" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="location" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="email" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="dispName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

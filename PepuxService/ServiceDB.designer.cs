@@ -1115,6 +1115,8 @@ namespace PepuxService
 		
 		private string _email;
 		
+		private string _dispName;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1145,6 +1147,8 @@ namespace PepuxService
     partial void OnlocationChanged();
     partial void OnemailChanging(string value);
     partial void OnemailChanged();
+    partial void OndispNameChanging(string value);
+    partial void OndispNameChanged();
     #endregion
 		
 		public PhonebookDB()
@@ -1408,6 +1412,26 @@ namespace PepuxService
 					this._email = value;
 					this.SendPropertyChanged("email");
 					this.OnemailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dispName", DbType="NVarChar(MAX)")]
+		public string dispName
+		{
+			get
+			{
+				return this._dispName;
+			}
+			set
+			{
+				if ((this._dispName != value))
+				{
+					this.OndispNameChanging(value);
+					this.SendPropertyChanging();
+					this._dispName = value;
+					this.SendPropertyChanged("dispName");
+					this.OndispNameChanged();
 				}
 			}
 		}

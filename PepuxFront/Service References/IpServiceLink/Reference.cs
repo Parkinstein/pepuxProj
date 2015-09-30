@@ -1599,6 +1599,9 @@ namespace PepuxFront.IpServiceLink {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string dispnameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string emailField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -1644,6 +1647,19 @@ namespace PepuxFront.IpServiceLink {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string dispname {
+            get {
+                return this.dispnameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.dispnameField, value) != true)) {
+                    this.dispnameField = value;
+                    this.RaisePropertyChanged("dispname");
+                }
             }
         }
         

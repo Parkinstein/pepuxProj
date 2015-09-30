@@ -20,7 +20,7 @@
         <elementListCompartment Id="e5701428-3396-450b-bf95-cdf83ece1963" absoluteBounds="3.2650000000000006, 3.835, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 4.26044840494792); (3.25 : 4.26044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.5 : 4.26044840494792); (3.25 : 4.26044840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/ServiceDataContext/AllVmr/AllVmr_VmrAliase" />
       <nodes>
         <classShapeMoniker Id="c3521955-e360-4355-b661-cea96e29103f" />
@@ -33,10 +33,10 @@
         <elementListCompartment Id="e05f21c5-5b8b-4528-a186-dc447acc1b4d" absoluteBounds="8.39, 1.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="2f2bc48b-95ce-47f7-9c79-7529c94d786d" absoluteBounds="5.5, 1.75, 2, 3.3093082682291666">
+    <classShape Id="453b7053-22ae-409a-afe0-dd2d5d99e218" absoluteBounds="5.5, 1.125, 2, 3.5016097005208326">
       <DataClassMoniker Name="/ServiceDataContext/PhonebookDB" />
       <nestedChildShapes>
-        <elementListCompartment Id="a4c76564-7f76-4c43-8d73-67398cc268e9" absoluteBounds="5.515, 2.21, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="7ed5fe57-9e00-42e7-abb4-d512f4fc5fc8" absoluteBounds="5.515, 1.585, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>
