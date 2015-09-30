@@ -20,7 +20,7 @@ using Microsoft.Ajax.Utilities;
 using Microsoft.Owin.BuilderProperties;
 using PepuxFront.IpServiceLink;
 using PepuxFront.Models;
-using Telerik.Charting;
+//using Telerik.Charting;
 
 namespace PepuxFront.Controllers
 {

@@ -8,7 +8,6 @@ using Kendo.Mvc.UI;
 using PepuxFront.IpServiceLink;
 using PepuxFront.Models;
 using Renci.SshNet;
-
 namespace PepuxFront.Controllers
 {
     public class VideoRecordsController : Controller
@@ -18,19 +17,45 @@ namespace PepuxFront.Controllers
         {
             return View();
         }
-        public ActionResult All_VideoRec(string val,[DataSourceRequest]DataSourceRequest request)
+
+        public ActionResult VideoRecords_Ajax(VideoRecords.DTResult param)
         {
-            using (var allvrecs = new IpServiceLink.PServiceClient())
+            IEnumerable<IpServiceLink.allrecords> filteredresult = GetRec();
+            List<IpServiceLink.allrecords> list = new List<allrecords>();
+            if (!String.IsNullOrEmpty(param.Search.Value))
             {
-
-                IQueryable<IpServiceLink.allrecords> vrecs = allvrecs.Videorecords(val).AsQueryable();
-
-                DataSourceResult result = vrecs.ToDataSourceResult(request);
-
-                return Json(result);
+                filteredresult = GetRec().Where(c => (c.Conf.Contains(param.Search.Value) || c.PName.Contains(param.Search.Value)));
             }
 
+                return Json(new
+            {
+                recordsTotal = GetRec().Count(),
+                recordsFiltered = filteredresult.Count(),
+                data = filteredresult,
+            }, JsonRequestBehavior.AllowGet);
         }
+
+
+        public IEnumerable<IpServiceLink.allrecords> GetRec()
+        {
+            IpServiceLink.PServiceClient obj = new PServiceClient();
+
+            if (AccountController.Ugroup != "PepuxAdmins")
+            {
+                return obj.Videorecords(AccountController.SAMUname);
+            }
+            else
+            {
+               return obj.Videorecords("");
+            }
+            //using (var allvrecs = new IpServiceLink.PServiceClient())
+            //{
+            //    IQueryable<IpServiceLink.allrecords> vrecs = allvrecs.Videorecords(val).AsQueryable();
+            //    DataSourceResult result = vrecs.ToDataSourceResult(request); 
+            //}
+
+        }
+        
         public ActionResult VideoRecDelete(string filepath)
         {
             using (var client = new SshClient("10.157.5.87", "username", "password"))
