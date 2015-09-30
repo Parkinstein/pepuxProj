@@ -6,50 +6,82 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="@Url.Content("~/Scripts/DataTables/datatables.select.min.js")"></script>
 
-<h2>Сохранённые записи</h2>
-<body>
-<div id="confcontrol" class="control_panel">
-    @(Html.Kendo().Grid<PepuxFront.IpServiceLink.allrecords>()
-          .Name("vrgrid")
-          .DataSource(dataSource => dataSource
-              .Ajax()
-              .Read(read => read.Action("All_VideoRec", "VideoRecords").Data("additionalData"))
-              .AutoSync(true)
-              .PageSize(20)
-          )
-          .Columns(columns =>
-          {
-              columns.Bound(product => product.Conf).Title("Название конференции");
-              columns.Bound(product => product.PName).Title("Инициатор");
-              columns.Bound(product => product.Tstart).Title("Врем начала").Format("{0:F}");
-              columns.Bound(product => product.Tfinish).Title("Время окончания").Format("{0:F}");
-              columns.Bound(product => product.Link).Encoded(false).Title("Ссылка").ClientTemplate("<a href="+"\"#= Link #\""+">Link</a>");
-              //columns.Bound(i => i.name).Title("Список участников").ClientTemplate(@Html.ActionLink("Участники", "GetParticipants", "Admin", new { confname = "#= name #" }, new { @class = "modal-link btn btn-success" }).ToHtmlString());
-
-          })
-
-          .Pageable()
-          .Sortable()
-          .Filterable()
-          )
+<div class="control_grid">
+    <table id="table_rec" class="display">
+        <thead>
+            <tr>
+                <th>Название конференции</th>
+                <th>Инициатор</th>
+                <th>Время начала</th>
+                <th>Время окончания</th>
+                <th>Ссылака</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="phonebook_buttons">
+        <input id="delete" type="button" onclick="delete_pb_users()" value="Удалить" class="phonebook_button_delete" />
+    </div>
 </div>
 
 <script>
-    kendo.culture("ru-RU");
-</script>
-    <script>
-        function additionalData() {
-            if ("@AccountController.Ugroup" == "PepuxAdmins") {
-                return {
-                    filter: "",
-                    val: ""
+    var oRecordsTable;
+
+    $(document).ready(function () {
+        oRecordsTable = $('#table_rec').DataTable({
+            "ordering": true,
+            "searching": true,
+            "paging": true,
+            "autoWidth": false,
+            "processing": true,
+            "order": [[2, 'asc']],
+            "pageLength": 30,
+            "lengthChange": false,
+            "serverSide": true,
+            "select": {
+                "style": 'multi',
+            },
+
+            "ajax": {
+                "type": "POST",
+                "url": "/VideoRecords/VideoRecords_Ajax",
+                "contentType": 'application/json; charset=utf-8',
+                "data": function (data) { return data = JSON.stringify(data); }
+            },
+
+            "columns": [
+                { "data": "ID", "visible": false, "searchable": false },
+                { "data": "Conf" },
+                { "data": "Pname" },
+                { "data": "Tstart", "searchable": false },
+                { "data": "Tfinish", "searchable": false },
+                { "data": "Link", "searchable": false },
+            ],
+            "language": {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать _MENU_ записей",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "rowSelected": "0 рядов выделено",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
                 }
-            } else {
-                return {
-                    filter: "Conf",
-                    val: "@AccountController.Uname"}
-           }
-        }
-    </script>
-</body>
+            },
+        });
+    });
+</script>

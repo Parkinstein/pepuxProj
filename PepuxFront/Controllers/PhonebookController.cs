@@ -85,10 +85,6 @@ namespace PepuxFront.Controllers
             {
                 filteredresult = GetPB().Where(c => (c.surname.Contains(param.Search.Value) || c.name.Contains(param.Search.Value)));
             }
-            else
-            {
-                filteredresult = GetPB();
-            }
 
             return Json(new
             {
