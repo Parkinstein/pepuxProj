@@ -12,7 +12,7 @@
 
 <script>
     function getColor(data) {
-        @*var date = @DateTime.UtcNow.ToUniversalTime();
+        var date = $.now();
         //date = date.addDays(15);
         datenow = (date).toString();
         if (kendo.toString(data.start, 'yyyy/MM/dd HH:mm:ss.fff') < datenow && datenow < kendo.toString(data.end, 'yyyy/MM/dd HH:mm:ss.fff')) {
@@ -21,12 +21,12 @@
             return "gray";
         } else {
             return "blur";
-        }*@
-        return "gray";
+        }
+        
     }
 
     function getColor2(data) {
-        @*var date = @DateTime.UtcNow.ToUniversalTime();
+        var date = $.now();
         //date = date.addDays(15);
         datenow = (date).toString();
         if (kendo.toString(data.start, 'yyyy/MM/dd HH:mm:ss.fff') < datenow && datenow < kendo.toString(data.end, 'yyyy/MM/dd HH:mm:ss.fff')) {
@@ -35,8 +35,7 @@
             return "white";
         } else {
             return "blur";
-        }*@
-        return "white";
+        }
     }
 
 
