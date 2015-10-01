@@ -2147,6 +2147,12 @@ namespace PepuxFront.IpServiceLink {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/Videorecords", ReplyAction="http://tempuri.org/IPService/VideorecordsResponse")]
         System.Threading.Tasks.Task<PepuxFront.IpServiceLink.allrecords[]> VideorecordsAsync(string val);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/DeleteRecordsFromDb", ReplyAction="http://tempuri.org/IPService/DeleteRecordsFromDbResponse")]
+        bool DeleteRecordsFromDb(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/DeleteRecordsFromDb", ReplyAction="http://tempuri.org/IPService/DeleteRecordsFromDbResponse")]
+        System.Threading.Tasks.Task<bool> DeleteRecordsFromDbAsync(int id);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPService/GetPhonebookUsers", ReplyAction="http://tempuri.org/IPService/GetPhonebookUsersResponse")]
         PepuxFront.IpServiceLink.addrec[] GetPhonebookUsers();
         
@@ -2279,6 +2285,14 @@ namespace PepuxFront.IpServiceLink {
         
         public System.Threading.Tasks.Task<PepuxFront.IpServiceLink.allrecords[]> VideorecordsAsync(string val) {
             return base.Channel.VideorecordsAsync(val);
+        }
+        
+        public bool DeleteRecordsFromDb(int id) {
+            return base.Channel.DeleteRecordsFromDb(id);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteRecordsFromDbAsync(int id) {
+            return base.Channel.DeleteRecordsFromDbAsync(id);
         }
         
         public PepuxFront.IpServiceLink.addrec[] GetPhonebookUsers() {

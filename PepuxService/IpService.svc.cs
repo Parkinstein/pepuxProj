@@ -435,11 +435,18 @@ namespace PepuxService
             try
             {
                 string sql = "SELECT Link FROM records WHERE ID " + " = \"" + id + "\""; //
+                Debug.WriteLine(sql);
                 var daVrec = new MySqlDataAdapter(sql, myConnectionString);
-                int found = daVrec.ToString().IndexOf("/records");
-                Debug.WriteLine(daVrec.ToString().Substring(found - 8));
-
-
+                var dsVrec = new DataSet();
+                daVrec.Fill(dsVrec, "links");
+                foreach (DataRow dr in dsVrec.Tables["links"].Rows)
+                {
+                    var link = Convert.ToString(dr["Link"]);
+                    Debug.WriteLine(link);
+                    int found = link.IndexOf("/records");
+                    Debug.WriteLine(found);
+                    Debug.WriteLine(link.Substring(found));
+                }
                 sql = "DELETE FROM records WHERE ID " + " = \"" + id + "\""; //
                 Debug.WriteLine(sql);
                 daVrec = new MySqlDataAdapter(sql, myConnectionString);

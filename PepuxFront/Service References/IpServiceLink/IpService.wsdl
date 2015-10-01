@@ -55,6 +55,12 @@
   <wsdl:message name="IPService_Videorecords_OutputMessage">
     <wsdl:part name="parameters" element="tns:VideorecordsResponse" />
   </wsdl:message>
+  <wsdl:message name="IPService_DeleteRecordsFromDb_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRecordsFromDb" />
+  </wsdl:message>
+  <wsdl:message name="IPService_DeleteRecordsFromDb_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRecordsFromDbResponse" />
+  </wsdl:message>
   <wsdl:message name="IPService_GetPhonebookUsers_InputMessage">
     <wsdl:part name="parameters" element="tns:GetPhonebookUsers" />
   </wsdl:message>
@@ -129,6 +135,10 @@
     <wsdl:operation name="Videorecords">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/Videorecords" message="tns:IPService_Videorecords_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPService/VideorecordsResponse" message="tns:IPService_Videorecords_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRecordsFromDb">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPService/DeleteRecordsFromDb" message="tns:IPService_DeleteRecordsFromDb_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPService/DeleteRecordsFromDbResponse" message="tns:IPService_DeleteRecordsFromDb_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetPhonebookUsers">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetPhonebookUsers" message="tns:IPService_GetPhonebookUsers_InputMessage" />
@@ -226,6 +236,15 @@
     </wsdl:operation>
     <wsdl:operation name="Videorecords">
       <soap:operation soapAction="http://tempuri.org/IPService/Videorecords" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRecordsFromDb">
+      <soap:operation soapAction="http://tempuri.org/IPService/DeleteRecordsFromDb" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
