@@ -432,31 +432,35 @@ namespace PepuxService
         {
             var myConnectionString = "server=" + Properties.Settings.Default.SQLServ + ";uid=" + Properties.Settings.Default.SQLUser + ";" +
                 "pwd=" + Properties.Settings.Default.SQLPass + ";database=" + Properties.Settings.Default.SQLBd + ";Convert Zero Datetime=True";
+            MySqlConnection conn = new MySqlConnection(myConnectionString);
             try
-            {
-                string sql = "SELECT Link FROM records WHERE ID " + " = \"" + id + "\""; //
-                Debug.WriteLine(sql);
-                var daVrec = new MySqlDataAdapter(sql, myConnectionString);
-                var dsVrec = new DataSet();
-                daVrec.Fill(dsVrec, "links");
-                foreach (DataRow dr in dsVrec.Tables["links"].Rows)
                 {
-                    var link = Convert.ToString(dr["Link"]);
-                    Debug.WriteLine(link);
-                    int found = link.IndexOf("/records");
-                    Debug.WriteLine(found);
-                    Debug.WriteLine(link.Substring(found));
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand();
+                    string sql = String.Format("SELECT Link FROM records WHERE ID " + " = \"" + id + "\"");
+                    var daVrec = new MySqlDataAdapter(sql, conn);
+                    var dsVrec = new DataSet();
+                    daVrec.Fill(dsVrec, "links");
+                    foreach (DataRow dr in dsVrec.Tables["links"].Rows)
+                    {
+                        var link = Convert.ToString(dr["Link"]);
+                        Debug.WriteLine(link);
+                        int found = link.IndexOf("/records");
+                        Debug.WriteLine(found);
+                        Debug.WriteLine(link.Substring(found));
+                    }
+                    string sql = String.Format("DELET FROM records WHERE ID " + " = \"" + id + "\"");
+                    cmd.CommandText = sql 
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Clone();
+                    return true;
                 }
-                sql = "DELETE FROM records WHERE ID " + " = \"" + id + "\""; //
-                Debug.WriteLine(sql);
-                daVrec = new MySqlDataAdapter(sql, myConnectionString);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message.ToString());
-                return false;
-            }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message.ToString());
+                    return false;
+                }
         }
         
         public  List<PBPlusrecord> GetPhonebookUsers()
