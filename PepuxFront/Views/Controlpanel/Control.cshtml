@@ -1,188 +1,337 @@
 ﻿@using PepuxFront.Controllers
+<script src="@Url.Content("~/Scripts/DataTables/datatables.select.min.js")"></script>
 <body onload="user.join()">
-    <div id="confcontrol" class="control_panel">
-        <table>
-            <tr>
-                <td class="controlcol">
-                    <div id="rosterlist" class="roster_list">
-                        <ul class="roster_entry_ul">
-                            <div class="roster_entry_ul_header"><b>Участники виртуальной переговорной комнаты</b></div>
-                            <div class="roster_entry_ul_header_coference_control">
-                                <i id="conflock" onclick="user.lock()"></i>
-                                <i id="guestsmuted" onclick="user.muteallguests()"></i>
-                                <i id="disconnectall" onclick="user.disconnect_all()"></i>
-                                <i id="record" onclick="user.record()"></i>
-                            </div>
-                        </ul>
-                    </div>
-                    
-                    <div style="min-height: 10px; width: 100%"></div>
-
-                    <div id="waitingroom" class="roster_list">
-                        <ul class="roster_entry_ul">
-                            <div class="roster_entry_ul_header"><b>Комната ожидания</b></div>
-                        </ul>
-                    </div>
-                    
-                    <div style="min-height: 10px; width: 100%"></div>
-
-                    <div id="dialdiv" class="dialdiv">
-                        <fieldset>
-                            <legend class="dialdiv_legend">Подключить участника</legend>
-                            <div class="dialdiv_container">
-                                <div class="dialdiv_protocol">
-                                    <label class="dialdiv_header">Протокол </label>
-                                    <select id="protocol" value="sip" class="form-control dial_protocol">
-                                        <option value="sip">SIP</option>
-                                        <option value="h323">H.323</option>
-                                        <option value="mssip">Lync</option>
-                                        <option value="rtmp">RTMP</option>
-                                    </select>
-                                    <br />
-                                    <label class="dialdiv_header">Роль </label>
-                                    <select id="role" value="guest" class="form-control dial_protocol">
-                                        <option value="guest">гость</option>
-                                        <option value="host">хост</option>
-                                    </select>
-                                </div>
-                                <div class="dialdiv_alias">
-                                    <label class="dialdiv_header">Локальный alias </label>
-                                    <input id="localalias" value="" class="form-control dial_alias">
-                                    <br />
-                                    <label class="dialdiv_header">Удалённый alias </label>
-                                    <input id="remotealias" value="" class="form-control dial_alias">
-                                </div>
-                            </div>
-                            <input id="dial" type="button" onclick="user.dial()" value="Вызвать" class="dialdiv_button"/>
-                        </fieldset>
-                    </div>
-                </td>
-
-                <td class="controlcol">
-                    <div id="layoutdiv" class="layoutdiv">
-                        <fieldset>
-                            <legend class="layoutdiv_legend">Управление раскладкой видео</legend>
-                            <div class="layout_layout_1">
-                                <label class="layoutdiv_header">Участники </label>
-                                <label class="layoutdiv_header">Управление раскладками </label>
-                                <label class="layoutdiv_header">PlusN (откл/авто/n)</label>
-                                
-                            </div>
-                            <div class="layout_layout_2">
-                                <select id="actors" value="everyone" class="form-control layoutdiv_select">
-                                    <option value="everyone">все</option>
-                                    <option value="selected">выбранные</option>
-                                </select>
-                                <select id="layout" value="1:7" class="form-control layoutdiv_select">
-                                    <option value="1:0">1 основной</option>
-                                    <option value="4:0">ОдинаковоеEqual layout</option>
-                                    <option value="1:7">1 основной + 7 дополнительных</option>
-                                    <option value="1:21">1 основной + 21 дополнительных</option>
-                                </select>
-                                <input id="plusn" list="plusnvalues" value="auto" class="form-control layoutdiv_select"/>
-                                <datalist id="plusnvalues"><option id="auto_option" value="auto"><option value="off"/></datalist>
-
-
-                            </div>
-                            <div class="layout_layout_3">
-                                <label class="layoutdiv_header">VAD backfill </label>
-                                <label class="layoutdiv_header">Экранные надписи </label>
-                                <label class="layoutdiv_header">Для участников:</label>
-                            </div>
-                            <div class="layout_layout_4">
-                                <input type="checkbox" id="vadbackfill" checked />
-                                <select id="overlay_text" value="off" class="form-control layoutdiv_select">
-                                    <option value="off">откл</option>
-                                    <option value="auto">авто</option>
-                                </select>
-                                <select id="audience" value="everyone" onchange="update_audience()" class="form-control layoutdiv_select">
-                                    <option value="everyone">всех</option>
-                                    <option value="hosts">только для гостей</option>
-                                </select>
-                            </div>
-
-                            <br />
-                            <div id="guestlayout" class="hide">
-                                <div class="layout_layout_1">
-                                    <label class="layoutdiv_header">Участники </label>
-                                    <label class="layoutdiv_header">Управление раскладками </label>
-                                    <label class="layoutdiv_header">PlusN (откл/авто/n)</label>
-                                </div>
-                                <br />
-                                <div class="layout_layout_2">
-                                    <select id="guest_actors" value="everyone" class="form-control layoutdiv_select">
-                                        <option value="everyone">все</option>
-                                        <option value="selected">выбранные</option>
-                                    </select>
-                                    <select id="guest_layout" value="1:7" class="form-control layoutdiv_select">
-                                        <option value="1:0">1 основной</option>
-                                        <option value="4:0">ОдинаковоеEqual layout</option>
-                                        <option value="1:7">1 основной + 7 дополнительных</option>
-                                        <option value="1:21">1 основной + 21 дополнительных</option>
-                                    </select>
-                                    <input id="plusn" list="plusnvalues" value="auto" class="form-control layoutdiv_select" />
-                                    <datalist id="plusnvalues"><option id="auto_option" value="auto"><option value="off"></datalist>
-                                </div>
-                                <div class="layout_layout_3">
-                                    <label class="layoutdiv_header">VAD backfill </label>
-                                    <label class="layoutdiv_header">Экранные надписи </label>
-                                    <label class="layoutdiv_header">Для участников:</label>
-                                    
-                                </div>
-                                <br />
-                                <div class="layout_layout_4">
-                                    <input type="checkbox" id="guest_vadbackfill" checked />
-                                    <select id="guest_overlay_text" value="off" class="form-control layoutdiv_select">
-                                        <option value="off">откл</option>
-                                        <option value="auto">авто</option>
-                                    </select>
-                                    <select id="guest_audience" value="guests" class="form-control layoutdiv_select">
-                                        <option value="guests">гостей</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <input id="overridelayout" type="button" onclick="user.overridelayout()" value="Изменить раскладку" class="layoutdiv_button" />
-                            <input id="resetlayout" type="button" onclick="user.resetlayout()" value="Вернуть исходное состояние" class="layoutdiv_button" /><br />
-                    </fieldset>
-                    </div>
-
-                    <div style="min-height: 10px; width: 100%"></div>
-
-                    <div id="liveviewdiv" class="liveviewdiv">
-                        <fieldset>
-                            <legend class="liveviewdiv_legend">Сейчас транслируется в комнате</legend>
-                            <div id="liveviewplayer" class="liveviewdiv_player"></div>
-                            <img id="presentation" class="liveviewdiv_player"><br/>
-                            <input id="liveview" type="button" onclick="user.liveview()" value="Просмотр видео" class="liveviewdiv_livebutton" />
-                            <br />
-                            <div class="liveviewdiv_rtmp" class="liveviewdiv_rtmp">
-                                <input id="rtmpaddress" class="form-control liveviewdiv_rtmptext"/>
-                                <input id="getrtmpaddress" type="button" onclick="user.getrtmpaddress()" value="Получить RTMP ссылку" class="liveviewdiv_rtmpbutton" />
-                            </div>
-                        </fieldset>
-                    </div>
-
-                    <div style="min-height: 10px; width: 100%"></div>
-
-                    <div id="chatdiv" class="chatdiv">
-                        <fieldset>
-                            <legend class="chatdiv_legend">Чат вирутальной переговорной комнаты</legend>
-                            <form onsubmit="return user.send_message()">
-                                <div id="chatbox" class="chatbox"></div>
-                                <br />
-                                <input id="chatinput" style="width: 70%;" class="form-control chatdiv_text"/>
-                                <input id="chatsend" type="button" onclick="user.send_message()" value="Отправить" class="chatdiv_button"/>
-                            </form>
-                        </fieldset>
-                    </div>
-                </td>
-            </tr>
-        </table>
+<div id="confcontrol" class="control_panel">
+<table>
+<tr>
+<td class="controlcol">
+    <div id="rosterlist" class="roster_list">
+        <ul class="roster_entry_ul">
+            <div class="roster_entry_ul_header"><b>Участники виртуальной переговорной комнаты</b>
+            </div>
+            <div class="roster_entry_ul_header_coference_control">
+                <i id="host" onclick="user.lock()"></i>
+                <i id="conflock" onclick="user.lock()"></i>
+                <i id="guestsmuted" onclick="user.muteallguests()"></i>
+                <i id="disconnectall" onclick="user.disconnect_all()"></i>
+                <i id="record" onclick="user.record()"></i>
+            </div>
+        </ul>
     </div>
+
+    <div style="min-height: 10px; width: 100%"></div>
+
+    <div id="waitingroom" class="roster_list">
+        <ul class="roster_entry_ul">
+            <div class="roster_entry_ul_header"><b>Комната ожидания</b>
+            </div>
+        </ul>
+    </div>
+
+    <div style="min-height: 10px; width: 100%"></div>
+
+    <div id="dialdiv" class="dialdiv">
+        <fieldset>
+            <legend class="dialdiv_legend">Подключить участника</legend>
+            <div class="dialdiv_container">
+                <div class="dialdiv_protocol">
+                    <label class="dialdiv_header">Протокол </label>
+                    <select id="protocol" value="sip" class="form-control dial_protocol">
+                        <option value="sip">SIP</option>
+                        <option value="h323">H.323</option>
+                        <option value="mssip">Lync</option>
+                        <option value="rtmp">RTMP</option>
+                    </select>
+                    <br/>
+                    <label class="dialdiv_header">Роль </label>
+                    <select id="role" value="guest" class="form-control dial_protocol">
+                        <option value="guest">гость</option>
+                        <option value="host">хост</option>
+                    </select>
+                </div>
+                <div class="dialdiv_alias">
+                    <label class="dialdiv_header">Локальный alias </label>
+                    <input id="localalias" value="" class="form-control dial_alias">
+                    <br/>
+                    <label class="dialdiv_header">Удалённый alias </label>
+                    <input id="remotealias" value="" class="form-control dial_alias">
+                </div>
+            </div>
+            <input id="dial" type="button" onclick="user.dial()" value="Вызвать" class="dialdiv_button"/>
+            <input id="dial" type="button" onclick="display_pb()" value="Добавить из адресной книги" class="dialdiv_button"/>
+        </fieldset>
+    </div>
+</td>
+
+<td class="controlcol">
+<div id="layoutdiv" class="layoutdiv">
+<fieldset>
+<legend class="layoutdiv_legend">Управление раскладкой видео</legend>
+<div class="layout_layout_1">
+    <label class="layoutdiv_header">Участники </label>
+    <label class="layoutdiv_header">Управление раскладками </label>
+    <label class="layoutdiv_header">Показ +N окошка</label>
+
+</div>
+<div class="layout_layout_2">
+<select id="actors" value="everyone" class="form-control layoutdiv_select">
+    <option value="everyone">все</option>
+    <option value="selected">выбранные</option>
+</select>
+<select id="layout" value="1:7" class="form-control layoutdiv_select">
+    <option value="1:0">1 основной</option>
+    <option value="4:0">2 на 2</option>
+    <option value="1:7">1 основной + 7 дополнительных</option>
+    <option value="1:21">1 основной + 21 дополнительных</option>
+</select>
+<select id="plusn" value="auto" class="form-control layoutdiv_select">
+    <option value="auto">авто</option>
+    <option value="off">откл.</option>
+</select>
+<!--<input id="plusn" list="plusnvalues" value="auto" class="form-control layoutdiv_select"/>
+<datalist id="plusnvalues"><option id="auto_option" value="auto"><option value="off"/></datalist>-->
+
+
+</div>
+<div class="layout_layout_3">
+    <label class="layoutdiv_header">Выход со сцены</label>
+    <label class="layoutdiv_header">Экранные подписи</label>
+    <label class="layoutdiv_header">Для участников:</label>
+</div>
+<div class="layout_layout_4">
+    <input type="checkbox" id="vadbackfill" checked/>
+    <select id="overlay_text" value="off" class="form-control layoutdiv_select">
+        <option value="off">откл</option>
+        <option value="auto">авто</option>
+    </select>
+    <select id="audience" value="everyone" onchange="update_audience()" class="form-control layoutdiv_select">
+        <option value="everyone">всех</option>
+        <option value="hosts">только для гостей</option>
+    </select>
+</div>
+
+<br/>
+<div id="guestlayout" class="hide">
+    <div class="layout_layout_1">
+        <label class="layoutdiv_header">Участники </label>
+        <label class="layoutdiv_header">Управление раскладками </label>
+        <label class="layoutdiv_header">PlusN (откл/авто/n)</label>
+    </div>
+    <br/>
+    <div class="layout_layout_2">
+        <select id="guest_actors" value="everyone" class="form-control layoutdiv_select">
+            <option value="everyone">все</option>
+            <option value="selected">выбранные</option>
+        </select>
+        <select id="guest_layout" value="1:7" class="form-control layoutdiv_select">
+            <option value="1:0">1 основной</option>
+            <option value="4:0">ОдинаковоеEqual layout</option>
+            <option value="1:7">1 основной + 7 дополнительных</option>
+            <option value="1:21">1 основной + 21 дополнительных</option>
+        </select>
+        <input id="plusn" list="plusnvalues" value="auto" class="form-control layoutdiv_select"/>
+        <datalist id="plusnvalues"><option id="auto_option" value="auto"><option value="off"></datalist>
+    </div>
+    <div class="layout_layout_3">
+        <label class="layoutdiv_header">VAD backfill </label>
+        <label class="layoutdiv_header">Экранные надписи </label>
+        <label class="layoutdiv_header">Для участников:</label>
+
+    </div>
+    <br/>
+    <div class="layout_layout_4">
+        <input type="checkbox" id="guest_vadbackfill" checked/>
+        <select id="guest_overlay_text" value="off" class="form-control layoutdiv_select">
+            <option value="off">откл</option>
+            <option value="auto">авто</option>
+        </select>
+        <select id="guest_audience" value="guests" class="form-control layoutdiv_select">
+            <option value="guests">гостей</option>
+        </select>
+    </div>
+</div>
+<input id="overridelayout" type="button" onclick="user.overridelayout()" value="Изменить раскладку" class="layoutdiv_button"/>
+<input id="resetlayout" type="button" onclick="user.resetlayout()" value="Вернуть исходное состояние" class="layoutdiv_button"/><br/>
+</fieldset>
+</div>
+
+<div style="min-height: 10px; width: 100%"></div>
+
+<div id="liveviewdiv" class="liveviewdiv">
+    <fieldset>
+        <legend class="liveviewdiv_legend">Сейчас транслируется в комнате</legend>
+        <div id="liveviewplayer" class="liveviewdiv_player"></div>
+        <img id="presentation" class="liveviewdiv_player"><br/>
+        <input id="liveview" type="button" onclick="user.liveview()" value="Просмотр видео" class="liveviewdiv_livebutton"/>
+        <br/>
+        <div class="liveviewdiv_rtmp" class="liveviewdiv_rtmp">
+            <input id="rtmpaddress" class="form-control liveviewdiv_rtmptext"/>
+            <input id="getrtmpaddress" type="button" onclick="user.getrtmpaddress()" value="Получить RTMP ссылку" class="liveviewdiv_rtmpbutton"/>
+        </div>
+    </fieldset>
+</div>
+
+<div style="min-height: 10px; width: 100%"></div>
+
+<div id="chatdiv" class="chatdiv">
+    <fieldset>
+        <legend class="chatdiv_legend">Чат вирутальной переговорной комнаты</legend>
+        <form onsubmit="return user.send_message()">
+            <div id="chatbox" class="chatbox"></div>
+            <br/>
+            <input id="chatinput" style="width: 70%;" class="form-control chatdiv_text"/>
+            <input id="chatsend" type="button" onclick="user.send_message()" value="Отправить" class="chatdiv_button"/>
+        </form>
+    </fieldset>
+</div>
+
+</td>
+</tr>
+</table>
+</div>
+<div id="popup_block" class="hide">
+<div id="popup_content" class="b-popup b-popup-content">
+<table id="table_du">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Должность</th>
+        <th>Телефон (внут.)</th>
+        <th>Email</th>
+        <th>Группа</th>
+        <th>SIP-адрес</th>
+        <th>H.323-адрес</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<div class="phonebook_buttons">
+    <input id="save" type="button" onclick="add_pb_user()" value="Подключить" class="phonebook_button_add"/>
+</div>
+</div>
+</div>
 </body>
 
 <script type="text/javascript">
-    (function($){
+    var oPhonebookTable;
+
+    function display_pb() {
+        event.stopPropagation();
+        document.getElementById("popup_block").className = "b-popup b-popup-content";
+        if (oPhonebookTable == null) {
+            popup_pb_table();
+        } else {
+            setTimeout(refresh_pb, 500);
+        }
+
+    };
+
+    $(document).on("click", function (e) {
+        if (!$("#popup_content").is(e.target) && $("#popup_content").has(e.target).length == 0 && document.getElementById("popup_block").className == "b-popup b-popup-content") {
+            document.getElementById("popup_block").className = "hide";
+        };
+    });
+
+    function refresh_pb() {
+        if (oPhonebookTable != null)
+            oPhonebookTable.ajax.reload();
+    };
+
+    function add_pb_user() {
+        var data = [];
+        var arrayToAdd = oPhonebookTable.cells('.selected', 0, { page: 'current' }).data();
+        for (var i = 0; i < arrayToAdd.length; i++) {
+            data[i] = arrayToAdd[i];
+        }
+        if (data != null) {
+            /*$.ajax({
+                "url": "/Phonebook/Phonebook_Add",
+                "type": "POST",
+                "contentType": "application/json; charset=utf-8",
+                "data": JSON.stringify({ pbrArray: data }),
+            });*/
+        }
+        document.getElementById("popup_block").className = "hide";
+    };
+
+    function popup_pb_table() {
+        oPhonebookTable = $('#table_du').DataTable({
+            "ordering": true,
+            "searching": true,
+            "paging": true,
+            "autoWidth": true,
+            "processing": true,
+            "lengthChange": false,
+            "order": [[2, 'asc']],
+            "pageLength": 30,
+            "select": {
+                "style": 'multi',
+            },
+
+            "ajax": {
+                "type": "POST",
+                "url": "/Phonebook/Phonebook_Ajax",
+                "contentType": 'application/json; charset=utf-8',
+                "data": function (data) { return data = JSON.stringify(data); }
+            },
+
+            "columns": [
+                { "data": "id", "visible": false },
+                { "data": "name" },
+                { "data": "surname" },
+                { "data": "position", "searchable": false },
+                { "data": "tel_int" },
+                { "data": "email" },
+                { "data": "group", "searchable": false },
+                { "data": "sip_add", "searchable": false },
+                { "data": "h323_add", "searchable": false },
+            ],
+
+            /*"drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
+
+                api.column(6, { page: 'current' }).data().each(function (group, i) {
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr class="phonebook_groups"><td colspan="12">' + group + '</td></tr>'
+                        );
+                        last = group;
+                    }
+                });
+            },
+
+            "language": {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать _MENU_ записей",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                }
+            },*/
+
+        });
+    };
+
+
+    (function ($) {
         $('#rosterlist').slimScroll({
             height: '350px',
             width: '100%',
@@ -201,7 +350,7 @@
             distance: '0px'
         });
         $('#chatbox').slimScroll({
-            height: '225px',
+            height: '276px',
             width: '100%',
             size: '7px',
             position: 'right',
@@ -231,6 +380,8 @@
     var class_overlay_text_commit = "participant_action fa fa-check fa-fw white";
     var class_conference_record_off = "participant_action fa fa-circle fa-fw red";
     var class_conference_record_on = "participant_action fa fa-circle-blink fa-fw red";
+    var class_role_chair = "participant_action fa fa-user-plus fa-fw";
+    var class_role_guest = "participant_action fa fa-user fa-fw";
 
 
     function DumpObject(obj) {
@@ -240,9 +391,8 @@
 
         for (var property in obj) {
             var value = obj[property];
-            if (typeof value == 'string') {
+            if (typeof value == 'string')
                 value = "'" + value + "'";
-            } 
             else if (typeof value == 'object') {
                 if (value instanceof Array) {
                     value = "[ " + value + " ]";
@@ -342,6 +492,16 @@
             this.element_root.appendChild(this.protocol_element);
         }
 
+        // Add role host/guest
+        this.chair_role_element = document.createElement("div");
+        if (participant_data["role"] === "chair") {
+            this.chair_role_element.className = class_role_chair;
+        } else {
+            this.chair_role_element.className = class_role_guest;
+        }
+        this.chair_role_element.addEventListener('click', this.chair_role.bind(this), false);
+        this.element_root.appendChild(this.chair_role_element);
+
         // Add spotlight button/status
         this.spotlight_element = document.createElement("div");
         this.spotlight_state = participant_data["spotlight"] != 0;
@@ -391,12 +551,14 @@
         this.overlay_text_element.className = "particpantOverlayText";
 
         var currentOverlayText = document.createElement("input");
+        currentOverlayText.setAttribute('size', '30');
         currentOverlayText.className = "currentOverlayText";
         currentOverlayText.setAttribute('disabled', 'true');
         currentOverlayText.id = "currenttext_" + participant_data["uuid"];
         currentOverlayText.value = participant_data["overlay_text"];
 
         var newOverlayText = document.createElement("input");
+        newOverlayText.setAttribute('size', '30');
         newOverlayText.className = "form-control newOverlayText";
         newOverlayText.id = "newtext_" + participant_data["uuid"];
 
@@ -443,6 +605,7 @@
         }
 
         if (!this.enable_media_buttons) {
+            this.chair_role_element.classList.add("disabled_action");
             this.spotlight_element.classList.add("disabled_action");
             this.mute_element.classList.add("disabled_action");
             this.hold_element.classList.add("disabled_action");
@@ -483,6 +646,10 @@
             this.service_type = participant_data["service_type"];
         }
 
+        if (participant_data["protocol"] != undefined) {
+            this.protocol_element.innerHTML = "<b>" + participant_data["protocol"] + "</b>";
+        }
+
         if (participant_data["role"] == "chair") {
             this.element_root.className = "roster_entry_host_li";
         } else {
@@ -505,6 +672,13 @@
             this.mute_element.className = class_mute_off;
         }
 
+        // Update role
+        if (participant_data["role"] === "chair") {
+            this.chair_role_element.className = class_role_chair;
+        } else {
+            this.chair_role_element.className = class_role_guest;
+        }
+
         // Update spotlight status
         this.spotlight_state = participant_data["spotlight"] != 0;
         if (this.spotlight_state) {
@@ -522,6 +696,7 @@
         }
 
         if (!this.enable_media_buttons) {
+            this.chair_role_element.classList.add("disabled_action");
             this.spotlight_element.classList.add("disabled_action");
             this.mute_element.classList.add("disabled_action");
             this.hold_element.classList.add("disabled_action");
@@ -529,12 +704,12 @@
             this.see_presentation_element.classList.add("disabled_action");
             this.layout.classList.add("invisible");
         } else {
+            this.chair_role_element.classList.remove("disabled_action");
             this.spotlight_element.classList.remove("disabled_action");
             this.mute_element.classList.remove("disabled_action");
             this.hold_element.classList.remove("disabled_action");
             this.layout.classList.remove("hide");
         }
-
     };
 
     Participant.prototype.remove = function () {
@@ -588,6 +763,17 @@
                 user.post_request("participants/" + this.uuid + "/spotlighton", null);
                 this.spotlight_element.className = class_spotlight_on;
             }
+        }
+    };
+
+    Participant.prototype.chair_role = function () {
+        console.log("participant chair role " + this);
+        if (user.role == "HOST") {
+            user.post_request("participants/" + this.uuid + "/role", { "role": "chair" });
+            this.chair_role_element.className = class_role_chair;
+        } else {
+            user.post_request("participants/" + this.uuid + "/role", { "role": "guest" });
+            this.chair_role_element.className = class_role_guest;
         }
     };
 
@@ -688,7 +874,7 @@
     };
 
     var user = {
-        node: "213.221.6.114",
+        node: "rerih.in-line.ru",
         conference: "@ViewData["confnm"]",
         display_name: "@ViewData["dispnm"]",
         role: "HOST",
@@ -741,6 +927,7 @@
                     document.getElementById("record").className = class_conference_record_off;
 
                     if (this.role == 'GUEST') {
+                        document.getElementById("host").classList.add("disabled_action");
                         document.getElementById("conflock").classList.add("disabled_action");
                         document.getElementById("guestsmuted").classList.add("disabled_action");
                         document.getElementById("disconnectall").classList.add("disabled_action");
@@ -762,6 +949,7 @@
             if (this.live_active) {
                 try {
                     jwplayer("liveviewplayer").remove();
+                    jwplayer("liveviewpresplayer").remove();
                 }
                 catch (err) {
                     console.log("Failed to remove jwplayer");
@@ -1097,6 +1285,7 @@
                 document.getElementById("guestsmuted").className = class_conference_guests_mute_off;
             }
             if (this.role == 'GUEST') {
+                document.getElementById("host").classList.add("disabled_action");
                 document.getElementById("conflock").classList.add("disabled_action");
                 document.getElementById("guestsmuted").classList.add("disabled_action");
                 document.getElementById("disconnectall").classList.add("disabled_action");
