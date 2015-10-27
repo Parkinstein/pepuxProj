@@ -239,19 +239,16 @@
             oPhonebookTable.ajax.reload();
     };
 
-    function add_pb_user() {
-        var data = [];
-        var arrayToAdd = oPhonebookTable.cells('.selected', 0, { page: 'current' }).data();
-        for (var i = 0; i < arrayToAdd.length; i++) {
-            data[i] = arrayToAdd[i];
-        }
-        if (data != null) {
-            /*$.ajax({
-                "url": "/Phonebook/Phonebook_Add",
-                "type": "POST",
-                "contentType": "application/json; charset=utf-8",
-                "data": JSON.stringify({ pbrArray: data }),
-            });*/
+    function add_pb_user() {   
+        var sip_add = oPhonebookTable.cells('.selected', 7, { page: 'current' }).data();
+        var h323_add = oPhonebookTable.cells('.selected', 8, { page: 'current' }).data();
+        for (var i = 0; i < sip_add.length; i++) {
+            if (sip_add[i] !== '') {
+                user.dial_pb(sip_add[i], "SIP");
+            } else {
+                user.dial_pb(h323_add[i], "H.323");
+            }
+
         }
         document.getElementById("popup_block").className = "hide";
     };
@@ -289,7 +286,7 @@
                 { "data": "h323_add", "searchable": false },
             ],
 
-            /*"drawCallback": function (settings) {
+            "drawCallback": function (settings) {
                 var api = this.api();
                 var rows = api.rows({ page: 'current' }).nodes();
                 var last = null;
@@ -325,7 +322,7 @@
                     "sortAscending": ": активировать для сортировки столбца по возрастанию",
                     "sortDescending": ": активировать для сортировки столбца по убыванию"
                 }
-            },*/
+            },
 
         });
     };
@@ -1441,6 +1438,25 @@
                 console.log("Dial out success");
             }
         },
+
+        dial_pb: function (addr, protocol) {
+            var localalias = document.getElementById("localalias");
+            var role = "guest";
+
+            var call_data = {
+                "protocol": protocol,
+                "source": localalias.value,
+                "destination": addr,
+                "role": "guest"
+            };
+            var response = user.post_request("dial", call_data);
+            if (response["status"] == 200) {
+                console.log("Dial out success");
+            }
+        },
+
+
+
 
         resetlayout: function (event) {
             var call_data = { "layouts": [] };
