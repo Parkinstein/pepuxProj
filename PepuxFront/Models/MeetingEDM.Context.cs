@@ -13,10 +13,10 @@ namespace PepuxFront.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MeetingEntitys : DbContext
+    public partial class MeetingEntities : DbContext
     {
-        public MeetingEntitys()
-            : base("name=MeetingEntitys")
+        public MeetingEntities()
+            : base("name=MeetingEntities")
         {
         }
     
@@ -25,7 +25,7 @@ namespace PepuxFront.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<MeetingAttendees> MeetingAttendees { get; set; }
-        public virtual DbSet<Meetings> Meetings { get; set; }
+        public virtual DbSet<MeetingAttendee> MeetingAttendees { get; set; }
+        public virtual DbSet<Meeting> Meetings { get; set; }
     }
 }

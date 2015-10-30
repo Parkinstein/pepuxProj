@@ -33,6 +33,7 @@ namespace PepuxService
         List<Vrecords> Videorecords(string val);
 
         [OperationContract]
+        [WebGet]
         List<PBPlusrecord> GetPhonebookUsers();
         [OperationContract]
         PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string email, string OwNam);
@@ -47,6 +48,8 @@ namespace PepuxService
         [OperationContract]
         bool addUserToPrivat(string Owner, int IdRec, string Group);
         [OperationContract]
+        [WebGet]
+
         List<PhonebookDB> GetPB();
     }
 

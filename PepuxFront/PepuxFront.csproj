@@ -220,32 +220,35 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActiveConference.cs" />
+    <Compile Include="Models\Databs.cs">
+      <DependentUpon>Databs.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Databs.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Databs.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\MeetingAttendees.cs">
+    <Compile Include="Models\Meeting.cs">
+      <DependentUpon>MeetingEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MeetingAttendee.cs">
       <DependentUpon>MeetingEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MeetingEDM.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>MeetingEDM.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\MeetingEDM.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>MeetingEDM.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\MeetingEDM.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>MeetingEDM.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Meetings.cs">
-      <DependentUpon>MeetingEDM.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\MeetingViewModel.cs" />
     <Compile Include="Models\Phonebook.cs" />
@@ -404,15 +407,19 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="images\logo_1x.png" />
     <Content Include="Models\MeetingEDM.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MeetingEDM.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MeetingEDM.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\MeetingEDM.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
+    <Content Include="Models\MeetingEDM.edmx.diagram">
       <DependentUpon>MeetingEDM.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\MeetingEDM.tt">
+      <DependentUpon>MeetingEDM.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MeetingEDM.cs</LastGenOutput>
     </Content>
+    <Content Include="Properties\PublishProfiles\Service.pubxml.user" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -438,6 +445,10 @@
     <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\cldr.js" />
+    <Content Include="Scripts\cldr\event.js" />
+    <Content Include="Scripts\cldr\supplemental.js" />
+    <Content Include="Scripts\cldr\unresolved.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.foundation.js" />
@@ -490,6 +501,13 @@
     <Content Include="Scripts\DataTables\dataTables.tableTools.min.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\globalize.js" />
+    <Content Include="Scripts\globalize\currency.js" />
+    <Content Include="Scripts\globalize\date.js" />
+    <Content Include="Scripts\globalize\message.js" />
+    <Content Include="Scripts\globalize\number.js" />
+    <Content Include="Scripts\globalize\plural.js" />
+    <Content Include="Scripts\globalize\relative-time.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-et.js" />
@@ -1559,13 +1577,7 @@
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
-    <EntityDeploy Include="Models\MeetingEDM.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MeetingEDM.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\MeetingEDM.edmx.diagram">
-      <DependentUpon>MeetingEDM.edmx</DependentUpon>
-    </Content>
+    <None Include="Properties\PublishProfiles\PepuxFront.pubxml" />
     <None Include="Properties\PublishProfiles\Service.pubxml" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
@@ -2397,6 +2409,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\IpServiceLink\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Models\MeetingEDM.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MeetingEDM.Designer.cs</LastGenOutput>
+    </EntityDeploy>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

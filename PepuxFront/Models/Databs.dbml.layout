@@ -20,7 +20,7 @@
         <elementListCompartment Id="e0a9f643-b99c-4ca8-aa44-773b7a7beded" absoluteBounds="2.7650000000000006, 2.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 3.38544840494792); (2.75 : 3.38544840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.5 : 3.38544840494792); (2.75 : 3.38544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DatabsDataContext/AllVmr/AllVmr_VmrAliase" />
       <nodes>
         <classShapeMoniker Id="d2c0c9ea-49af-43a8-8d1b-7588150c5945" />

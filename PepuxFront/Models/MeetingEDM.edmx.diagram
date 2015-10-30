@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8680c1dbf2594752a2dc09fc6b7ab389" Name="Diagram1">
-        <EntityTypeShape EntityType="schedulerModel.MeetingAttendees" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="schedulerModel.Meetings" Width="1.875" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <AssociationConnector Association="schedulerModel.FK_MeetingAtendee_Meeting" ManuallyRouted="false" />
-        <AssociationConnector Association="schedulerModel.FK_Meetings_Meetings" ManuallyRouted="false" />
+      <Diagram DiagramId="7dc9f4dba29b476d9cacf259c52ffcbb" Name="Diagram1">
+        <EntityTypeShape EntityType="MeetingsED.MeetingAttendee" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MeetingsED.Meeting" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="MeetingsED.FK_MeetingAtendee_Meeting" ManuallyRouted="false" />
+        <AssociationConnector Association="MeetingsED.FK_Meetings_Meetings" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

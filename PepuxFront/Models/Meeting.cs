@@ -12,13 +12,13 @@ namespace PepuxFront.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Meetings
+    public partial class Meeting
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Meetings()
+        public Meeting()
         {
-            this.MeetingAttendees = new HashSet<MeetingAttendees>();
-            this.Meetings1 = new HashSet<Meetings>();
+            this.MeetingAttendees = new HashSet<MeetingAttendee>();
+            this.Meetings1 = new HashSet<Meeting>();
         }
     
         public int MeetingID { get; set; }
@@ -40,9 +40,9 @@ namespace PepuxFront.Models
         public string Recfile { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MeetingAttendees> MeetingAttendees { get; set; }
+        public virtual ICollection<MeetingAttendee> MeetingAttendees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Meetings> Meetings1 { get; set; }
-        public virtual Meetings Meetings2 { get; set; }
+        public virtual ICollection<Meeting> Meetings1 { get; set; }
+        public virtual Meeting Meeting1 { get; set; }
     }
 }

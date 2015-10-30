@@ -53,6 +53,7 @@
     @(Html.Kendo().DateTimePickerFor(model => model.Start)
             .TimeFormat("HH-mm")
             .Interval(10)
+            
           .HtmlAttributes(generateDatePickerAttributes("startDateTime", "start", "value:start,invisible:isAllDay")))
 
     @(Html.Kendo().DatePickerFor(model => model.Start)
@@ -69,18 +70,10 @@
     @(Html.Kendo().DateTimePickerFor(model => model.End)
           .TimeFormat("HH-mm")
           .Interval(10)
-          .HtmlAttributes(generateDatePickerAttributes(
-              "endDateTime",
-              "end",
-              "value:end,invisible:isAllDay",
-              new Dictionary<string, object>() { { "data-dateCompare-msg", "End date should be greater than or equal to the start date" } })))
+          .HtmlAttributes(generateDatePickerAttributes("endDateTime", "end", "value:end,invisible:isAllDay", new Dictionary<string, object>() { { "data-dateCompare-msg", "End date should be greater than or equal to the start date" } })))
 
     @(Html.Kendo().DatePickerFor(model => model.End)
-          .HtmlAttributes(generateDatePickerAttributes(
-              "endDate",
-              "end",
-              "value:end,visible:isAllDay",
-              new Dictionary<string, object>() { { "data-dateCompare-msg", "End date should be greater than or equal to the start date" } })))
+          .HtmlAttributes(generateDatePickerAttributes("endDate", "end", "value:end,visible:isAllDay", new Dictionary<string, object>() { { "data-dateCompare-msg", "End date should be greater than or equal to the start date" } })))
 
     <span data-for="end" class="k-invalid-msg"></span>
 </div>
@@ -93,13 +86,13 @@
 <div class="k-edit-label">
     @(Html.Label("Инициатор"))
 </div>
-<div data-container-for="title" class="k-edit-field">
+@*<div data-container-for="title" class="k-edit-field">
     @(Html.Label(AccountController.currentuser.DisplayName))
-</div>
-<@*div data-container-for="RoomID" class="k-edit-field">
+</div>*@
+<div data-container-for="RoomID" class="k-edit-field">
     @(Html.Kendo().DropDownListFor(m => m.RoomID)
           .AutoBind(true)
-          .DataTextField("name +' '+ surname")
+          .DataTextField("dispname")
           .DataValueField("id")
           .Filter(FilterType.Contains)
 
@@ -136,7 +129,7 @@
             }
             return { text: value };
         }</script>
-</div>*@
+</div>
 <div class="k-edit-label">
     @(Html.Label("Участники"))
 </div>

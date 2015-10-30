@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="schedulerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MeetingsED.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="MeetingAttendees">
           <Key>
             <PropertyRef Name="MeetingID" />
@@ -59,7 +59,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="schedulerModelStoreContainer">
+        <EntityContainer Name="MeetingsEDStoreContainer">
           <EntitySet Name="MeetingAttendees" EntityType="Self.MeetingAttendees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Meetings" EntityType="Self.Meetings" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_MeetingAtendee_Meeting" Association="Self.FK_MeetingAtendee_Meeting">
@@ -71,21 +71,20 @@
             <End Role="Meetings1" EntitySet="Meetings" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="schedulerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="MeetingAttendees">
+      <Schema Namespace="MeetingsED" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MeetingAttendee">
           <Key>
             <PropertyRef Name="MeetingID" />
             <PropertyRef Name="AttendeeID" />
           </Key>
           <Property Name="MeetingID" Type="Int32" Nullable="false" />
           <Property Name="AttendeeID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Meetings" Relationship="Self.FK_MeetingAtendee_Meeting" FromRole="MeetingAttendees" ToRole="Meetings" />
+          <NavigationProperty Name="Meeting" Relationship="Self.FK_MeetingAtendee_Meeting" FromRole="MeetingAttendees" ToRole="Meetings" />
         </EntityType>
-        <EntityType Name="Meetings">
+        <EntityType Name="Meeting">
           <Key>
             <PropertyRef Name="MeetingID" />
           </Key>
@@ -108,11 +107,11 @@
           <Property Name="Recfile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MeetingAttendees" Relationship="Self.FK_MeetingAtendee_Meeting" FromRole="Meetings" ToRole="MeetingAttendees" />
           <NavigationProperty Name="Meetings1" Relationship="Self.FK_Meetings_Meetings" FromRole="Meetings" ToRole="Meetings1" />
-          <NavigationProperty Name="Meetings2" Relationship="Self.FK_Meetings_Meetings" FromRole="Meetings1" ToRole="Meetings" />
+          <NavigationProperty Name="Meeting1" Relationship="Self.FK_Meetings_Meetings" FromRole="Meetings1" ToRole="Meetings" />
         </EntityType>
         <Association Name="FK_MeetingAtendee_Meeting">
-          <End Role="Meetings" Type="Self.Meetings" Multiplicity="1" />
-          <End Role="MeetingAttendees" Type="Self.MeetingAttendees" Multiplicity="*" />
+          <End Role="Meetings" Type="Self.Meeting" Multiplicity="1" />
+          <End Role="MeetingAttendees" Type="Self.MeetingAttendee" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Meetings">
               <PropertyRef Name="MeetingID" />
@@ -123,8 +122,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Meetings_Meetings">
-          <End Role="Meetings" Type="Self.Meetings" Multiplicity="0..1" />
-          <End Role="Meetings1" Type="Self.Meetings" Multiplicity="*" />
+          <End Role="Meetings" Type="Self.Meeting" Multiplicity="0..1" />
+          <End Role="Meetings1" Type="Self.Meeting" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Meetings">
               <PropertyRef Name="MeetingID" />
@@ -134,9 +133,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="MeetingEntitys" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="MeetingAttendees" EntityType="Self.MeetingAttendees" />
-          <EntitySet Name="Meetings" EntityType="Self.Meetings" />
+        <EntityContainer Name="MeetingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MeetingAttendees" EntityType="Self.MeetingAttendee" />
+          <EntitySet Name="Meetings" EntityType="Self.Meeting" />
           <AssociationSet Name="FK_MeetingAtendee_Meeting" Association="Self.FK_MeetingAtendee_Meeting">
             <End Role="Meetings" EntitySet="Meetings" />
             <End Role="MeetingAttendees" EntitySet="MeetingAttendees" />
@@ -151,9 +150,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="schedulerModelStoreContainer" CdmEntityContainer="MeetingEntitys">
+        <EntityContainerMapping StorageEntityContainer="MeetingsEDStoreContainer" CdmEntityContainer="MeetingEntities">
           <EntitySetMapping Name="MeetingAttendees">
-            <EntityTypeMapping TypeName="schedulerModel.MeetingAttendees">
+            <EntityTypeMapping TypeName="MeetingsED.MeetingAttendee">
               <MappingFragment StoreEntitySet="MeetingAttendees">
                 <ScalarProperty Name="MeetingID" ColumnName="MeetingID" />
                 <ScalarProperty Name="AttendeeID" ColumnName="AttendeeID" />
@@ -161,7 +160,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Meetings">
-            <EntityTypeMapping TypeName="schedulerModel.Meetings">
+            <EntityTypeMapping TypeName="MeetingsED.Meeting">
               <MappingFragment StoreEntitySet="Meetings">
                 <ScalarProperty Name="MeetingID" ColumnName="MeetingID" />
                 <ScalarProperty Name="Start" ColumnName="Start" />
@@ -197,7 +196,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

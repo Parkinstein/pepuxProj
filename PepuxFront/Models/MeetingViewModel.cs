@@ -67,9 +67,9 @@ namespace PepuxFront.Models
         public bool Record { get; set; }
         public string Recfile { get; set; }
 
-        public Meetings ToEntity()
+        public Meeting ToEntity()
         {
-            var meeting = new Meetings
+            var meeting = new Meeting
             {
                 MeetingID = MeetingID,
                 Title = Title,

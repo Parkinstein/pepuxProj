@@ -12,11 +12,11 @@ namespace PepuxFront.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MeetingAttendees
+    public partial class MeetingAttendee
     {
         public int MeetingID { get; set; }
         public int AttendeeID { get; set; }
     
-        public virtual Meetings Meetings { get; set; }
+        public virtual Meeting Meeting { get; set; }
     }
 }
