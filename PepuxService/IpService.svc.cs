@@ -10,11 +10,13 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Timers;
+using System.Configuration;
 using System.Web.Script.Serialization;
 //using Kendo.Mvc.Extensions;
 using MySql.Data.MySqlClient;
 using PepuxService.Properties;
 using Newtonsoft.Json;
+using Renci.SshNet;
 
 namespace PepuxService
 {
@@ -428,6 +430,52 @@ namespace PepuxService
             return all_recs;
         }
 
+        public bool DeleteRecordsFromDb(int id)
+        {
+            var myConnectionString = "server=" + Properties.Settings.Default.SQLServ + ";uid=" + Properties.Settings.Default.SQLUser + ";" +
+                "pwd=" + Properties.Settings.Default.SQLPass + ";database=" + Properties.Settings.Default.SQLBd + ";Convert Zero Datetime=True";
+            MySqlConnection conn = new MySqlConnection(myConnectionString);
+            try
+                {
+                    MySqlCommand cmd = new MySqlCommand("SELECT Link FROM records WHERE ID = " + id + "", conn);
+                    conn.Open();
+                    Debug.WriteLine(cmd.CommandText);
+                    var mysqlAdp = new MySqlDataAdapter(cmd);
+                    var mysqlDS = new DataSet();
+                    mysqlAdp.Fill(mysqlDS, "Links");
+                    foreach (DataRow dr in mysqlDS.Tables["Links"].Rows)
+                    {
+                        var link = Convert.ToString(dr["Link"]);
+                        Debug.WriteLine(link);
+                        int found = link.IndexOf("/records");
+                        Debug.WriteLine(link.Substring(found));
+                        cmd = new MySqlCommand("DELETE FROM records WHERE ID = " + id + "", conn);
+                        Debug.WriteLine(cmd.CommandText);
+                        cmd.ExecuteNonQuery();
+                        // SSH procedure to delete records files
+                        var PasswordConnection = new PasswordAuthenticationMethod("remote", "Rerih!123");
+                        var KeyboardInteractive = new KeyboardInteractiveAuthenticationMethod("remote");
+                        
+                        var connectionInfo = new ConnectionInfo(Properties.Settings.Default.SQLServ, 22, "remote", PasswordConnection, KeyboardInteractive);
+                        using (SshClient ssh = new SshClient(connectionInfo))
+                        {
+                            ssh.Connect();
+                            var command = ssh.RunCommand("rm -f /home/rerih/public_html" + link.Substring(found));
+                            Debug.WriteLine(command.CommandText);
+                            ssh.Disconnect();
+                    }
+
+                }
+                conn.Close();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message.ToString());
+                    return false;
+                }
+        }
+        
         public  List<PBPlusrecord> GetPhonebookUsers()
         {
            List<PBPlusrecord> allreco = new List<PBPlusrecord>();

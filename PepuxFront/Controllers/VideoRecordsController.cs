@@ -48,14 +48,26 @@ namespace PepuxFront.Controllers
             {
                return obj.Videorecords("");
             }
-            //using (var allvrecs = new IpServiceLink.PServiceClient())
-            //{
-            //    IQueryable<IpServiceLink.allrecords> vrecs = allvrecs.Videorecords(val).AsQueryable();
-            //    DataSourceResult result = vrecs.ToDataSourceResult(request); 
-            //}
-
         }
-        
+        // Delete Records method
+        public void VideoRecords_Delete(object[] pbrArray)
+        {
+            foreach (int pbr in pbrArray)
+            {
+                DeleteFromRecords(pbr);
+            }
+        }
+
+        // Delete Phonebook records method
+        public void DeleteFromRecords(int ids)
+        {
+            IpServiceLink.PServiceClient act = new PServiceClient();
+            act.DeleteRecordsFromDb(ids);
+            //ViewBag.DeletedRecs = String.Format("Удалено {0} записей", i);
+        }
+
+
+
         public ActionResult VideoRecDelete(string filepath)
         {
             using (var client = new SshClient("10.157.5.87", "username", "password"))

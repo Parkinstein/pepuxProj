@@ -65,10 +65,10 @@
             "paging": true,
             "autoWidth": false,
             "processing": true,
-            "order": [[ 4, 'asc' ]],
+            "order": [[ 2, 'asc' ]],
             "pageLength": 30,
             "lengthChange": false,
-            "serverSide": true,
+            //"serverSide": true,
             "select": {
                 "style": 'multi',
             },
@@ -84,18 +84,15 @@
                 { "data": "id", "visible": false, "searchable": false },
                 { "data": "name" },
                 { "data": "surname" },
-                { "data": "position", "searchable": false },
-                { "data": "tel_int", "searchable": false },
-                { "data": "tel_ext", "searchable": false },
-                { "data": "tel_mob", "searchable": false },
-                { "data": "email", "searchable": false },
+                { "data": "position" },
+                { "data": "tel_int" },
+                { "data": "tel_ext" },
+                { "data": "tel_mob" },
+                { "data": "email" },
                 { "data": "timezone", "searchable": false },
                 { "data": "group", "searchable": false },
                 { "data": "sip_add", "searchable": false },
                 { "data": "h323_add", "searchable": false },
-            ],
-            "columnDefs": [
-                { "visible": true, "targets": 7 }
             ],
 
             "drawCallback": function(settings) {
@@ -142,15 +139,15 @@
 
     function popup_du_table() {
         oDomainusersTable = $('#table_du').DataTable({
-            "ordering": false,
+            "ordering": true,
             "searching": true,
             "paging": true,
             "autoWidth": false,
             "processing": true,
             "lengthChange": false,
-            "order": [[1, 'asc']],
+            "order": [[2, 'asc' ]],
             "pageLength": 30,
-            "serverSide": true,
+            //"serverSide": true,
             "select": {
                 "style": 'multi',
             },
@@ -165,9 +162,9 @@
             "columns": [
                 { "data": "Id", "visible": false },
                 { "data": "Name" },
-                { "data": "Surname", "searchable": false },
+                { "data": "Surname" },
                 { "data": "Position", "searchable": false },
-                { "data": "Phone_int", "searchable": false },
+                { "data": "Phone_int" },
                 { "data": "email" },
             ],
 
@@ -221,7 +218,7 @@
                 "data": JSON.stringify({ pbrArray: data }),
             });
         }
-        refresh_pb();
+        setTimeout(refresh_pb, 500);
     };
 
     function add_pb_users() {
@@ -239,7 +236,7 @@
             });
         }
         document.getElementById("popup_block").className = "hide";
-        refresh_pb();
+        setTimeout(refresh_pb, 500);
     };
 
     function display_du_users() {
@@ -248,7 +245,7 @@
         if (oDomainusersTable == null) {
             popup_du_table();
         } else {
-            refresh_du();
+            setTimeout(refresh_du, 500);
         }
 
     };
