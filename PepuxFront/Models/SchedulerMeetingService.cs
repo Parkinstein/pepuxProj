@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Kendo.Mvc.UI;
-using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
-using System.Linq;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 
@@ -48,10 +46,38 @@ namespace PepuxFront.Models
                 AddAttend = meeting.AddAttend,
                 FileLink = meeting.FileLink,
                 Record = meeting.Record,
-                Recfile = meeting.Recfile
+                Recfile = meeting.Recfile,
+                InitName = meeting.InitName
 
             }).AsQueryable();
         }
+        public IQueryable<MeetingViewModel> GetFiltered()
+        {
+            return db.Meetings.ToList().Select(meeting => new MeetingViewModel
+            {
+                MeetingID = meeting.MeetingID,  //.MeetingID,
+                Title = meeting.Title,
+                Start = DateTime.SpecifyKind(meeting.Start, DateTimeKind.Utc),
+                End = DateTime.SpecifyKind(meeting.End, DateTimeKind.Utc),
+                StartTimezone = meeting.StartTimezone,
+                EndTimezone = meeting.EndTimezone,
+                Description = meeting.Description,
+                IsAllDay = meeting.IsAllDay,
+                RoomID = (int)meeting.RoomID,
+                RecurrenceRule = meeting.RecurrenceRule,
+                RecurrenceException = meeting.RecurrenceException,
+                RecurrenceID = meeting.RecurrenceID,
+                Attendees = meeting.MeetingAttendees.Select(m => m.AttendeeID).ToArray(),
+                OpLink = meeting.Oplink,
+                AddAttend = meeting.AddAttend,
+                FileLink = meeting.FileLink,
+                Record = meeting.Record,
+                Recfile = meeting.Recfile,
+                InitName = meeting.InitName
+
+            }).AsQueryable();
+        }
+
 
         public void Insert(MeetingViewModel meeting, ModelStateDictionary modelState)
         {
@@ -76,18 +102,10 @@ namespace PepuxFront.Models
                         AttendeeID = attendeeId
                     });
                 }
-                //db.Meetings.InsertOnSubmit(entity);//OnSubmit(entity);
+                //db.Meetings.AddOrUpdate(entity);//OnSubmit(entity);//OnSubmit(entity);
                 db.Meetings.Add(entity);  //.Meetings.Add(entity);
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
-
-
+                db.SaveChanges();
+                Debug.WriteLine("Saved");
                 meeting.MeetingID = entity.MeetingID;
             }
             Debug.WriteLine("model not valid");
@@ -120,6 +138,7 @@ namespace PepuxFront.Models
                 entity.FileLink = meeting.FileLink;
                 entity.Record = meeting.Record;
                 entity.Recfile = meeting.Recfile;
+                entity.InitName = meeting.InitName;
 
                 foreach (var meetingAttendee in entity.MeetingAttendees.ToList())
                 {

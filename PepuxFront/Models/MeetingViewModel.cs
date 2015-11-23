@@ -66,6 +66,7 @@ namespace PepuxFront.Models
         public string FileLink { get; set; }
         public bool Record { get; set; }
         public string Recfile { get; set; }
+        public string InitName { get; set; }
 
         public Meeting ToEntity()
         {
@@ -87,7 +88,8 @@ namespace PepuxFront.Models
                 AddAttend = AddAttend,
                 FileLink = FileLink,
                 Record = Record,
-                Recfile = Recfile
+                Recfile = Recfile,
+                InitName = InitName
             };
 
             return meeting;

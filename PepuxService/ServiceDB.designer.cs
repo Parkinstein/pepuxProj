@@ -30,25 +30,22 @@ namespace PepuxService
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertService(Service instance);
-    partial void UpdateService(Service instance);
-    partial void DeleteService(Service instance);
-    partial void InsertAllVmr(AllVmr instance);
-    partial void UpdateAllVmr(AllVmr instance);
-    partial void DeleteAllVmr(AllVmr instance);
-    partial void InsertVmrAliase(VmrAliase instance);
-    partial void UpdateVmrAliase(VmrAliase instance);
-    partial void DeleteVmrAliase(VmrAliase instance);
-    partial void InsertPrivatePhB(PrivatePhB instance);
-    partial void UpdatePrivatePhB(PrivatePhB instance);
-    partial void DeletePrivatePhB(PrivatePhB instance);
     partial void InsertPhonebookDB(PhonebookDB instance);
     partial void UpdatePhonebookDB(PhonebookDB instance);
     partial void DeletePhonebookDB(PhonebookDB instance);
+    partial void InsertService(Service instance);
+    partial void UpdateService(Service instance);
+    partial void DeleteService(Service instance);
+    partial void InsertPrivatePhB(PrivatePhB instance);
+    partial void UpdatePrivatePhB(PrivatePhB instance);
+    partial void DeletePrivatePhB(PrivatePhB instance);
+    partial void InsertAllVmr(AllVmr instance);
+    partial void UpdateAllVmr(AllVmr instance);
+    partial void DeleteAllVmr(AllVmr instance);
     #endregion
 		
 		public ServiceDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["schedulerConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["schedulerConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -77,11 +74,27 @@ namespace PepuxService
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Service> Service
+		public System.Data.Linq.Table<PhonebookDB> PhonebookDBs
+		{
+			get
+			{
+				return this.GetTable<PhonebookDB>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Service> Services
 		{
 			get
 			{
 				return this.GetTable<Service>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PrivatePhB> PrivatePhBs
+		{
+			get
+			{
+				return this.GetTable<PrivatePhB>();
 			}
 		}
 		
@@ -98,987 +111,6 @@ namespace PepuxService
 			get
 			{
 				return this.GetTable<VmrAliase>();
-			}
-		}
-		
-		public System.Data.Linq.Table<PrivatePhB> PrivatePhBs
-		{
-			get
-			{
-				return this.GetTable<PrivatePhB>();
-			}
-		}
-		
-		public System.Data.Linq.Table<PhonebookDB> PhonebookDBs
-		{
-			get
-			{
-				return this.GetTable<PhonebookDB>();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Service")]
-	public partial class Service : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _UserName;
-		
-		private string _Role;
-		
-		private string _AdName;
-		
-		private string _Email;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnUserNameChanging(string value);
-    partial void OnUserNameChanged();
-    partial void OnRoleChanging(string value);
-    partial void OnRoleChanged();
-    partial void OnAdNameChanging(string value);
-    partial void OnAdNameChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
-    #endregion
-		
-		public Service()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(255)")]
-		public string UserName
-		{
-			get
-			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this.OnUserNameChanging(value);
-					this.SendPropertyChanging();
-					this._UserName = value;
-					this.SendPropertyChanged("UserName");
-					this.OnUserNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Role", DbType="NVarChar(50)")]
-		public string Role
-		{
-			get
-			{
-				return this._Role;
-			}
-			set
-			{
-				if ((this._Role != value))
-				{
-					this.OnRoleChanging(value);
-					this.SendPropertyChanging();
-					this._Role = value;
-					this.SendPropertyChanged("Role");
-					this.OnRoleChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdName", DbType="NVarChar(255)")]
-		public string AdName
-		{
-			get
-			{
-				return this._AdName;
-			}
-			set
-			{
-				if ((this._AdName != value))
-				{
-					this.OnAdNameChanging(value);
-					this.SendPropertyChanging();
-					this._AdName = value;
-					this.SendPropertyChanged("AdName");
-					this.OnAdNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(MAX)")]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AllVmrs")]
-	public partial class AllVmr : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private System.Nullable<bool> _allow_guests;
-		
-		private string _description;
-		
-		private System.Nullable<bool> _force_presenter_into_main;
-		
-		private string _guest_pin;
-		
-		private string _guest_view;
-		
-		private string _host_view;
-		
-		private string _ivr_theme_;
-		
-		private string _max_callrate_in_;
-		
-		private string _max_callrate_out_;
-		
-		private string _name;
-		
-		private string _participant_limit;
-		
-		private string _pin;
-		
-		private string _resource_uri;
-		
-		private string _service_type;
-		
-		private string _tag;
-		
-		private System.Nullable<int> _vmid;
-		
-		private EntitySet<VmrAliase> _VmrAliases;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void Onallow_guestsChanging(System.Nullable<bool> value);
-    partial void Onallow_guestsChanged();
-    partial void OndescriptionChanging(string value);
-    partial void OndescriptionChanged();
-    partial void Onforce_presenter_into_mainChanging(System.Nullable<bool> value);
-    partial void Onforce_presenter_into_mainChanged();
-    partial void Onguest_pinChanging(string value);
-    partial void Onguest_pinChanged();
-    partial void Onguest_viewChanging(string value);
-    partial void Onguest_viewChanged();
-    partial void Onhost_viewChanging(string value);
-    partial void Onhost_viewChanged();
-    partial void Onivr_theme_Changing(string value);
-    partial void Onivr_theme_Changed();
-    partial void Onmax_callrate_in_Changing(string value);
-    partial void Onmax_callrate_in_Changed();
-    partial void Onmax_callrate_out_Changing(string value);
-    partial void Onmax_callrate_out_Changed();
-    partial void OnnameChanging(string value);
-    partial void OnnameChanged();
-    partial void Onparticipant_limitChanging(string value);
-    partial void Onparticipant_limitChanged();
-    partial void OnpinChanging(string value);
-    partial void OnpinChanged();
-    partial void Onresource_uriChanging(string value);
-    partial void Onresource_uriChanged();
-    partial void Onservice_typeChanging(string value);
-    partial void Onservice_typeChanged();
-    partial void OntagChanging(string value);
-    partial void OntagChanged();
-    partial void OnvmidChanging(System.Nullable<int> value);
-    partial void OnvmidChanged();
-    #endregion
-		
-		public AllVmr()
-		{
-			this._VmrAliases = new EntitySet<VmrAliase>(new Action<VmrAliase>(this.attach_VmrAliases), new Action<VmrAliase>(this.detach_VmrAliases));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_allow_guests", DbType="Bit")]
-		public System.Nullable<bool> allow_guests
-		{
-			get
-			{
-				return this._allow_guests;
-			}
-			set
-			{
-				if ((this._allow_guests != value))
-				{
-					this.Onallow_guestsChanging(value);
-					this.SendPropertyChanging();
-					this._allow_guests = value;
-					this.SendPropertyChanged("allow_guests");
-					this.Onallow_guestsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="NVarChar(MAX)")]
-		public string description
-		{
-			get
-			{
-				return this._description;
-			}
-			set
-			{
-				if ((this._description != value))
-				{
-					this.OndescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._description = value;
-					this.SendPropertyChanged("description");
-					this.OndescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_force_presenter_into_main", DbType="Bit")]
-		public System.Nullable<bool> force_presenter_into_main
-		{
-			get
-			{
-				return this._force_presenter_into_main;
-			}
-			set
-			{
-				if ((this._force_presenter_into_main != value))
-				{
-					this.Onforce_presenter_into_mainChanging(value);
-					this.SendPropertyChanging();
-					this._force_presenter_into_main = value;
-					this.SendPropertyChanged("force_presenter_into_main");
-					this.Onforce_presenter_into_mainChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_guest_pin", DbType="NVarChar(50)")]
-		public string guest_pin
-		{
-			get
-			{
-				return this._guest_pin;
-			}
-			set
-			{
-				if ((this._guest_pin != value))
-				{
-					this.Onguest_pinChanging(value);
-					this.SendPropertyChanging();
-					this._guest_pin = value;
-					this.SendPropertyChanged("guest_pin");
-					this.Onguest_pinChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_guest_view", DbType="NVarChar(MAX)")]
-		public string guest_view
-		{
-			get
-			{
-				return this._guest_view;
-			}
-			set
-			{
-				if ((this._guest_view != value))
-				{
-					this.Onguest_viewChanging(value);
-					this.SendPropertyChanging();
-					this._guest_view = value;
-					this.SendPropertyChanged("guest_view");
-					this.Onguest_viewChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_host_view", DbType="NVarChar(MAX)")]
-		public string host_view
-		{
-			get
-			{
-				return this._host_view;
-			}
-			set
-			{
-				if ((this._host_view != value))
-				{
-					this.Onhost_viewChanging(value);
-					this.SendPropertyChanging();
-					this._host_view = value;
-					this.SendPropertyChanged("host_view");
-					this.Onhost_viewChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[ivr_theme ]", Storage="_ivr_theme_", DbType="NVarChar(MAX)")]
-		public string ivr_theme_
-		{
-			get
-			{
-				return this._ivr_theme_;
-			}
-			set
-			{
-				if ((this._ivr_theme_ != value))
-				{
-					this.Onivr_theme_Changing(value);
-					this.SendPropertyChanging();
-					this._ivr_theme_ = value;
-					this.SendPropertyChanged("ivr_theme_");
-					this.Onivr_theme_Changed();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[max_callrate_in ]", Storage="_max_callrate_in_", DbType="NVarChar(50)")]
-		public string max_callrate_in_
-		{
-			get
-			{
-				return this._max_callrate_in_;
-			}
-			set
-			{
-				if ((this._max_callrate_in_ != value))
-				{
-					this.Onmax_callrate_in_Changing(value);
-					this.SendPropertyChanging();
-					this._max_callrate_in_ = value;
-					this.SendPropertyChanged("max_callrate_in_");
-					this.Onmax_callrate_in_Changed();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[max_callrate_out ]", Storage="_max_callrate_out_", DbType="NVarChar(50)")]
-		public string max_callrate_out_
-		{
-			get
-			{
-				return this._max_callrate_out_;
-			}
-			set
-			{
-				if ((this._max_callrate_out_ != value))
-				{
-					this.Onmax_callrate_out_Changing(value);
-					this.SendPropertyChanging();
-					this._max_callrate_out_ = value;
-					this.SendPropertyChanged("max_callrate_out_");
-					this.Onmax_callrate_out_Changed();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(MAX)")]
-		public string name
-		{
-			get
-			{
-				return this._name;
-			}
-			set
-			{
-				if ((this._name != value))
-				{
-					this.OnnameChanging(value);
-					this.SendPropertyChanging();
-					this._name = value;
-					this.SendPropertyChanged("name");
-					this.OnnameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_participant_limit", DbType="NVarChar(50)")]
-		public string participant_limit
-		{
-			get
-			{
-				return this._participant_limit;
-			}
-			set
-			{
-				if ((this._participant_limit != value))
-				{
-					this.Onparticipant_limitChanging(value);
-					this.SendPropertyChanging();
-					this._participant_limit = value;
-					this.SendPropertyChanged("participant_limit");
-					this.Onparticipant_limitChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pin", DbType="NVarChar(10)")]
-		public string pin
-		{
-			get
-			{
-				return this._pin;
-			}
-			set
-			{
-				if ((this._pin != value))
-				{
-					this.OnpinChanging(value);
-					this.SendPropertyChanging();
-					this._pin = value;
-					this.SendPropertyChanged("pin");
-					this.OnpinChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_resource_uri", DbType="NVarChar(MAX)")]
-		public string resource_uri
-		{
-			get
-			{
-				return this._resource_uri;
-			}
-			set
-			{
-				if ((this._resource_uri != value))
-				{
-					this.Onresource_uriChanging(value);
-					this.SendPropertyChanging();
-					this._resource_uri = value;
-					this.SendPropertyChanged("resource_uri");
-					this.Onresource_uriChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_service_type", DbType="NVarChar(255)")]
-		public string service_type
-		{
-			get
-			{
-				return this._service_type;
-			}
-			set
-			{
-				if ((this._service_type != value))
-				{
-					this.Onservice_typeChanging(value);
-					this.SendPropertyChanging();
-					this._service_type = value;
-					this.SendPropertyChanged("service_type");
-					this.Onservice_typeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tag", DbType="NVarChar(MAX)")]
-		public string tag
-		{
-			get
-			{
-				return this._tag;
-			}
-			set
-			{
-				if ((this._tag != value))
-				{
-					this.OntagChanging(value);
-					this.SendPropertyChanging();
-					this._tag = value;
-					this.SendPropertyChanged("tag");
-					this.OntagChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vmid", DbType="Int")]
-		public System.Nullable<int> vmid
-		{
-			get
-			{
-				return this._vmid;
-			}
-			set
-			{
-				if ((this._vmid != value))
-				{
-					this.OnvmidChanging(value);
-					this.SendPropertyChanging();
-					this._vmid = value;
-					this.SendPropertyChanged("vmid");
-					this.OnvmidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AllVmr_VmrAliase", Storage="_VmrAliases", ThisKey="Id", OtherKey="vmid")]
-		public EntitySet<VmrAliase> VmrAliases
-		{
-			get
-			{
-				return this._VmrAliases;
-			}
-			set
-			{
-				this._VmrAliases.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_VmrAliases(VmrAliase entity)
-		{
-			this.SendPropertyChanging();
-			entity.AllVmr = this;
-		}
-		
-		private void detach_VmrAliases(VmrAliase entity)
-		{
-			this.SendPropertyChanging();
-			entity.AllVmr = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.VmrAliases")]
-	public partial class VmrAliase : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _alias;
-		
-		private string _conference;
-		
-		private string _description;
-		
-		private System.Nullable<int> _vmid;
-		
-		private EntityRef<AllVmr> _AllVmr;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnaliasChanging(string value);
-    partial void OnaliasChanged();
-    partial void OnconferenceChanging(string value);
-    partial void OnconferenceChanged();
-    partial void OndescriptionChanging(string value);
-    partial void OndescriptionChanged();
-    partial void OnvmidChanging(System.Nullable<int> value);
-    partial void OnvmidChanged();
-    #endregion
-		
-		public VmrAliase()
-		{
-			this._AllVmr = default(EntityRef<AllVmr>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_alias", DbType="NChar(10)")]
-		public string alias
-		{
-			get
-			{
-				return this._alias;
-			}
-			set
-			{
-				if ((this._alias != value))
-				{
-					this.OnaliasChanging(value);
-					this.SendPropertyChanging();
-					this._alias = value;
-					this.SendPropertyChanged("alias");
-					this.OnaliasChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_conference", DbType="NVarChar(255)")]
-		public string conference
-		{
-			get
-			{
-				return this._conference;
-			}
-			set
-			{
-				if ((this._conference != value))
-				{
-					this.OnconferenceChanging(value);
-					this.SendPropertyChanging();
-					this._conference = value;
-					this.SendPropertyChanged("conference");
-					this.OnconferenceChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="NVarChar(MAX)")]
-		public string description
-		{
-			get
-			{
-				return this._description;
-			}
-			set
-			{
-				if ((this._description != value))
-				{
-					this.OndescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._description = value;
-					this.SendPropertyChanged("description");
-					this.OndescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vmid", DbType="Int")]
-		public System.Nullable<int> vmid
-		{
-			get
-			{
-				return this._vmid;
-			}
-			set
-			{
-				if ((this._vmid != value))
-				{
-					if (this._AllVmr.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnvmidChanging(value);
-					this.SendPropertyChanging();
-					this._vmid = value;
-					this.SendPropertyChanged("vmid");
-					this.OnvmidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AllVmr_VmrAliase", Storage="_AllVmr", ThisKey="vmid", OtherKey="Id", IsForeignKey=true)]
-		public AllVmr AllVmr
-		{
-			get
-			{
-				return this._AllVmr.Entity;
-			}
-			set
-			{
-				AllVmr previousValue = this._AllVmr.Entity;
-				if (((previousValue != value) 
-							|| (this._AllVmr.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._AllVmr.Entity = null;
-						previousValue.VmrAliases.Remove(this);
-					}
-					this._AllVmr.Entity = value;
-					if ((value != null))
-					{
-						value.VmrAliases.Add(this);
-						this._vmid = value.Id;
-					}
-					else
-					{
-						this._vmid = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("AllVmr");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PrivatePhB")]
-	public partial class PrivatePhB : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _OwSAN;
-		
-		private System.Nullable<int> _IdREC;
-		
-		private string _Group;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnOwSANChanging(string value);
-    partial void OnOwSANChanged();
-    partial void OnIdRECChanging(System.Nullable<int> value);
-    partial void OnIdRECChanged();
-    partial void OnGroupChanging(string value);
-    partial void OnGroupChanged();
-    #endregion
-		
-		public PrivatePhB()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwSAN", DbType="NVarChar(MAX)")]
-		public string OwSAN
-		{
-			get
-			{
-				return this._OwSAN;
-			}
-			set
-			{
-				if ((this._OwSAN != value))
-				{
-					this.OnOwSANChanging(value);
-					this.SendPropertyChanging();
-					this._OwSAN = value;
-					this.SendPropertyChanged("OwSAN");
-					this.OnOwSANChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdREC", DbType="Int")]
-		public System.Nullable<int> IdREC
-		{
-			get
-			{
-				return this._IdREC;
-			}
-			set
-			{
-				if ((this._IdREC != value))
-				{
-					this.OnIdRECChanging(value);
-					this.SendPropertyChanging();
-					this._IdREC = value;
-					this.SendPropertyChanged("IdREC");
-					this.OnIdRECChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Group]", Storage="_Group", DbType="NVarChar(50)")]
-		public string Group
-		{
-			get
-			{
-				return this._Group;
-			}
-			set
-			{
-				if ((this._Group != value))
-				{
-					this.OnGroupChanging(value);
-					this.SendPropertyChanging();
-					this._Group = value;
-					this.SendPropertyChanged("Group");
-					this.OnGroupChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -1453,6 +485,843 @@ namespace PepuxService
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Service")]
+	public partial class Service : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _UserName;
+		
+		private string _Role;
+		
+		private string _AdName;
+		
+		private string _Email;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnRoleChanging(string value);
+    partial void OnRoleChanged();
+    partial void OnAdNameChanging(string value);
+    partial void OnAdNameChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    #endregion
+		
+		public Service()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(255)")]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Role", DbType="NVarChar(50)")]
+		public string Role
+		{
+			get
+			{
+				return this._Role;
+			}
+			set
+			{
+				if ((this._Role != value))
+				{
+					this.OnRoleChanging(value);
+					this.SendPropertyChanging();
+					this._Role = value;
+					this.SendPropertyChanged("Role");
+					this.OnRoleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdName", DbType="NVarChar(255)")]
+		public string AdName
+		{
+			get
+			{
+				return this._AdName;
+			}
+			set
+			{
+				if ((this._AdName != value))
+				{
+					this.OnAdNameChanging(value);
+					this.SendPropertyChanging();
+					this._AdName = value;
+					this.SendPropertyChanged("AdName");
+					this.OnAdNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(MAX)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PrivatePhB")]
+	public partial class PrivatePhB : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _OwSAN;
+		
+		private System.Nullable<int> _IdREC;
+		
+		private string _Group;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnOwSANChanging(string value);
+    partial void OnOwSANChanged();
+    partial void OnIdRECChanging(System.Nullable<int> value);
+    partial void OnIdRECChanged();
+    partial void OnGroupChanging(string value);
+    partial void OnGroupChanged();
+    #endregion
+		
+		public PrivatePhB()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwSAN", DbType="NVarChar(MAX)")]
+		public string OwSAN
+		{
+			get
+			{
+				return this._OwSAN;
+			}
+			set
+			{
+				if ((this._OwSAN != value))
+				{
+					this.OnOwSANChanging(value);
+					this.SendPropertyChanging();
+					this._OwSAN = value;
+					this.SendPropertyChanged("OwSAN");
+					this.OnOwSANChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdREC", DbType="Int")]
+		public System.Nullable<int> IdREC
+		{
+			get
+			{
+				return this._IdREC;
+			}
+			set
+			{
+				if ((this._IdREC != value))
+				{
+					this.OnIdRECChanging(value);
+					this.SendPropertyChanging();
+					this._IdREC = value;
+					this.SendPropertyChanged("IdREC");
+					this.OnIdRECChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Group]", Storage="_Group", DbType="NVarChar(50)")]
+		public string Group
+		{
+			get
+			{
+				return this._Group;
+			}
+			set
+			{
+				if ((this._Group != value))
+				{
+					this.OnGroupChanging(value);
+					this.SendPropertyChanging();
+					this._Group = value;
+					this.SendPropertyChanged("Group");
+					this.OnGroupChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AllVmrs")]
+	public partial class AllVmr : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.Nullable<bool> _allow_guests;
+		
+		private string _description;
+		
+		private System.Nullable<bool> _force_presenter_into_main;
+		
+		private string _guest_pin;
+		
+		private string _guest_view;
+		
+		private string _host_view;
+		
+		private string _ivr_theme_;
+		
+		private string _max_callrate_in_;
+		
+		private string _max_callrate_out_;
+		
+		private string _name;
+		
+		private string _participant_limit;
+		
+		private string _pin;
+		
+		private string _resource_uri;
+		
+		private string _service_type;
+		
+		private string _tag;
+		
+		private System.Nullable<int> _vmid;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void Onallow_guestsChanging(System.Nullable<bool> value);
+    partial void Onallow_guestsChanged();
+    partial void OndescriptionChanging(string value);
+    partial void OndescriptionChanged();
+    partial void Onforce_presenter_into_mainChanging(System.Nullable<bool> value);
+    partial void Onforce_presenter_into_mainChanged();
+    partial void Onguest_pinChanging(string value);
+    partial void Onguest_pinChanged();
+    partial void Onguest_viewChanging(string value);
+    partial void Onguest_viewChanged();
+    partial void Onhost_viewChanging(string value);
+    partial void Onhost_viewChanged();
+    partial void Onivr_theme_Changing(string value);
+    partial void Onivr_theme_Changed();
+    partial void Onmax_callrate_in_Changing(string value);
+    partial void Onmax_callrate_in_Changed();
+    partial void Onmax_callrate_out_Changing(string value);
+    partial void Onmax_callrate_out_Changed();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    partial void Onparticipant_limitChanging(string value);
+    partial void Onparticipant_limitChanged();
+    partial void OnpinChanging(string value);
+    partial void OnpinChanged();
+    partial void Onresource_uriChanging(string value);
+    partial void Onresource_uriChanged();
+    partial void Onservice_typeChanging(string value);
+    partial void Onservice_typeChanged();
+    partial void OntagChanging(string value);
+    partial void OntagChanged();
+    partial void OnvmidChanging(System.Nullable<int> value);
+    partial void OnvmidChanged();
+    #endregion
+		
+		public AllVmr()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_allow_guests", DbType="Bit")]
+		public System.Nullable<bool> allow_guests
+		{
+			get
+			{
+				return this._allow_guests;
+			}
+			set
+			{
+				if ((this._allow_guests != value))
+				{
+					this.Onallow_guestsChanging(value);
+					this.SendPropertyChanging();
+					this._allow_guests = value;
+					this.SendPropertyChanged("allow_guests");
+					this.Onallow_guestsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="NVarChar(MAX)")]
+		public string description
+		{
+			get
+			{
+				return this._description;
+			}
+			set
+			{
+				if ((this._description != value))
+				{
+					this.OndescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._description = value;
+					this.SendPropertyChanged("description");
+					this.OndescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_force_presenter_into_main", DbType="Bit")]
+		public System.Nullable<bool> force_presenter_into_main
+		{
+			get
+			{
+				return this._force_presenter_into_main;
+			}
+			set
+			{
+				if ((this._force_presenter_into_main != value))
+				{
+					this.Onforce_presenter_into_mainChanging(value);
+					this.SendPropertyChanging();
+					this._force_presenter_into_main = value;
+					this.SendPropertyChanged("force_presenter_into_main");
+					this.Onforce_presenter_into_mainChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_guest_pin", DbType="NVarChar(50)")]
+		public string guest_pin
+		{
+			get
+			{
+				return this._guest_pin;
+			}
+			set
+			{
+				if ((this._guest_pin != value))
+				{
+					this.Onguest_pinChanging(value);
+					this.SendPropertyChanging();
+					this._guest_pin = value;
+					this.SendPropertyChanged("guest_pin");
+					this.Onguest_pinChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_guest_view", DbType="NVarChar(MAX)")]
+		public string guest_view
+		{
+			get
+			{
+				return this._guest_view;
+			}
+			set
+			{
+				if ((this._guest_view != value))
+				{
+					this.Onguest_viewChanging(value);
+					this.SendPropertyChanging();
+					this._guest_view = value;
+					this.SendPropertyChanged("guest_view");
+					this.Onguest_viewChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_host_view", DbType="NVarChar(MAX)")]
+		public string host_view
+		{
+			get
+			{
+				return this._host_view;
+			}
+			set
+			{
+				if ((this._host_view != value))
+				{
+					this.Onhost_viewChanging(value);
+					this.SendPropertyChanging();
+					this._host_view = value;
+					this.SendPropertyChanged("host_view");
+					this.Onhost_viewChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[ivr_theme ]", Storage="_ivr_theme_", DbType="NVarChar(MAX)")]
+		public string ivr_theme_
+		{
+			get
+			{
+				return this._ivr_theme_;
+			}
+			set
+			{
+				if ((this._ivr_theme_ != value))
+				{
+					this.Onivr_theme_Changing(value);
+					this.SendPropertyChanging();
+					this._ivr_theme_ = value;
+					this.SendPropertyChanged("ivr_theme_");
+					this.Onivr_theme_Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[max_callrate_in ]", Storage="_max_callrate_in_", DbType="NVarChar(50)")]
+		public string max_callrate_in_
+		{
+			get
+			{
+				return this._max_callrate_in_;
+			}
+			set
+			{
+				if ((this._max_callrate_in_ != value))
+				{
+					this.Onmax_callrate_in_Changing(value);
+					this.SendPropertyChanging();
+					this._max_callrate_in_ = value;
+					this.SendPropertyChanged("max_callrate_in_");
+					this.Onmax_callrate_in_Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[max_callrate_out ]", Storage="_max_callrate_out_", DbType="NVarChar(50)")]
+		public string max_callrate_out_
+		{
+			get
+			{
+				return this._max_callrate_out_;
+			}
+			set
+			{
+				if ((this._max_callrate_out_ != value))
+				{
+					this.Onmax_callrate_out_Changing(value);
+					this.SendPropertyChanging();
+					this._max_callrate_out_ = value;
+					this.SendPropertyChanged("max_callrate_out_");
+					this.Onmax_callrate_out_Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(MAX)")]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_participant_limit", DbType="NVarChar(50)")]
+		public string participant_limit
+		{
+			get
+			{
+				return this._participant_limit;
+			}
+			set
+			{
+				if ((this._participant_limit != value))
+				{
+					this.Onparticipant_limitChanging(value);
+					this.SendPropertyChanging();
+					this._participant_limit = value;
+					this.SendPropertyChanged("participant_limit");
+					this.Onparticipant_limitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pin", DbType="NVarChar(10)")]
+		public string pin
+		{
+			get
+			{
+				return this._pin;
+			}
+			set
+			{
+				if ((this._pin != value))
+				{
+					this.OnpinChanging(value);
+					this.SendPropertyChanging();
+					this._pin = value;
+					this.SendPropertyChanged("pin");
+					this.OnpinChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_resource_uri", DbType="NVarChar(MAX)")]
+		public string resource_uri
+		{
+			get
+			{
+				return this._resource_uri;
+			}
+			set
+			{
+				if ((this._resource_uri != value))
+				{
+					this.Onresource_uriChanging(value);
+					this.SendPropertyChanging();
+					this._resource_uri = value;
+					this.SendPropertyChanged("resource_uri");
+					this.Onresource_uriChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_service_type", DbType="NVarChar(255)")]
+		public string service_type
+		{
+			get
+			{
+				return this._service_type;
+			}
+			set
+			{
+				if ((this._service_type != value))
+				{
+					this.Onservice_typeChanging(value);
+					this.SendPropertyChanging();
+					this._service_type = value;
+					this.SendPropertyChanged("service_type");
+					this.Onservice_typeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tag", DbType="NVarChar(MAX)")]
+		public string tag
+		{
+			get
+			{
+				return this._tag;
+			}
+			set
+			{
+				if ((this._tag != value))
+				{
+					this.OntagChanging(value);
+					this.SendPropertyChanging();
+					this._tag = value;
+					this.SendPropertyChanged("tag");
+					this.OntagChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vmid", DbType="Int")]
+		public System.Nullable<int> vmid
+		{
+			get
+			{
+				return this._vmid;
+			}
+			set
+			{
+				if ((this._vmid != value))
+				{
+					this.OnvmidChanging(value);
+					this.SendPropertyChanging();
+					this._vmid = value;
+					this.SendPropertyChanged("vmid");
+					this.OnvmidChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.VmrAliases")]
+	public partial class VmrAliase
+	{
+		
+		private int _Id;
+		
+		private string _alias;
+		
+		private string _conference;
+		
+		private string _description;
+		
+		private System.Nullable<int> _vmid;
+		
+		public VmrAliase()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL")]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this._Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_alias", DbType="NVarChar(MAX)")]
+		public string alias
+		{
+			get
+			{
+				return this._alias;
+			}
+			set
+			{
+				if ((this._alias != value))
+				{
+					this._alias = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_conference", DbType="NVarChar(255)")]
+		public string conference
+		{
+			get
+			{
+				return this._conference;
+			}
+			set
+			{
+				if ((this._conference != value))
+				{
+					this._conference = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="NVarChar(MAX)")]
+		public string description
+		{
+			get
+			{
+				return this._description;
+			}
+			set
+			{
+				if ((this._description != value))
+				{
+					this._description = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vmid", DbType="Int")]
+		public System.Nullable<int> vmid
+		{
+			get
+			{
+				return this._vmid;
+			}
+			set
+			{
+				if ((this._vmid != value))
+				{
+					this._vmid = value;
+				}
 			}
 		}
 	}

@@ -73,7 +73,6 @@ namespace PepuxService
                     var group = searcher.FindOne() as GroupPrincipal;
 
                     if (group == null)
-                        Debug.WriteLine("Invalid Group Name: {0}", groupname);
 
                     foreach (var f in group.GetMembers())
                     {
@@ -124,7 +123,7 @@ namespace PepuxService
                     GetADUsvrs(grname2);
 
                     var NameQuery =
-                    from adName in db.Service
+                    from adName in db.Services
                     select adName;
                     foreach (var customer in NameQuery)
                     {
@@ -136,10 +135,10 @@ namespace PepuxService
                     foreach (var stroke in lstLOCUsers)
                     {
                         var deleteUsers =
-                        from AdName in db.Service
+                        from AdName in db.Services//db.Service
                         where AdName.AdName == stroke
                         select AdName;
-                        db.Service.DeleteOnSubmit(deleteUsers.First());
+                        db.Services.DeleteOnSubmit(deleteUsers.First());
                         db.SubmitChanges();
                     }
                     foreach (var das in lstADUsers)
@@ -152,7 +151,7 @@ namespace PepuxService
                             new_user.Email = das.Email;
                             new_user.UserName = das.DisplayName;
                             new_user.Role = das.Group;
-                            db.Service.InsertOnSubmit(new_user);
+                            db.Services.InsertOnSubmit(new_user);
                             db.SubmitChanges();
                             Debug.WriteLine("Был добавлен " + das.UserName);
                         }
@@ -163,7 +162,7 @@ namespace PepuxService
             {
                 Debug.WriteLine(e.Message);
             }
-            return db.Service.ToList();
+            return db.Services.ToList();
         }
         #endregion
 
@@ -320,7 +319,7 @@ namespace PepuxService
             var search_alias = db.VmrAliases.FirstOrDefault(m => m.alias == confname);
             int search_id = search_alias.Id;
             var search_vmr = db.AllVmrs.FirstOrDefault(m => m.Id == search_id);
-            var current_user = db.Service.FirstOrDefault(m => m.UserName == dispname);
+            var current_user = db.Services.FirstOrDefault(m => m.UserName == dispname);
             var role = current_user.Role;
             if (role == "PepuxAdmins")
             {

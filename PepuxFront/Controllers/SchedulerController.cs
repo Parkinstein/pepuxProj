@@ -47,7 +47,7 @@ namespace PepuxFront.Controllers
 
             return Json(GetPB().ToDataSourceResult(request));
             //return Json(applicationDbContext.Users, JsonRequestBehavior.AllowGet);
-            return null;
+            //return null;
         }
 
         [Authorize]
@@ -70,6 +70,7 @@ namespace PepuxFront.Controllers
             nums.AddRange(meeting.Attendees);
             oplink = string.Concat("https://", "10.129.15.129", "/webapp/?conference=", roomID, "&name=Operator&bw=512&join=1");
             meeting.OpLink = oplink;
+            meeting.InitName = idf.dispName;
             if (meeting.Start < DateTime.Today + TimeSpan.FromHours(3))
             { Debug.WriteLine("@@@"); }
             StringBuilder strB = new StringBuilder();
@@ -137,9 +138,9 @@ namespace PepuxFront.Controllers
             //        RecordTask(tasktitle, taskapp, pathflv, stream_link, comment, acc_un, acc_pass, task_start, task_end);
 
             //    }
-            //    meetingService.Insert(meeting, ModelState);
+            //    
             //}
-
+            meetingService.Insert(meeting, ModelState);
             return Json(new[] { meeting }.ToDataSourceResult(request, ModelState));
         }
 
@@ -154,7 +155,6 @@ namespace PepuxFront.Controllers
 
         public virtual JsonResult Meetings_Read([DataSourceRequest] DataSourceRequest request)
         {
-            int i = 0;
             meetings_all = meetingService.GetAll();
             foreach (var all in meetings_all)
             {
@@ -165,7 +165,7 @@ namespace PepuxFront.Controllers
 
             }
 
-
+            if (AccountController.Ugroup == "PepuxAdmins") { return Json(meetingService.GetAll().ToDataSourceResult(request)); }
             return Json(meetingService.GetAll().ToDataSourceResult(request));
         }
 
@@ -176,33 +176,35 @@ namespace PepuxFront.Controllers
                 meetingService.Update(meeting, ModelState);
                 //ApplicationDbContext applicationDbContext = new ApplicationDbContext();
                 int roomID = (int)meeting.RoomID;
-                List<int> nums = new List<int>();
-                nums.Add(meeting.RoomID);
-                nums.AddRange(meeting.Attendees);
+                List<object> nums = new List<object>();
+                nums.Add(meeting.InitName);
+                foreach(var attend in meeting.Attendees)
+                { nums.AddRange(attend); }
+                
                 oplink = string.Concat("https://", "10.129.15.129", "/webapp/?conference=", roomID, "&name=Operator&bw=512&join=1");
                 meeting.OpLink = oplink;
                 StringBuilder strB = new StringBuilder();
                 List<string> AddAtt = new List<string>();
                 if (meeting.AddAttend != null) { AddAtt = (meeting.AddAttend.Split((",").ToCharArray())).ToList(); }
-                //foreach (int num in nums)
-                //{
-                //    var init = AccountController.currentuser.GivenName;
-                //    var name = applicationDbContext.Users.FirstOrDefault(p => p.UserConfID == num);
-                //    //spisok = string.Concat(name.PhoneNumber, ";", name.UserName);
-                //    strB.Append(name.PhoneNumber + ";" + name.UserName + Environment.NewLine);
-                //    if (name.Email != null)
-                //    {
-                //        string link = "https://" + "10.129.15.129" + "/webapp/?conference=" + init.UserConfID + "&name=" +
-                //                      Uri.EscapeDataString(name.UserName) + "&bw=512&join=1";
-                //        string body = "Уважамый(ая), " + name.UserName + "!" + Environment.NewLine +
-                //                      " конференция на тему \"" + meeting.Title + "\" переносится на " + meeting.Start +
-                //                      TimeSpan.FromHours(3) + Environment.NewLine + "Инициатор конференции: " +
-                //                      init.UserName + Environment.NewLine +
-                //                      "В указанное время, для участия в конференции, просьба перейти по ссылке: " +
-                //                      Environment.NewLine + link;
-                //        //Sendmail(name.Email, meeting.Title, body);
-                //    }
-                //}
+                foreach (int num in nums)
+                {
+                    var init = AccountController.currentuser.DisplayName;
+                    var name = AccountController.currentuser;
+                    //spisok = string.Concat(name.PhoneNumber, ";", name.UserName);
+                    strB.Append(name.VoiceTelephoneNumber + ";" + name.DisplayName + Environment.NewLine);
+                    if (name.EmailAddress != null)
+                    {
+                        string link = "https://" + "10.129.15.129" + "/webapp/?conference=" + init.UserConfID + "&name=" +
+                                      Uri.EscapeDataString(name.UserName) + "&bw=512&join=1";
+                        string body = "Уважамый(ая), " + name.UserName + "!" + Environment.NewLine +
+                                      " конференция на тему \"" + meeting.Title + "\" переносится на " + meeting.Start +
+                                      TimeSpan.FromHours(3) + Environment.NewLine + "Инициатор конференции: " +
+                                      init.UserName + Environment.NewLine +
+                                      "В указанное время, для участия в конференции, просьба перейти по ссылке: " +
+                                      Environment.NewLine + link;
+                        //Sendmail(name.Email, meeting.Title, body);
+                    }
+                }
                 foreach (var aa in AddAtt)
                 {
                     strB.Append(aa + ";" + aa + Environment.NewLine);

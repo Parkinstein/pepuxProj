@@ -5,16 +5,13 @@
 @{
     ViewBag.Title = "Планировщик";
 
-
 }
 @*<button id="export">Export to PDF</button>*@
 
-
 <script>
     function getColor(data) {
-        var date = $.now();
-        //date = date.addDays(15);
-        datenow = (date).toString();
+        var date = new Date();
+        datenow = kendo.toString(date, 'yyyy/MM/dd HH:mm:ss.fff');
         if (kendo.toString(data.start, 'yyyy/MM/dd HH:mm:ss.fff') < datenow && datenow < kendo.toString(data.end, 'yyyy/MM/dd HH:mm:ss.fff')) {
             return "green";
         } else if (kendo.toString(data.end, 'yyyy/MM/dd HH:mm:ss.fff') < datenow) {
@@ -22,13 +19,11 @@
         } else {
             return "blur";
         }
-        
     }
 
     function getColor2(data) {
-        var date = $.now();
-        //date = date.addDays(15);
-        datenow = (date).toString();
+        var date = new Date();
+        datenow = kendo.toString(date, 'yyyy/MM/dd HH:mm:ss.fff');
         if (kendo.toString(data.start, 'yyyy/MM/dd HH:mm:ss.fff') < datenow && datenow < kendo.toString(data.end, 'yyyy/MM/dd HH:mm:ss.fff')) {
             return "white";
         } else if (kendo.toString(data.end, 'yyyy/MM/dd HH:mm:ss.fff') < datenow) {
@@ -37,9 +32,6 @@
             return "blur";
         }
     }
-
-
-
 </script>
 
 
@@ -50,20 +42,20 @@
           .Date(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day))
           .StartTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 00, 00))
           .EndTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 00, 00))
-          .Height(800)
+          .Height(600)
 
           .Timezone("Europe/Moscow")
-          .MinorTickCount(12)
+          .MinorTickCount(4)
           .MajorTick(60)
           .AutoBind(true)
           .Mobile()
           .EventTemplate("<div style='background-color:#:getColor(data)#;height:100%;margin-top: -10px;padding-top:10px;padding-left:5px;box-shadow:0 0 10px rgba(0,0,0,0.9);'>" + "<h6 style='color:#:getColor2(data)#'>#= title #</h6>" + "<p><a style='color:#:getColor2(data)#' href = '#= OpLink #'><h6>Ссылка Оператора</h6></a></p>" + "<p><a style='color:#:getColor2(data)#' href = '#= FileLink #'><h6>Файл встречи</h6></a></p>" + "<p><h6 style='color:#:getColor2(data)#'>" + "#= kendo.toString(start, 'HH:mm') #" + " - " + "#= kendo.toString(end, 'HH:mm') #</h6></p>" + "</div>")
           .Views(views =>
           {
-              views.DayView();
-              views.WeekView();
-              views.WorkWeekView(workWeekView => workWeekView.Selected(true));
-              views.MonthView();
+              views.DayView(v => v.Title("День"));
+              views.WeekView(v => v.Title("Неделя"));
+              views.WorkWeekView(workWeekView => workWeekView.Selected(true).Title("Рабочая неделя"));
+              views.MonthView(v => v.Title("Месяц"));
               views.AgendaView(v => v.Title("Cписок"));
           })
           .Editable(editable =>
@@ -89,31 +81,56 @@
               .Create("Meetings_Create", "Scheduler")
               .Destroy("Meetings_Destroy", "Scheduler")
               .Update("Meetings_Update", "Scheduler")
+              .Filter(filters => { filters.Add(model => model.RoomID).IsEqualTo(1).Or().IsEqualTo(2); })
           ))
+    <script type="text/javascript">
+    $(function () {
+        $("#people :checkbox").change(function (e) {
+            var checked = $.map($("#people :checked"), function (checkbox) {
+                return parseInt($(checkbox).val());
+            });
+
+            var filter = {
+                logic: "or",
+                filters: $.map(checked, function (value) {
+                    return {
+                        operator: "eq",
+                        field: "OwnerID",
+                        value: value
+                    };
+                })
+            };
+
+            var scheduler = $("#scheduler").data("kendoScheduler");
+
+            scheduler.dataSource.filter(filter);
+        });
+    })
+    </script>
     @*<script>  $("#export").click(function (e) {
             var scheduler = $("#Home").data("kendoScheduler");
             scheduler.saveAsPDF();
         });  </script>*@
     <script type="text/javascript">
-        function error_handler(e) {
-            if (e.errors) {
-                var message = "Errors:\n";
-                $.each(e.errors, function (key, value) {
-                    if ('errors' in value) {
-                        $.each(value.errors, function () {
-                            message += this + "\n";
-                        });
-                    }
-                });
-                alert(message);
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
 
-                var scheduler = $("#scheduler").data("kendoScheduler");
-                scheduler.one("dataBinding", function (e) {
-                    //prevent saving if server error is thrown
-                    e.preventDefault();
-                });
-            }
+            var scheduler = $("#scheduler").data("kendoScheduler");
+            scheduler.one("dataBinding", function (e) {
+                //prevent saving if server error is thrown
+                e.preventDefault();
+            });
         }
+    }
     </script>
 
 

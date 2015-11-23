@@ -39,9 +39,6 @@ namespace PepuxService
         List<Vrecords> Videorecords(string val);
 
         [OperationContract]
-        bool DeleteRecordsFromDb(int id);
-
-        [OperationContract]
         List<PBPlusrecord> GetPhonebookUsers();
 
         [OperationContract]
@@ -63,6 +60,8 @@ namespace PepuxService
         bool addUserToPrivat(string Owner, int IdRec, string Group);
 
         [OperationContract]
+        [WebGet]
+
         List<PhonebookDB> GetPB();
     }
 

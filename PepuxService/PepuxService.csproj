@@ -178,11 +178,16 @@
     <Content Include="Scripts\DataTables\dataTables.tableTools.min.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.min.js" />
-    <None Include="Properties\PublishProfiles\PepuxService.pubxml" />
+    <None Include="Properties\PublishProfiles\PepuxService.pubxml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\TestService.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
@@ -194,7 +199,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ServiceDB.dbml</DependentUpon>
     </Compile>
-    <Content Include="App_Code\Initializer.cs" />
     <Compile Include="IpService.svc.cs">
       <DependentUpon>IpService.svc</DependentUpon>
     </Compile>
@@ -211,7 +215,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\Service.pubxml" />
+    <None Include="Properties\PublishProfiles\Service.pubxml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

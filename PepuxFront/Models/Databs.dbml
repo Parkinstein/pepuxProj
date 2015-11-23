@@ -1,14 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="scheduler" Class="DatabsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=10.157.5.35\SQLEXPRESS;Initial Catalog=scheduler;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="schedulerConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Service" Member="Service">
-    <Type Name="Service">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="Role" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="AdName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.AllVmrs" Member="AllVmrs">
     <Type Name="AllVmr">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -39,6 +30,15 @@
       <Column Name="description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="vmid" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="AllVmr_VmrAliase" Member="AllVmr" ThisKey="vmid" OtherKey="Id" Type="AllVmr" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Service" Member="Services">
+    <Type Name="Service">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AdName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>
