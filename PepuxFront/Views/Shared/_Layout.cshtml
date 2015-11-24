@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using PepuxFront.Controllers
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -47,6 +48,10 @@ kendo.culture("ru-RU");
                     <li>@Html.ActionLink("Управление конференциями", "Index", "Controlpanel")</li>
                     <li>@Html.ActionLink("Записи", "VideoRecords", "VideoRecords")</li>
                     <li>@Html.ActionLink("Планирование", "Index", "Scheduler")</li>
+                    @if (AccountController.Ugroup == "PepuxAdmins")
+                    {
+                        <li>@Html.ActionLink("Йокарный Бабай", "Index", "Admin")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
