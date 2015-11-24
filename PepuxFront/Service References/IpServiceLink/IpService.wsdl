@@ -7,23 +7,17 @@
       <xsd:import schemaLocation="http://localhost:10789/IpService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/PepuxService" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IPService_GetADUsvrs_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetADUsvrs" />
-  </wsdl:message>
-  <wsdl:message name="IPService_GetADUsvrs_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetADUsvrsResponse" />
-  </wsdl:message>
   <wsdl:message name="IPService_GetActiveConfs_InputMessage">
     <wsdl:part name="parameters" element="tns:GetActiveConfs" />
   </wsdl:message>
   <wsdl:message name="IPService_GetActiveConfs_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetActiveConfsResponse" />
   </wsdl:message>
-  <wsdl:message name="IPService_GetDataLocal_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetDataLocal" />
+  <wsdl:message name="IPService_DeleteRecordsFromDb_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRecordsFromDb" />
   </wsdl:message>
-  <wsdl:message name="IPService_GetDataLocal_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetDataLocalResponse" />
+  <wsdl:message name="IPService_DeleteRecordsFromDb_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRecordsFromDbResponse" />
   </wsdl:message>
   <wsdl:message name="IPService_GetActiveParts_InputMessage">
     <wsdl:part name="parameters" element="tns:GetActiveParts" />
@@ -54,12 +48,6 @@
   </wsdl:message>
   <wsdl:message name="IPService_Videorecords_OutputMessage">
     <wsdl:part name="parameters" element="tns:VideorecordsResponse" />
-  </wsdl:message>
-  <wsdl:message name="IPService_DeleteRecordsFromDb_InputMessage">
-    <wsdl:part name="parameters" element="tns:DeleteRecordsFromDb" />
-  </wsdl:message>
-  <wsdl:message name="IPService_DeleteRecordsFromDb_OutputMessage">
-    <wsdl:part name="parameters" element="tns:DeleteRecordsFromDbResponse" />
   </wsdl:message>
   <wsdl:message name="IPService_GetPhonebookUsers_InputMessage">
     <wsdl:part name="parameters" element="tns:GetPhonebookUsers" />
@@ -104,17 +92,13 @@
     <wsdl:part name="parameters" element="tns:GetPBResponse" />
   </wsdl:message>
   <wsdl:portType name="IPService">
-    <wsdl:operation name="GetADUsvrs">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetADUsvrs" message="tns:IPService_GetADUsvrs_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPService/GetADUsvrsResponse" message="tns:IPService_GetADUsvrs_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="GetActiveConfs">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetActiveConfs" message="tns:IPService_GetActiveConfs_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPService/GetActiveConfsResponse" message="tns:IPService_GetActiveConfs_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetDataLocal">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetDataLocal" message="tns:IPService_GetDataLocal_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPService/GetDataLocalResponse" message="tns:IPService_GetDataLocal_OutputMessage" />
+    <wsdl:operation name="DeleteRecordsFromDb">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPService/DeleteRecordsFromDb" message="tns:IPService_DeleteRecordsFromDb_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPService/DeleteRecordsFromDbResponse" message="tns:IPService_DeleteRecordsFromDb_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetActiveParts">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetActiveParts" message="tns:IPService_GetActiveParts_InputMessage" />
@@ -135,10 +119,6 @@
     <wsdl:operation name="Videorecords">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/Videorecords" message="tns:IPService_Videorecords_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPService/VideorecordsResponse" message="tns:IPService_Videorecords_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="DeleteRecordsFromDb">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPService/DeleteRecordsFromDb" message="tns:IPService_DeleteRecordsFromDb_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPService/DeleteRecordsFromDbResponse" message="tns:IPService_DeleteRecordsFromDb_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetPhonebookUsers">
       <wsdl:input wsaw:Action="http://tempuri.org/IPService/GetPhonebookUsers" message="tns:IPService_GetPhonebookUsers_InputMessage" />
@@ -171,15 +151,6 @@
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IPService" type="tns:IPService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="GetADUsvrs">
-      <soap:operation soapAction="http://tempuri.org/IPService/GetADUsvrs" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetActiveConfs">
       <soap:operation soapAction="http://tempuri.org/IPService/GetActiveConfs" style="document" />
       <wsdl:input>
@@ -189,8 +160,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetDataLocal">
-      <soap:operation soapAction="http://tempuri.org/IPService/GetDataLocal" style="document" />
+    <wsdl:operation name="DeleteRecordsFromDb">
+      <soap:operation soapAction="http://tempuri.org/IPService/DeleteRecordsFromDb" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -236,15 +207,6 @@
     </wsdl:operation>
     <wsdl:operation name="Videorecords">
       <soap:operation soapAction="http://tempuri.org/IPService/Videorecords" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteRecordsFromDb">
-      <soap:operation soapAction="http://tempuri.org/IPService/DeleteRecordsFromDb" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

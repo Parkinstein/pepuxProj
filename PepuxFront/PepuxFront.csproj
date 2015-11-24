@@ -2485,9 +2485,6 @@
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.addrec.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.ADUsers.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.allrecords.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -2498,9 +2495,6 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.PhonebookDB.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\IpServiceLink\PepuxFront.IpServiceLink.Service.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Service References\IpServiceLink\Reference.svcmap">
@@ -2587,13 +2581,13 @@
     <Folder Include="bin\ja\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\IpServiceLink\" />
-  </ItemGroup>
-  <ItemGroup>
     <EntityDeploy Include="Models\MeetingEDM.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MeetingEDM.Designer.cs</LastGenOutput>
     </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\IpServiceLink\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

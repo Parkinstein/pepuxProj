@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PepuxFront.IpServiceLink.Service>
+﻿@model IEnumerable<PepuxFront.IpServiceLink.IPService>
 <div class="contributors">
 <div id="userblock" class ="userblock">
 <button type="button" class=" btn-info" data-toggle="collapse" data-target="#demo">
@@ -29,9 +29,9 @@
     {
         <tr style="background-color: RGBA(250, 250, 250, 0.7)">
             <td>
-                @Html.DisplayFor(modelItem => item.AdName)
+                @*@Html.DisplayFor(modelItem => item.)*@
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
@@ -39,7 +39,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
-            </td>
+            </td>*@
             @*<td>
                 @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
                 @Html.ActionLink("Details", "Details", new {id = item.Id}) |

@@ -74,7 +74,7 @@ namespace PepuxFront.Controllers
         {
             List<GroupPrincipal> result = new List<GroupPrincipal>();
 
-            PrincipalContext yourDomain = new PrincipalContext(ContextType.Domain, "dc0.rad.lan.local", null, ContextOptions.SimpleBind, "admin", "Ciscocisco123");
+            PrincipalContext yourDomain = new PrincipalContext(ContextType.Domain, domain, null, ContextOptions.SimpleBind, "admin", "Ciscocisco123");
 
             currentuser = UserPrincipal.FindByIdentity(yourDomain, IdentityType.SamAccountName, userName);
 

@@ -2,49 +2,33 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.DirectoryServices;
-using System.Dynamic;
 using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.SessionState;
-using System.Web.UI;
-using FluentScheduler;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace PepuxService
 {
-    public class Global : System.Web.HttpApplication
-    {
-        System.Timers.Timer timer = new System.Timers.Timer();
-        public static string GetProperty(SearchResult searchResult, 
- string PropertyName)
-  {
-   if(searchResult.Properties.Contains(PropertyName))
+   public class Sync : FluentScheduler.ITask
    {
-    return searchResult.Properties[PropertyName][0].ToString() ;
-   }
-   else
-   {
-    return string.Empty;
-   }
-  }
-
-        protected void Application_Start(object sender, EventArgs e)
+        public static string GetProperty(SearchResult searchResult,string PropertyName)
         {
-            TaskManager.Initialize(new MyRegistry());
-            //timer.Elapsed += new System.Timers.ElapsedEventHandler(update_Elapsed);
-            //timer.Interval = 120000;
-            //timer.Enabled = true;
-            //timer.Start();
+            if (searchResult.Properties.Contains(PropertyName))
+            {
+                return searchResult.Properties[PropertyName][0].ToString();
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
-        void update_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        public void Execute()
         {
             GetPhonebookUsers();
-
         }
         public List<PBPlusrecord> GetPhonebookUsers()
         {
             List<PBPlusrecord> allreco = new List<PBPlusrecord>();
-           try
+            try
             {
 
                 string domainPath = "dc0.rad.lan.local/OU=Pepux,DC=rad,DC=lan,DC=local";
@@ -58,7 +42,9 @@ namespace PepuxService
                 dirSearcher.PropertiesToLoad.Add("telephoneNumber");
                 dirSearcher.PropertiesToLoad.Add("sAMAccountName");
                 dirSearcher.PropertiesToLoad.Add("displayName");
-                dirSearcher.PropertiesToLoad.Add("email");
+                dirSearcher.PropertiesToLoad.Add("mail");
+                dirSearcher.PropertiesToLoad.Add("mobile");
+                dirSearcher.PropertiesToLoad.Add("facsimileTelephoneNumber");
                 SearchResultCollection resultCol = dirSearcher.FindAll();
                 foreach (SearchResult resul in resultCol)
                 {
@@ -67,11 +53,12 @@ namespace PepuxService
                     objSurveyUsers.surname = GetProperty(resul, "sn"); //(String)resul.Properties["sn"][0];
                     objSurveyUsers.tel_int = GetProperty(resul, "telephoneNumber"); //(String)resul.Properties["telephoneNumber"][0];
                     objSurveyUsers.position = GetProperty(resul, "title"); //(String)resul.Properties["title"][0];
-                    objSurveyUsers.email = GetProperty(resul, "email"); //(String)resul.Properties["email"][0];
+                    objSurveyUsers.email = GetProperty(resul, "mail"); //(String)resul.Properties["email"][0];
                     objSurveyUsers.samaccountname = GetProperty(resul, "sAMAccountName"); //(String)resul.Properties["sAMAccountName"][0];
                     objSurveyUsers.dispname = GetProperty(resul, "displayName"); //(String)resul.Properties["displayName"][0];
+                    objSurveyUsers.tel_ext = GetProperty(resul, "facsimileTelephoneNumber");
+                    objSurveyUsers.tel_mob = GetProperty(resul, "mobile");
                     allreco.Add(objSurveyUsers);
-                    Debug.WriteLine(objSurveyUsers.email);
                 }
 
                 CompareUsers(allreco);
@@ -83,7 +70,7 @@ namespace PepuxService
                 Debug.WriteLine(er.Message);
             }
             return allreco;
-         
+
 
         }
 
@@ -91,6 +78,7 @@ namespace PepuxService
         {
             ServiceDataContext db = new ServiceDataContext();
             var temp_list = new List<string>();
+            var temp_list2 = new List<int>();
             List<PBPlusrecord> allr = new List<PBPlusrecord>();
             var NameQuery =
                     from samaccountname in db.PhonebookDBs
@@ -102,8 +90,62 @@ namespace PepuxService
                     if ((!adusList.Exists(x => x.samaccountname == customer.samaccountname) && !customer.location))
                     {
                         temp_list.Add(customer.samaccountname);
+                        temp_list2.Add(customer.Id);
+
+                        #region piece of insanity
+
+                        if (!String.IsNullOrEmpty(customer.Phone_ext))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.Phone_mob))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.dispName))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.email))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.H323Add))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.Name))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.Phone_int))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.Position))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.SipAdd))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.samaccountname))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.Surname))
+                        {
+
+                        }
+                        if (!String.IsNullOrEmpty(customer.TimeZone))
+                        {
+
+                        }
+
+                        #endregion
+
                     }
-                    //Debug.WriteLine("Все уже есть");
                 }
                 foreach (var stroke in temp_list)
                 {
@@ -111,7 +153,27 @@ namespace PepuxService
                         from samaccountname in db.PhonebookDBs
                         where samaccountname.samaccountname == stroke
                         select samaccountname;
+                    var deleteowners = from samaccountname in db.PrivatePhBs
+                                       where samaccountname.OwSAN == stroke
+                                       select samaccountname;
+                    foreach (var deleted in deleteowners)
+                    {
+                        db.PrivatePhBs.DeleteOnSubmit(deleted);
+                    }
                     db.PhonebookDBs.DeleteOnSubmit(deleteUsers.First());
+                    db.SubmitChanges();
+                }
+                foreach (var stroke in temp_list2)
+                {
+                    var deleteUsers =
+                        from samaccountname in db.PrivatePhBs
+                        where samaccountname.IdREC == stroke
+                        select samaccountname;
+                    foreach (var id in deleteUsers)
+                    {
+                        db.PrivatePhBs.DeleteOnSubmit(id);  
+                    }
+                    
                     db.SubmitChanges();
                 }
 
@@ -129,48 +191,20 @@ namespace PepuxService
                     new_rec.samaccountname = adus.samaccountname;
                     new_rec.Phone_int = adus.tel_int;
                     new_rec.location = false;
+                    new_rec.email = adus.email;
+                    new_rec.dispName = adus.dispname;
+                    new_rec.Phone_ext = adus.tel_ext;
+                    new_rec.Phone_mob = adus.tel_mob;
                     db.PhonebookDBs.InsertOnSubmit(new_rec);
                     db.SubmitChanges();
-                    //Debug.WriteLine("Был добавлен " + new_rec.Name + " " + new_rec.Surname);
                 }
             }
 
 
-            foreach (var temp in temp_list)
-            {
-                Debug.WriteLine(temp);
-            }
+            
         }
 
-        protected void Session_Start(object sender, EventArgs e)
-        {
-           // Debug.WriteLine("App_Session_started");
-        }
+       
+   }
 
-        protected void Application_BeginRequest(object sender, EventArgs e)
-        {
-           // Debug.WriteLine("App_Begin_request");
-        }
-
-        protected void Application_AuthenticateRequest(object sender, EventArgs e)
-        {
-           // Debug.WriteLine("App_Auth_request");
-        }
-
-        protected void Application_Error(object sender, EventArgs e)
-        {
-            //Debug.WriteLine("App_Error");
-        }
-
-        protected void Session_End(object sender, EventArgs e)
-        {
-            //Debug.WriteLine("App_Session_ended");
-            timer.Dispose();
-        }
-
-        protected void Application_End(object sender, EventArgs e)
-        {
-            //Debug.WriteLine("App_stopped");
-        }
-    }
 }

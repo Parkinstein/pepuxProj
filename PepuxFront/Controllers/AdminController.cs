@@ -87,12 +87,12 @@ namespace PepuxFront.Controllers
                 data = filteredresult,
             }, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult UserGet()
-        {
-            IpServiceLink.PServiceClient obj1 = new PServiceClient();
-            ViewData["AllUsers"] = obj1.GetDataLocal();
-            return View(obj1.GetDataLocal());
-        }
+        //public ActionResult UserGet()
+        //{
+        //    IpServiceLink.PServiceClient obj1 = new PServiceClient();
+        //    ViewData["AllUsers"] = obj1.GetDataLocal();
+        //    return View(obj1.GetDataLocal());
+        //}
         public ActionResult GetParticipants(string confname)
         {
             PServiceClient obj2 = new PServiceClient();

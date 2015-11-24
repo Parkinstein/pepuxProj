@@ -38,18 +38,17 @@ namespace PepuxService
          public ResultTok resultreq;
          public int last_id;
 
-        public static string GetProperty(SearchResult searchResult, 
- string PropertyName)
-  {
-   if(searchResult.Properties.Contains(PropertyName))
-   {
-    return searchResult.Properties[PropertyName][0].ToString() ;
-   }
-   else
-   {
-    return string.Empty;
-   }
-  }
+        public static string GetProperty(SearchResult searchResult, string PropertyName)
+        {
+            if(searchResult.Properties.Contains(PropertyName))
+                {
+                    return searchResult.Properties[PropertyName][0].ToString() ;
+                }
+            else
+                {
+                    return string.Empty;
+                }
+        }
         
 
         private string Win1251ToUTF8(string source)
@@ -70,112 +69,240 @@ namespace PepuxService
         {
             
         }
-        
-        #region Get_AD_Users
-
-        public List<ADUsers> GetADUsvrs(string groupname)
+        #region Authentication
+        public bool Authenticate(string userName, string password, string domain)
         {
+            bool authentic = false;
+            try
+            {
+                DirectoryEntry entry = new DirectoryEntry("LDAP://" + domain,
+                    userName, password);
+                var nativeObject = entry.NativeObject;
+
+                authentic = true;
+            }
+            catch (DirectoryServicesCOMException) { }
+            return authentic;
+        }
+
+        #endregion
+
+        #region Get_AD_Users
+//        #region Old(unused)
+//        public List<ADUsers> GetADUsvrs(string groupname)
+//        {
+//            try
+//            {
+
+//                var context = new PrincipalContext(ContextType.Domain, Settings.Default.Domen, "pepuxadmin", "1Q2w3e4r"); //+ "/DC=rad,DC=lan,DC=local"
+//                using (var searcher = new PrincipalSearcher())
+//                {
+//                    var sp = new GroupPrincipal(context, groupname);
+//                    searcher.QueryFilter = sp;
+//                    var group = searcher.FindOne() as GroupPrincipal;
+
+//                    if (group == null)
+
+//                    foreach (var f in group.GetMembers())
+//                    {
+//                        var principal = f as UserPrincipal;
+
+//                        if (principal == null || string.IsNullOrEmpty(principal.Name))
+//                            continue;
+//                        else
+//                        {
+//                            ADUsers objSurveyUsers = new ADUsers();
+//                            objSurveyUsers.Group = groupname;
+//                            objSurveyUsers.Email = principal.EmailAddress;
+//                            objSurveyUsers.UserName = principal.SamAccountName;
+//                            objSurveyUsers.DisplayName = principal.DisplayName;
+//                            lstADUsers.Add(objSurveyUsers);
+
+//                        }
+//                        Debug.WriteLine("{0}", principal.Name);
+//                    }
+//                }
+//            }
+//            catch(Exception er)
+//            {
+//                Debug.WriteLine(er.HResult);
+//                Debug.WriteLine(er.Message);
+//            }
+//            return lstADUsers;
+//        }
+//#endregion
+        public List<PBPlusrecord> GetPhonebookUsers()
+        {
+            List<PBPlusrecord> allreco = new List<PBPlusrecord>();
             try
             {
 
-                var context = new PrincipalContext(ContextType.Domain, Settings.Default.Domen, "pepuxadmin", "1Q2w3e4r"); //+ "/DC=rad,DC=lan,DC=local"
-                using (var searcher = new PrincipalSearcher())
+                string domainPath = "dc0.rad.lan.local/OU=Pepux,DC=rad,DC=lan,DC=local";
+                DirectoryEntry directoryEntry = new DirectoryEntry("LDAP://" + domainPath, Properties.Settings.Default.DN_login, Properties.Settings.Default.Dn_pass);
+                DirectorySearcher dirSearcher = new DirectorySearcher(directoryEntry);
+                dirSearcher.SearchScope = SearchScope.Subtree;
+                dirSearcher.Filter = "(objectClass=user)";
+                dirSearcher.PropertiesToLoad.Add("givenName");
+                dirSearcher.PropertiesToLoad.Add("sn");
+                dirSearcher.PropertiesToLoad.Add("title");
+                dirSearcher.PropertiesToLoad.Add("telephoneNumber");
+                dirSearcher.PropertiesToLoad.Add("sAMAccountName");
+                dirSearcher.PropertiesToLoad.Add("displayName");
+                dirSearcher.PropertiesToLoad.Add("email");
+                SearchResultCollection resultCol = dirSearcher.FindAll();
+                foreach (SearchResult resul in resultCol)
                 {
-                    var sp = new GroupPrincipal(context, groupname);
-                    searcher.QueryFilter = sp;
-                    var group = searcher.FindOne() as GroupPrincipal;
-
-                    if (group == null)
-
-                    foreach (var f in group.GetMembers())
-                    {
-                        var principal = f as UserPrincipal;
-
-                        if (principal == null || string.IsNullOrEmpty(principal.Name))
-                            continue;
-                        else
-                        {
-                            ADUsers objSurveyUsers = new ADUsers();
-                            objSurveyUsers.Group = groupname;
-                            objSurveyUsers.Email = principal.EmailAddress;
-                            objSurveyUsers.UserName = principal.SamAccountName;
-                            objSurveyUsers.DisplayName = principal.DisplayName;
-                            lstADUsers.Add(objSurveyUsers);
-
-                        }
-                        Debug.WriteLine("{0}", principal.Name);
-                    }
+                    PBPlusrecord objSurveyUsers = new PBPlusrecord();
+                    objSurveyUsers.name = GetProperty(resul, "givenName");//(String)resul.Properties["givenName"][0];
+                    objSurveyUsers.surname = GetProperty(resul, "sn"); //(String)resul.Properties["sn"][0];
+                    objSurveyUsers.tel_int = GetProperty(resul, "telephoneNumber"); //(String)resul.Properties["telephoneNumber"][0];
+                    objSurveyUsers.position = GetProperty(resul, "title"); //(String)resul.Properties["title"][0];
+                    objSurveyUsers.email = GetProperty(resul, "email"); //(String)resul.Properties["email"][0];
+                    objSurveyUsers.samaccountname = GetProperty(resul, "sAMAccountName"); //(String)resul.Properties["sAMAccountName"][0];
+                    objSurveyUsers.dispname = GetProperty(resul, "displayName"); //(String)resul.Properties["displayName"][0];
+                    allreco.Add(objSurveyUsers);
+                    Debug.WriteLine(objSurveyUsers.email);
                 }
+
+                CompareUsers(allreco);
+
             }
-            catch(Exception er)
+            catch (Exception er)
             {
                 Debug.WriteLine(er.HResult);
                 Debug.WriteLine(er.Message);
             }
-            return lstADUsers;
+            return allreco;
+
         }
 
         #endregion
 
          #region Get_local_Users_&_Compare
+//#region Old(unused)
 
-         
-
-         public List<Service> GetDataLocal()
-        {
-            lstADUsers = new List<ADUsers>();
-            lstLOCUsers = new List<string>();
-            ServiceDataContext db = new ServiceDataContext();
-            try
-            {
+//         public List<Service> GetDataLocal()
+//        {
+//            lstADUsers = new List<ADUsers>();
+//            lstLOCUsers = new List<string>();
+//            ServiceDataContext db = new ServiceDataContext();
+//            try
+//            {
                 
-               {
-                    string grname = Settings.Default.Admin_group;
-                    GetADUsvrs(grname);
-                    string grname2 = Settings.Default.User_group;
-                    GetADUsvrs(grname2);
+//               {
+//                    string grname = Settings.Default.Admin_group;
+//                    GetADUsvrs(grname);
+//                    string grname2 = Settings.Default.User_group;
+//                    GetADUsvrs(grname2);
 
-                    var NameQuery =
-                    from adName in db.Services
-                    select adName;
-                    foreach (var customer in NameQuery)
-                    {
-                        if (!lstADUsers.Exists(x => x.UserName == customer.AdName))
-                        lstLOCUsers.Add(customer.AdName);
+//                    var NameQuery =
+//                    from adName in db.Services
+//                    select adName;
+//                    foreach (var customer in NameQuery)
+//                    {
+//                        if (!lstADUsers.Exists(x => x.UserName == customer.AdName))
+//                        lstLOCUsers.Add(customer.AdName);
 
-                    }
+//                    }
                    
-                    foreach (var stroke in lstLOCUsers)
-                    {
-                        var deleteUsers =
-                        from AdName in db.Services//db.Service
-                        where AdName.AdName == stroke
-                        select AdName;
-                        db.Services.DeleteOnSubmit(deleteUsers.First());
-                        db.SubmitChanges();
-                    }
-                    foreach (var das in lstADUsers)
-                    {
+//                    foreach (var stroke in lstLOCUsers)
+//                    {
+//                        var deleteUsers =
+//                        from AdName in db.Services//db.Service
+//                        where AdName.AdName == stroke
+//                        select AdName;
+//                        db.Services.DeleteOnSubmit(deleteUsers.First());
+//                        db.SubmitChanges();
+//                    }
+//                    foreach (var das in lstADUsers)
+//                    {
                         
-                        if (!NameQuery.AsEnumerable().ToList().Exists(x => x.AdName == das.UserName))
-                        {
-                            Service new_user = new Service();
-                            new_user.AdName = das.UserName;
-                            new_user.Email = das.Email;
-                            new_user.UserName = das.DisplayName;
-                            new_user.Role = das.Group;
-                            db.Services.InsertOnSubmit(new_user);
-                            db.SubmitChanges();
-                            Debug.WriteLine("Был добавлен " + das.UserName);
-                        }
+//                        if (!NameQuery.AsEnumerable().ToList().Exists(x => x.AdName == das.UserName))
+//                        {
+//                            Service new_user = new Service();
+//                            new_user.AdName = das.UserName;
+//                            new_user.Email = das.Email;
+//                            new_user.UserName = das.DisplayName;
+//                            new_user.Role = das.Group;
+//                            db.Services.InsertOnSubmit(new_user);
+//                            db.SubmitChanges();
+//                            Debug.WriteLine("Был добавлен " + das.UserName);
+//                        }
+//                    }
+//                }
+//            }
+//            catch (Exception e)
+//            {
+//                Debug.WriteLine(e.Message);
+//            }
+//            return db.Services.ToList();
+//        }
+//#endregion
+        public void CompareUsers(List<PBPlusrecord> adusList)
+        {
+            ServiceDataContext db = new ServiceDataContext();
+            var temp_list = new List<string>();
+            var id_list = new List<int>();
+            List<PBPlusrecord> allr = new List<PBPlusrecord>();
+            var NameQuery =
+                    from samaccountname in db.PhonebookDBs
+                    select samaccountname;
+            if (NameQuery != null)
+            {
+                foreach (var customer in NameQuery)
+                {
+                    if ((!adusList.Exists(x => x.samaccountname == customer.samaccountname) && !customer.location))
+                    {
+                        temp_list.Add(customer.samaccountname);
+                        id_list.Add(customer.Id);
                     }
                 }
+                foreach (var stroke in temp_list)
+                {
+                    var deleteUsers =
+                        from samaccountname in db.PhonebookDBs
+                        where samaccountname.samaccountname == stroke
+                        select samaccountname;
+                    db.PhonebookDBs.DeleteOnSubmit(deleteUsers.First());
+
+
+                }
+                foreach (var ids in id_list)
+                {
+                    var deleteRecs =
+                        from Id in db.PrivatePhBs
+                        where Id.IdREC == ids
+                        select Id;
+                    db.PrivatePhBs.DeleteOnSubmit(deleteRecs.First());
+                }
+                db.SubmitChanges();
+
             }
-            catch (Exception e)
+
+            foreach (var adus in adusList)
             {
-                Debug.WriteLine(e.Message);
+                if (!NameQuery.AsEnumerable().ToList().Exists(x => x.samaccountname == adus.samaccountname))
+                {
+                    PhonebookDB new_rec = new PhonebookDB();
+                    new_rec.Name = adus.name;
+                    new_rec.Surname = adus.surname;
+                    new_rec.Position = adus.position;
+                    new_rec.samaccountname = adus.samaccountname;
+                    new_rec.Phone_int = adus.tel_int;
+                    new_rec.email = adus.email;
+                    new_rec.dispName = adus.dispname;
+                    new_rec.location = false;
+                    db.PhonebookDBs.InsertOnSubmit(new_rec);
+                    db.SubmitChanges();
+                    Debug.WriteLine("Был добавлен " + new_rec.Name + " " + new_rec.Surname);
+                }
             }
-            return db.Services.ToList();
+
+
+            foreach (var temp in temp_list)
+            {
+                Debug.WriteLine(temp);
+            }
         }
         #endregion
 
@@ -488,117 +615,9 @@ namespace PepuxService
                 }
         }
         
-        public  List<PBPlusrecord> GetPhonebookUsers()
-        {
-           List<PBPlusrecord> allreco = new List<PBPlusrecord>();
-           try
-            {
+       
 
-                string domainPath = "dc0.rad.lan.local/OU=Pepux,DC=rad,DC=lan,DC=local";
-                DirectoryEntry directoryEntry = new DirectoryEntry("LDAP://" + domainPath, Properties.Settings.Default.DN_login, Properties.Settings.Default.Dn_pass);
-                DirectorySearcher dirSearcher = new DirectorySearcher(directoryEntry);
-                dirSearcher.SearchScope = SearchScope.Subtree;
-                dirSearcher.Filter = "(objectClass=user)";
-                dirSearcher.PropertiesToLoad.Add("givenName");
-                dirSearcher.PropertiesToLoad.Add("sn");
-                dirSearcher.PropertiesToLoad.Add("title");
-                dirSearcher.PropertiesToLoad.Add("telephoneNumber");
-                dirSearcher.PropertiesToLoad.Add("sAMAccountName");
-                dirSearcher.PropertiesToLoad.Add("displayName");
-                dirSearcher.PropertiesToLoad.Add("email");
-                SearchResultCollection resultCol = dirSearcher.FindAll();
-                foreach (SearchResult resul in resultCol)
-                {
-                    PBPlusrecord objSurveyUsers = new PBPlusrecord();
-                    objSurveyUsers.name = GetProperty(resul, "givenName");//(String)resul.Properties["givenName"][0];
-                    objSurveyUsers.surname = GetProperty(resul, "sn"); //(String)resul.Properties["sn"][0];
-                    objSurveyUsers.tel_int = GetProperty(resul, "telephoneNumber"); //(String)resul.Properties["telephoneNumber"][0];
-                    objSurveyUsers.position = GetProperty(resul, "title"); //(String)resul.Properties["title"][0];
-                    objSurveyUsers.email = GetProperty(resul, "email"); //(String)resul.Properties["email"][0];
-                    objSurveyUsers.samaccountname = GetProperty(resul, "sAMAccountName"); //(String)resul.Properties["sAMAccountName"][0];
-                    objSurveyUsers.dispname = GetProperty(resul, "displayName"); //(String)resul.Properties["displayName"][0];
-                    allreco.Add(objSurveyUsers);
-                    Debug.WriteLine(objSurveyUsers.email);
-                }
-
-                CompareUsers(allreco);
-
-            }
-            catch (Exception er)
-            {
-                Debug.WriteLine(er.HResult);
-                Debug.WriteLine(er.Message);
-            }
-            return allreco;
-
-        }
-
-        public  void CompareUsers(List<PBPlusrecord> adusList)
-        {
-            ServiceDataContext db = new ServiceDataContext();
-            var temp_list = new List<string>();
-            var id_list = new List<int>();
-            List<PBPlusrecord> allr = new List<PBPlusrecord>();
-            var NameQuery =
-                    from samaccountname in db.PhonebookDBs
-                    select samaccountname;
-            if (NameQuery != null)
-            {
-                foreach (var customer in NameQuery)
-                {
-                    if ((!adusList.Exists(x => x.samaccountname == customer.samaccountname) && !customer.location))
-                    {
-                        temp_list.Add(customer.samaccountname);
-                        id_list.Add(customer.Id);
-                    }
-                }
-                foreach (var stroke in temp_list)
-                {
-                    var deleteUsers =
-                        from samaccountname in db.PhonebookDBs
-                        where samaccountname.samaccountname == stroke
-                        select samaccountname;
-                    db.PhonebookDBs.DeleteOnSubmit(deleteUsers.First());
-                    
-                    
-                }
-                foreach (var ids in id_list)
-                {
-                    var deleteRecs =
-                        from Id in db.PrivatePhBs
-                        where Id.IdREC == ids
-                        select Id;
-                    db.PrivatePhBs.DeleteOnSubmit(deleteRecs.First());
-                }
-                db.SubmitChanges();
-
-            }
-            
-                foreach (var adus in adusList)
-                {
-                    if (!NameQuery.AsEnumerable().ToList().Exists(x => x.samaccountname == adus.samaccountname))
-                    {
-                        PhonebookDB new_rec = new PhonebookDB();
-                        new_rec.Name = adus.name;
-                        new_rec.Surname = adus.surname;
-                        new_rec.Position = adus.position;
-                        new_rec.samaccountname = adus.samaccountname;
-                        new_rec.Phone_int = adus.tel_int;
-                        new_rec.email = adus.email;
-                        new_rec.dispName = adus.dispname;
-                        new_rec.location = false;
-                        db.PhonebookDBs.InsertOnSubmit(new_rec);
-                        db.SubmitChanges();
-                        Debug.WriteLine("Был добавлен " + new_rec.Name + " " + new_rec.Surname);
-                    }
-                }
-            
-
-            foreach (var temp in temp_list)
-            {
-                Debug.WriteLine(temp);
-            }
-        }
+        
 
         public bool DeleteRecFromDb(int id, string ownm)
         {
@@ -696,26 +715,13 @@ namespace PepuxService
 
 
         #endregion
-        public bool Authenticate(string userName,string password, string domain)
-        {
-            bool authentic = false;
-            try
-            {
-                DirectoryEntry entry = new DirectoryEntry("LDAP://" + domain,
-                    userName, password);
-                var nativeObject = entry.NativeObject;
-                
-                authentic = true;
-            }
-            catch (DirectoryServicesCOMException) { }
-            return authentic;
-        }
+        
 
-        public List<PBPlusrecord> GetPhBOw(string OwName) //get phonebook
+        public List<PBPlusrecord> GetPhBOw(string Owname) //get phonebook
         {
             ServiceDataContext db = new ServiceDataContext();
             List<PBPlusrecord> selrec = new List<PBPlusrecord>();
-            var selectets = db.PrivatePhBs.Where(m => m.OwSAN == OwName);
+            var selectets = db.PrivatePhBs.Where(m => m.OwSAN == Owname);
             foreach (var sel in selectets)
             {
                 PBPlusrecord temp = new PBPlusrecord();

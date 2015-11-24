@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:10789/IpService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/PepuxService" />
-  <xs:element name="GetADUsvrs">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="groupname" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetADUsvrsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetADUsvrsResult" nillable="true" type="q1:ArrayOfADUsers" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="GetActiveConfs">
     <xs:complexType>
       <xs:sequence />
@@ -23,19 +9,21 @@
   <xs:element name="GetActiveConfsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetActiveConfsResult" nillable="true" type="q2:ArrayOfActiveConfs" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetActiveConfsResult" nillable="true" type="q1:ArrayOfActiveConfs" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetDataLocal">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetDataLocalResponse">
+  <xs:element name="DeleteRecordsFromDb">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetDataLocalResult" nillable="true" type="q3:ArrayOfService" />
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteRecordsFromDbResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteRecordsFromDbResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -49,7 +37,7 @@
   <xs:element name="GetActivePartsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetActivePartsResult" nillable="true" type="q4:ArrayOfparticipants" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetActivePartsResult" nillable="true" type="q2:ArrayOfparticipants" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -61,7 +49,7 @@
   <xs:element name="GetVmrListResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetVmrListResult" nillable="true" type="q5:ArrayOfAllVmrs" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetVmrListResult" nillable="true" type="q3:ArrayOfAllVmrs" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -105,21 +93,7 @@
   <xs:element name="VideorecordsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="VideorecordsResult" nillable="true" type="q6:ArrayOfallrecords" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="DeleteRecordsFromDb">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="id" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="DeleteRecordsFromDbResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="DeleteRecordsFromDbResult" type="xs:boolean" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="VideorecordsResult" nillable="true" type="q4:ArrayOfallrecords" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -131,7 +105,7 @@
   <xs:element name="GetPhonebookUsersResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetPhonebookUsersResult" nillable="true" type="q7:ArrayOfaddrec" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetPhonebookUsersResult" nillable="true" type="q5:ArrayOfaddrec" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -156,7 +130,7 @@
   <xs:element name="AddRecordsToPBResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="AddRecordsToPBResult" nillable="true" type="q8:PhonebookDB" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="AddRecordsToPBResult" nillable="true" type="q6:PhonebookDB" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -179,14 +153,14 @@
   <xs:element name="GetPhBOw">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="OwName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Owname" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetPhBOwResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetPhBOwResult" nillable="true" type="q9:ArrayOfaddrec" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetPhBOwResult" nillable="true" type="q7:ArrayOfaddrec" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -229,7 +203,7 @@
   <xs:element name="GetPBResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetPBResult" nillable="true" type="q10:ArrayOfPhonebookDB" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/PepuxService" minOccurs="0" name="GetPBResult" nillable="true" type="q8:ArrayOfPhonebookDB" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

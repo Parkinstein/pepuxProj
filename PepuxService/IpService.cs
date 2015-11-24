@@ -14,15 +14,20 @@ namespace PepuxService
     [ServiceContract]
     public interface IPService
     {
-        [OperationContract]
-        List<ADUsers> GetADUsvrs(string groupname);
+//#region Old(unused)
+//        [OperationContract]
+//        List<ADUsers> GetADUsvrs(string groupname);
+
+//        [OperationContract]
+//        List<Service> GetDataLocal();
+//#endregion
 
         [OperationContract]
         List<ActiveConfs> GetActiveConfs();
 
         [OperationContract]
-        List<Service> GetDataLocal();
 
+        bool DeleteRecordsFromDb(int id);
         [OperationContract]
         List<Participants> GetActiveParts(string confname);
 
@@ -39,6 +44,7 @@ namespace PepuxService
         List<Vrecords> Videorecords(string val);
 
         [OperationContract]
+        [WebGet]
         List<PBPlusrecord> GetPhonebookUsers();
 
         [OperationContract]
@@ -51,7 +57,7 @@ namespace PepuxService
          bool Authenticate(string userName,string password, string domain);
 
         [OperationContract]
-        List<PBPlusrecord> GetPhBOw(string OwName);
+        List<PBPlusrecord> GetPhBOw(string Owname);
 
         [OperationContract]
         bool DeleteRecFromDb(int id, string ownm);
