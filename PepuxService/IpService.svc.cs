@@ -37,6 +37,19 @@ namespace PepuxService
          public RootToken root_token;
          public ResultTok resultreq;
          public int last_id;
+
+        public static string GetProperty(SearchResult searchResult, 
+ string PropertyName)
+  {
+   if(searchResult.Properties.Contains(PropertyName))
+   {
+    return searchResult.Properties[PropertyName][0].ToString() ;
+   }
+   else
+   {
+    return string.Empty;
+   }
+  }
         
 
         private string Win1251ToUTF8(string source)
@@ -481,44 +494,33 @@ namespace PepuxService
            try
             {
 
-                var domainPath = "dc0.rad.lan.local/OU=Pepux,DC=rad,DC=lan,DC=local";
-                var directoryEntry = new DirectoryEntry("LDAP://"+domainPath, Properties.Settings.Default.DN_login, Properties.Settings.Default.Dn_pass);
-                var dirSearcher = new DirectorySearcher(directoryEntry);
+                string domainPath = "dc0.rad.lan.local/OU=Pepux,DC=rad,DC=lan,DC=local";
+                DirectoryEntry directoryEntry = new DirectoryEntry("LDAP://" + domainPath, Properties.Settings.Default.DN_login, Properties.Settings.Default.Dn_pass);
+                DirectorySearcher dirSearcher = new DirectorySearcher(directoryEntry);
                 dirSearcher.SearchScope = SearchScope.Subtree;
-                dirSearcher.Filter = string.Format("(objectClass=user)");
+                dirSearcher.Filter = "(objectClass=user)";
                 dirSearcher.PropertiesToLoad.Add("givenName");
                 dirSearcher.PropertiesToLoad.Add("sn");
                 dirSearcher.PropertiesToLoad.Add("title");
                 dirSearcher.PropertiesToLoad.Add("telephoneNumber");
                 dirSearcher.PropertiesToLoad.Add("sAMAccountName");
+                dirSearcher.PropertiesToLoad.Add("displayName");
                 dirSearcher.PropertiesToLoad.Add("email");
-                //var searchResults = dirSearcher.FindAll();
-                SearchResult result;
                 SearchResultCollection resultCol = dirSearcher.FindAll();
-                if (resultCol != null)
+                foreach (SearchResult resul in resultCol)
                 {
-                    for (int i = 0; i < resultCol.Count; i++)
-                    {
-
-                        result = resultCol[i];
-                        if (result.Properties.Contains("givenName") &&
-                            result.Properties.Contains("sn") &&
-                            result.Properties.Contains("telephoneNumber"))
-                        {
-                            PBPlusrecord objSurveyUsers = new PBPlusrecord();
-                            objSurveyUsers.name = (String) result.Properties["givenName"][0];
-                            objSurveyUsers.surname = (String) result.Properties["sn"][0];
-                            objSurveyUsers.tel_int = (String) result.Properties["telephoneNumber"][0];
-                            objSurveyUsers.position = (String) result.Properties["title"][0];
-                            objSurveyUsers.email = (String)result.Properties["email"][0];
-                            objSurveyUsers.samaccountname = (String)result.Properties["sAMAccountName"][0];
-                            objSurveyUsers.dispname = (String)result.Properties["displayName"][0];
-                            allreco.Add(objSurveyUsers);
-                        }
-                    }
-
+                    PBPlusrecord objSurveyUsers = new PBPlusrecord();
+                    objSurveyUsers.name = GetProperty(resul, "givenName");//(String)resul.Properties["givenName"][0];
+                    objSurveyUsers.surname = GetProperty(resul, "sn"); //(String)resul.Properties["sn"][0];
+                    objSurveyUsers.tel_int = GetProperty(resul, "telephoneNumber"); //(String)resul.Properties["telephoneNumber"][0];
+                    objSurveyUsers.position = GetProperty(resul, "title"); //(String)resul.Properties["title"][0];
+                    objSurveyUsers.email = GetProperty(resul, "email"); //(String)resul.Properties["email"][0];
+                    objSurveyUsers.samaccountname = GetProperty(resul, "sAMAccountName"); //(String)resul.Properties["sAMAccountName"][0];
+                    objSurveyUsers.dispname = GetProperty(resul, "displayName"); //(String)resul.Properties["displayName"][0];
+                    allreco.Add(objSurveyUsers);
+                    Debug.WriteLine(objSurveyUsers.email);
                 }
-                else{}
+
                 CompareUsers(allreco);
 
             }
