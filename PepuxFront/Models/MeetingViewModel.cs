@@ -67,6 +67,7 @@ namespace PepuxFront.Models
         public bool Record { get; set; }
         public string Recfile { get; set; }
         public string InitName { get; set; }
+        public string InitFullname { get; set; }
 
         public Meeting ToEntity()
         {
@@ -89,7 +90,8 @@ namespace PepuxFront.Models
                 FileLink = FileLink,
                 Record = Record,
                 Recfile = Recfile,
-                InitName = InitName
+                InitName = InitName,
+                InitFullname = InitFullname
             };
 
             return meeting;

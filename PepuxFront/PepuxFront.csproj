@@ -253,6 +253,7 @@
     <Compile Include="Models\VideoRecords.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="RegexUtilities.cs" />
     <Compile Include="Service References\IpServiceLink\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

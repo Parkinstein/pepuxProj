@@ -47,7 +47,7 @@
     @(Html.TextBoxFor(model => model.Title, new { @class = "k-textbox", data_bind = "value:title" }))
 </div>
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.Start))
+    @(Html.Label("Начало мероприятия"))
 </div>
 <div data-container-for="start" class="k-edit-field">
 
@@ -63,7 +63,7 @@
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.End))
+    @(Html.Label("Окончание мероприятия"))
 </div>
 <div data-container-for="end" class="k-edit-field">
 
@@ -73,21 +73,21 @@
             "endDateTime",
             "end",
             "value:end,invisible:isAllDay",
-            new Dictionary<string, object>() { { "data-dateCompare-msg", "End date should be greater than or equal to the start date" } })))
+            new Dictionary<string, object>() { { "data-dateCompare-msg", "Дата окончания должна быть позже даты начала" } })))
 
     @(Html.Kendo().DatePickerFor(model => model.End)
         .HtmlAttributes(generateDatePickerAttributes(
             "endDate",
             "end",
             "value:end,visible:isAllDay",
-            new Dictionary<string, object>() { { "data-dateCompare-msg", "End date should be greater than or equal to the start date" } })))
+                    new Dictionary<string, object>() { { "data-dateCompare-msg", "Дата окончания должна быть позже даты начала" } })))
 
     <span data-bind="text: endTimezone"></span>
     <span data-for="end" class="k-invalid-msg"></span>
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.IsAllDay))
+    @(Html.Label("Весь день"))
 </div>
 <div data-container-for="isAllDay" class="k-edit-field">
     <input data-bind="checked: isAllDay" data-val="true" id="IsAllDay" name="IsAllDay" type="checkbox" />
@@ -98,7 +98,7 @@
     <div class="k-edit-field">
         <label class="k-check">
             <input checked="checked" class="k-timezone-toggle" type="checkbox" value="true" />
-            Use separate start and end time zones
+            Использовать разные часовые пояса для начала и окончания мероприятия
         </label>
     </div>
 </div>
@@ -126,7 +126,7 @@
 </script>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.StartTimezone))
+    @(Html.Label("Часовой пояс начала мероприятия"))
 </div>
 <div data-container-for="startTimezone" class="k-edit-field">
     @(Html.Kendo().TimezoneEditorFor(model => model.StartTimezone)
@@ -134,7 +134,7 @@
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.EndTimezone))
+   @(Html.Label("Часовой пояс окончания мероприятия"))
 </div>
 <div data-container-for="endTimezone" class="k-edit-field">
     @(Html.Kendo().TimezoneEditorFor(model => model.EndTimezone)
@@ -142,7 +142,7 @@
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.RecurrenceRule))
+    @(Html.Label("Настройки повтора"))
 </div>
 <div data-container-for="recurrenceRule" class="k-edit-field">
     @(Html.Kendo().RecurrenceEditorFor(model => model.RecurrenceRule)
@@ -150,10 +150,40 @@
 </div>
 
 <div data-container-for="RoomID" class="k-edit-field">
-    @if (IsPost)
+    @if (AccountController.Ugroup == "PepuxAdmins")
     {
-  
+        @(Html.Kendo().DropDownListFor(m => m.RoomID)
+          .AutoBind(true)
+          .DataTextField("dispname")
+          .DataValueField("id")
+          .Filter(FilterType.Contains)
+
+          .Height(400)
+          .DataSource(source =>
+          {
+              source.Custom()
+                  .ServerFiltering(true)
+                  .Type("aspnetmvc-ajax")
+                  .Transport(transport =>
+                  {
+                      transport.Read("GetUsers", "Scheduler");
+                  })
+
+                  .Schema(schema =>
+                  {
+                      schema.Data("Data")
+                          .Total("Total");
+                  });
+          })
+
+
+        )
     }
+    @if (AccountController.Ugroup == "PepuxUsers")
+    {
+        @(Html.ViewData["romid"] = AccountController.UID)
+    }
+    
     @*@(Html.Kendo().DropDownListFor(m => m.RoomID)
           .AutoBind(true)
           .DataTextField("dispname")

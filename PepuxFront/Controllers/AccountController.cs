@@ -20,6 +20,7 @@ namespace PepuxFront.Controllers
         public static string SAMUname;
         public static string Ugroup;
         public static bool IsAuth;
+        public static int UID;
         public static UserPrincipal currentuser;
         public ActionResult Login()
         {
@@ -45,7 +46,7 @@ namespace PepuxFront.Controllers
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     var grps = GetGroups(model.UserName, model.Domen, model.Password);
                     ArrayList groups = new ArrayList();
-                    
+
                     foreach (var grp in grps)
                     {
                         groups.Add(grp.Name);
@@ -82,6 +83,7 @@ namespace PepuxFront.Controllers
             {
                 Uname = currentuser.DisplayName;
                 SAMUname = currentuser.SamAccountName;
+                UID = (GetAllPB().FirstOrDefault(m => m.samaccountname == currentuser.SamAccountName)).Id;
                 PrincipalSearchResult<Principal> groups = currentuser.GetAuthorizationGroups();
                 foreach (Principal p in groups)
                 {
@@ -101,6 +103,12 @@ namespace PepuxFront.Controllers
             IsAuth = false;
             Uname = null;
             return this.RedirectToAction("Login", "Account");
+        }
+        private IEnumerable<IpServiceLink.PhonebookDB> GetAllPB()
+        {
+            IpServiceLink.PServiceClient obj = new PServiceClient();
+            var data = obj.GetPB();
+            return data;
         }
     }
 }

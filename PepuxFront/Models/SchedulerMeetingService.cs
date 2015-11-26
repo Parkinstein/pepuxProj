@@ -47,11 +47,12 @@ namespace PepuxFront.Models
                 FileLink = meeting.FileLink,
                 Record = meeting.Record,
                 Recfile = meeting.Recfile,
-                InitName = meeting.InitName
+                InitName = meeting.InitName,
+                InitFullname = meeting.InitName
 
             }).AsQueryable();
         }
-        public IQueryable<MeetingViewModel> GetFiltered()
+        public IQueryable<MeetingViewModel> GetFiltered(string initname)
         {
             return db.Meetings.ToList().Select(meeting => new MeetingViewModel
             {
@@ -73,7 +74,8 @@ namespace PepuxFront.Models
                 FileLink = meeting.FileLink,
                 Record = meeting.Record,
                 Recfile = meeting.Recfile,
-                InitName = meeting.InitName
+                InitName = meeting.InitName,
+                InitFullname = meeting.InitName
 
             }).AsQueryable();
         }
@@ -108,7 +110,6 @@ namespace PepuxFront.Models
                 Debug.WriteLine("Saved");
                 meeting.MeetingID = entity.MeetingID;
             }
-            Debug.WriteLine("model not valid");
         }
 
         public void Update(MeetingViewModel meeting, ModelStateDictionary modelState)
@@ -139,6 +140,7 @@ namespace PepuxFront.Models
                 entity.Record = meeting.Record;
                 entity.Recfile = meeting.Recfile;
                 entity.InitName = meeting.InitName;
+                entity.InitFullname = meeting.InitFullname;
 
                 foreach (var meetingAttendee in entity.MeetingAttendees.ToList())
                 {
