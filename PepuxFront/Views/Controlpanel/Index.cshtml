@@ -1,6 +1,7 @@
 ﻿@using System.ServiceModel.Configuration
 @using Microsoft.Ajax.Utilities
 @using PepuxFront.Controllers
+@using PepuxFront.IpServiceLink
 @model PepuxFront.IpServiceLink.ActiveConfs
 
 <div class="control_grid">
@@ -54,7 +55,7 @@
     }
     setInterval("refresh()", 30000);
 
-    var uname = "@AccountController.Uname";
+    var uname = @AccountController.Uname;
 
     $(document).ready(function() {
         oActConfTable = $('#table_ac').DataTable({

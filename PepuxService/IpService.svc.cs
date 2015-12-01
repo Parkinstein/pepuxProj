@@ -78,7 +78,7 @@ namespace PepuxService
                 DirectoryEntry entry = new DirectoryEntry("LDAP://" + domain,
                     userName, password);
                 var nativeObject = entry.NativeObject;
-
+                Debug.WriteLine(nativeObject);
                 authentic = true;
             }
             catch (DirectoryServicesCOMException) { }

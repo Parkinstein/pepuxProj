@@ -96,8 +96,12 @@ namespace PepuxFront.Controllers
 
             foreach (var mail in emaillist)
             {
-                
 
+                if (mail.dispName.Contains(" "))
+                {
+                    mail.dispName = mail.dispName.Replace(" ", "%20");
+                }
+                else { }
                     string link = "https://" + "10.129.15.129" + "/webapp/?conference=" + init.dispName + "&name=" +
                                   Uri.EscapeDataString(mail.dispName) + "&bw=512&join=1";
                     string body = "Уважамый(ая), " + mail.dispName + "!" + Environment.NewLine + meeting.Start +
@@ -106,7 +110,17 @@ namespace PepuxFront.Controllers
                                   "В указанное время, для участия в конференции, просьба перейти по ссылке: " +
                                   Environment.NewLine + link;
                     Debug.WriteLine(mail.email);
-                    Sendmail(mail.email, meeting.Title, body);
+                try
+                {
+                    //Sendmail(mail.email, meeting.Title, body);
+                }
+                catch (Exception e)
+                {
+                    
+                    Debug.WriteLine(e.Message);
+                    Debug.WriteLine(e.HResult);
+                }
+                    
                 
             }
 
@@ -249,17 +263,23 @@ namespace PepuxFront.Controllers
 
         public Task<ActionResult> Sendmail(string to, string subj, string body)
         {
-            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com",465)
+            SmtpClient smtpClient = new SmtpClient("smtp.yandex.ru", 25)
             {
-                Credentials = new NetworkCredential("bparkin", "lfybbk"),
+                UseDefaultCredentials = false,
+                EnableSsl = true,
+                
+                Credentials = new NetworkCredential("borisparkin@yandex.ru", "1Q2w3e4r"),
+
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                EnableSsl = true
+                Timeout = 20000
+                
+                
                
             };
             MailMessage mailMessage = new MailMessage()
             {
                 Priority = MailPriority.High,
-                From = new MailAddress("bparkin@gmail.com", "Планировщик системы видео-конференц-связи 'Сова'")
+                From = new MailAddress("borisparkin@yandex.ru", "Планировщик системы видео-конференц-связи 'Сова'")
             };
             mailMessage.To.Add(new MailAddress(to));
             mailMessage.Subject = subj;

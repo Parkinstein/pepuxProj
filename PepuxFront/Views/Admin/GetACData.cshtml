@@ -3,14 +3,14 @@
 
 @(Html.Kendo().Grid<PepuxFront.IpServiceLink.ActiveConfs>()
       .Name("acgrid")
-      .Pdf(m => { m.FileName(AccountController.Uname + "_" + DateTime.Now + ".pdf");
-                    m.AllPages();
-      })
-      .Excel(m => { m.FileName(AccountController.Uname + "_" + DateTime.Now + ".xlsx");
-                      m.AllPages(true);
-                      m.Filterable(true);
+      //.Pdf(m => { m.FileName(AccountController.Uname + "_" + DateTime.Now + ".pdf");
+      //              m.AllPages();
+      //})
+      //.Excel(m => { m.FileName(AccountController.Uname + "_" + DateTime.Now + ".xlsx");
+      //                m.AllPages(true);
+      //                m.Filterable(true);
           
-      })
+      //})
       .ToolBar(m => { m.Pdf();
                         m.Excel();
          

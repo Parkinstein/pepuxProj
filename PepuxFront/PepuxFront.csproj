@@ -217,6 +217,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActiveConference.cs" />
+    <Compile Include="Models\CurrentUser.cs" />
     <Compile Include="Models\Databs.cs">
       <DependentUpon>Databs.dbml</DependentUpon>
     </Compile>
@@ -832,6 +833,7 @@
     <Content Include="images\lock.png" />
     <Content Include="images\lockunlock.png" />
     <Content Include="images\logo.png" />
+    <Content Include="images\logoowl.png" />
     <Content Include="images\logo_1x.png" />
     <Content Include="images\unlock.png" />
     <Content Include="Models\MeetingEDM.Context.tt">

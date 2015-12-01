@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using PepuxFront.IpServiceLink;
 using PepuxFront.Models;
+using Telerik.OpenAccess.Metadata.Fluent;
 using Service = PepuxFront.Models.Service;
 
 namespace PepuxFront.Controllers
@@ -22,8 +23,12 @@ namespace PepuxFront.Controllers
         public static bool IsAuth;
         public static int UID;
         public static UserPrincipal currentuser;
+        
+        
+          
         public ActionResult Login()
         {
+            ViewBag.Auth = false;
             return this.View();
         }
 
@@ -37,31 +42,30 @@ namespace PepuxFront.Controllers
             }
             else
             {
-                IpServiceLink.PServiceClient obj = new PServiceClient();
                 
+                IpServiceLink.PServiceClient obj = new PServiceClient();
                 bool auth = obj.Authenticate(model.UserName, model.Password, model.Domen);
+                CurrentUser Cui = new CurrentUser();
                 if (auth)
                 {
                     IsAuth = auth;
+                    Cui.isAuth = auth;
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     var grps = GetGroups(model.UserName, model.Domen, model.Password);
                     ArrayList groups = new ArrayList();
-
                     foreach (var grp in grps)
                     {
                         groups.Add(grp.Name);
                     }
-                    
                     if (groups.Contains("PepuxAdmins"))
                     {
-                       
-                        Ugroup = "PepuxAdmins";
-                        return this.RedirectToAction("Index", "Controlpanel");
+                        Ugroup  = "PepuxAdmins";
+                        return this.RedirectToAction("Index", "Controlpanel", ViewBag.Auth = "true");
                     }
                     else if (groups.Contains("PepuxUsers"))
                     {
                         Ugroup = "PepuxUsers";
-                        return this.RedirectToAction("Phonebook", "Phonebook");
+                        return this.RedirectToAction("Phonebook", "Phonebook", ViewBag.Auth = "true");
                     }
                 }
                 else { this.ModelState.AddModelError(string.Empty, "Имя пользователя или пароль указаны неверно.");
@@ -71,7 +75,7 @@ namespace PepuxFront.Controllers
             return null;
         }
         
-        public List<GroupPrincipal> GetGroups(string userName, string domain, string pass)
+        public  List<GroupPrincipal> GetGroups(string userName, string domain, string pass)
         {
             List<GroupPrincipal> result = new List<GroupPrincipal>();
 
@@ -81,9 +85,10 @@ namespace PepuxFront.Controllers
 
             if (currentuser != null)
             {
-                Uname = currentuser.DisplayName;
-                SAMUname = currentuser.SamAccountName;
-                UID = (GetAllPB().FirstOrDefault(m => m.samaccountname == currentuser.SamAccountName)).Id;
+              ViewBag.Name = currentuser.DisplayName;
+              TempData["user"] = currentuser;
+                SAMUname= currentuser.SamAccountName;
+                 UID= (GetAllPB().FirstOrDefault(m => m.samaccountname == currentuser.SamAccountName)).Id;
                 PrincipalSearchResult<Principal> groups = currentuser.GetAuthorizationGroups();
                 foreach (Principal p in groups)
                 {

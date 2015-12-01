@@ -21,58 +21,40 @@ namespace PepuxService
 //        [OperationContract]
 //        List<Service> GetDataLocal();
 //#endregion
+    #region OpContracts
 
         [OperationContract]
         List<ActiveConfs> GetActiveConfs();
-
         [OperationContract]
-
         bool DeleteRecordsFromDb(int id);
         [OperationContract]
         List<Participants> GetActiveParts(string confname);
-
         [OperationContract]
         List<AllVmrs> GetVmrList();
-
         [OperationContract]
         string GetToken(string confname, string dispname);
-
         [OperationContract]
         string Token_refresh(string confname, string old_token);
-
         [OperationContract]
         List<Vrecords> Videorecords(string val);
-
         [OperationContract]
         [WebGet]
         List<PBPlusrecord> GetPhonebookUsers();
-
         [OperationContract]
         PhonebookDB AddRecordsToPB(string in_name, string in_surname, string in_position, string tel_int, string tel_ext, string tel_mob, string h323_add, string sip_add, string timezone, string group, string email, string OwNam);
-        
-        //[OperationContract]
-        //List<PBPlusrecord> GetAllMembers(string in_name);
-
         [OperationContract]
-         bool Authenticate(string userName,string password, string domain);
-
+        bool Authenticate(string userName,string password, string domain);
         [OperationContract]
         List<PBPlusrecord> GetPhBOw(string Owname);
-
         [OperationContract]
         bool DeleteRecFromDb(int id, string ownm);
-
         [OperationContract]
         bool addUserToPrivat(string Owner, int IdRec, string Group);
-
         [OperationContract]
         [WebGet]
-
         List<PhonebookDB> GetPB();
     }
-
-
-
+#endregion
     #region UsersClasses
 
     [DataContract]
@@ -109,7 +91,6 @@ namespace PepuxService
   }
 
     #endregion
-
     #region AllActiveConfsClasses
 
     [DataContract(Name = "")]
@@ -176,7 +157,6 @@ namespace PepuxService
     }
 
     #endregion
-
     #region Getting_all_participants_for_a_conference
     [DataContract(Name = "parts")]
     public class RootObject
@@ -271,11 +251,9 @@ namespace PepuxService
         public string vendor { get; set; }
     }
     #endregion
-
     #region Getting the media statistics for a participant
 
     #endregion
-
     #region AllVMRS
 
     [DataContract(Name = "allvmr")]
@@ -375,7 +353,6 @@ namespace PepuxService
         public bool streaming { get; set; }
     }
     #endregion
-
     #region token_req
     [DataContract]
     [Newtonsoft.Json.JsonObject(MemberSerialization = Newtonsoft.Json.MemberSerialization.OptIn)]
@@ -448,7 +425,6 @@ namespace PepuxService
         public ResultTokRef result { get; set; }
     }
     #endregion
-
     #region Get Records
     [DataContract(Name = "allrecords")]
     [JsonObject(MemberSerialization.OptIn)]
@@ -523,8 +499,4 @@ namespace PepuxService
         public string email { get; set; }
     }
     #endregion
-
-
-
-
 }
