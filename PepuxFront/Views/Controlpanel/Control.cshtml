@@ -50,10 +50,10 @@
                     </select>
                 </div>
                 <div class="dialdiv_alias">
-                    <label class="dialdiv_header">Локальный alias </label>
+                    <label class="dialdiv_header">Имя локальное </label>
                     <input id="localalias" value="" class="form-control dial_alias">
                     <br/>
-                    <label class="dialdiv_header">Удалённый alias </label>
+                    <label class="dialdiv_header">Адрес </label>
                     <input id="remotealias" value="" class="form-control dial_alias">
                 </div>
             </div>
@@ -242,11 +242,14 @@
     function add_pb_user() {   
         var sip_add = oPhonebookTable.cells('.selected', 7, { page: 'current' }).data();
         var h323_add = oPhonebookTable.cells('.selected', 8, { page: 'current' }).data();
+        var imya = oPhonebookTable.cells('.selected', 1, { page: 'current' }).data();
+        var fam = oPhonebookTable.cells('.selected', 2, { page: 'current' }).data();
         for (var i = 0; i < sip_add.length; i++) {
+            name = imya[i] + " " + fam[i];
             if (sip_add[i] !== '') {
-                user.dial_pb(sip_add[i], "SIP");
+                user.dial_pb(sip_add[i], "sip", name);
             } else {
-                user.dial_pb(h323_add[i], "H.323");
+                user.dial_pb(h323_add[i], "h323", name);
             }
 
         }
@@ -1439,13 +1442,13 @@
             }
         },
 
-        dial_pb: function (addr, protocol) {
+        dial_pb: function (addr, protocol, name) {
             var localalias = document.getElementById("localalias");
             var role = "guest";
 
             var call_data = {
                 "protocol": protocol,
-                "source": localalias.value,
+                "source": name,
                 "destination": addr,
                 "role": "guest"
             };
@@ -1454,9 +1457,6 @@
                 console.log("Dial out success");
             }
         },
-
-
-
 
         resetlayout: function (event) {
             var call_data = { "layouts": [] };
