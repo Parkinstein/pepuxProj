@@ -8,20 +8,33 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Web.UI;
+using FluentScheduler;
 
 namespace PepuxService
 {
     public class Global : System.Web.HttpApplication
     {
         System.Timers.Timer timer = new System.Timers.Timer();
+        public static string GetProperty(SearchResult searchResult, 
+ string PropertyName)
+  {
+   if(searchResult.Properties.Contains(PropertyName))
+   {
+    return searchResult.Properties[PropertyName][0].ToString() ;
+   }
+   else
+   {
+    return string.Empty;
+   }
+  }
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(update_Elapsed);
-            timer.Interval = 120000;
-            timer.Enabled = true;
-            timer.Start();
+            TaskManager.Initialize(new MyRegistry());
+            //timer.Elapsed += new System.Timers.ElapsedEventHandler(update_Elapsed);
+            //timer.Interval = 120000;
+            //timer.Enabled = true;
+            //timer.Start();
         }
         void update_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
@@ -31,44 +44,36 @@ namespace PepuxService
         public List<PBPlusrecord> GetPhonebookUsers()
         {
             List<PBPlusrecord> allreco = new List<PBPlusrecord>();
-            try
+           try
             {
 
-                var domainPath = "dc0.rad.lan.local/OU=Pepux,DC=rad,DC=lan,DC=local";
-                var directoryEntry = new DirectoryEntry("LDAP://" + domainPath, Properties.Settings.Default.DN_login, Properties.Settings.Default.Dn_pass);
-                var dirSearcher = new DirectorySearcher(directoryEntry);
+                string domainPath = "dc0.rad.lan.local/OU=Pepux,DC=rad,DC=lan,DC=local";
+                DirectoryEntry directoryEntry = new DirectoryEntry("LDAP://" + domainPath, Properties.Settings.Default.DN_login, Properties.Settings.Default.Dn_pass);
+                DirectorySearcher dirSearcher = new DirectorySearcher(directoryEntry);
                 dirSearcher.SearchScope = SearchScope.Subtree;
-                dirSearcher.Filter = string.Format("(objectClass=user)");
+                dirSearcher.Filter = "(objectClass=user)";
                 dirSearcher.PropertiesToLoad.Add("givenName");
                 dirSearcher.PropertiesToLoad.Add("sn");
                 dirSearcher.PropertiesToLoad.Add("title");
                 dirSearcher.PropertiesToLoad.Add("telephoneNumber");
                 dirSearcher.PropertiesToLoad.Add("sAMAccountName");
-                //var searchResults = dirSearcher.FindAll();
-                SearchResult result;
+                dirSearcher.PropertiesToLoad.Add("displayName");
+                dirSearcher.PropertiesToLoad.Add("email");
                 SearchResultCollection resultCol = dirSearcher.FindAll();
-                if (resultCol != null)
+                foreach (SearchResult resul in resultCol)
                 {
-                    for (int i = 0; i < resultCol.Count; i++)
-                    {
-
-                        result = resultCol[i];
-                        if (result.Properties.Contains("givenName") &&
-                            result.Properties.Contains("sn") &&
-                            result.Properties.Contains("telephoneNumber"))
-                        {
-                            PBPlusrecord objSurveyUsers = new PBPlusrecord();
-                            objSurveyUsers.name = (String)result.Properties["givenName"][0];
-                            objSurveyUsers.surname = (String)result.Properties["sn"][0];
-                            objSurveyUsers.tel_int = (String)result.Properties["telephoneNumber"][0];
-                            objSurveyUsers.position = (String)result.Properties["title"][0];
-                            objSurveyUsers.samaccountname = (String)result.Properties["sAMAccountName"][0];
-                            allreco.Add(objSurveyUsers);
-                        }
-                    }
-
+                    PBPlusrecord objSurveyUsers = new PBPlusrecord();
+                    objSurveyUsers.name = GetProperty(resul, "givenName");//(String)resul.Properties["givenName"][0];
+                    objSurveyUsers.surname = GetProperty(resul, "sn"); //(String)resul.Properties["sn"][0];
+                    objSurveyUsers.tel_int = GetProperty(resul, "telephoneNumber"); //(String)resul.Properties["telephoneNumber"][0];
+                    objSurveyUsers.position = GetProperty(resul, "title"); //(String)resul.Properties["title"][0];
+                    objSurveyUsers.email = GetProperty(resul, "email"); //(String)resul.Properties["email"][0];
+                    objSurveyUsers.samaccountname = GetProperty(resul, "sAMAccountName"); //(String)resul.Properties["sAMAccountName"][0];
+                    objSurveyUsers.dispname = GetProperty(resul, "displayName"); //(String)resul.Properties["displayName"][0];
+                    allreco.Add(objSurveyUsers);
+                    Debug.WriteLine(objSurveyUsers.email);
                 }
-                else { }
+
                 CompareUsers(allreco);
 
             }
@@ -78,6 +83,7 @@ namespace PepuxService
                 Debug.WriteLine(er.Message);
             }
             return allreco;
+         
 
         }
 

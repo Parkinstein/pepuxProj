@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Kendo.Mvc.UI;
-using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Linq;
+using System.Diagnostics;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 
@@ -14,15 +13,15 @@ namespace PepuxFront.Models
 {
     public sealed class SchedulerMeetingService : ISchedulerEventService<MeetingViewModel>
     {
-        private MeetingEntitys db;
+        private MeetingEntities db;
 
-        public SchedulerMeetingService(MeetingEntitys context)
+        public SchedulerMeetingService(MeetingEntities context)
         {
             db = context;
         }
 
         public SchedulerMeetingService()
-            : this(new MeetingEntitys())
+            : this(new MeetingEntities())
         {
         }
 
@@ -30,7 +29,7 @@ namespace PepuxFront.Models
         {
             return db.Meetings.ToList().Select(meeting => new MeetingViewModel
             {
-                MeetingID = meeting.MeetingID,
+                MeetingID = meeting.MeetingID,  //.MeetingID,
                 Title = meeting.Title,
                 Start = DateTime.SpecifyKind(meeting.Start, DateTimeKind.Utc),
                 End = DateTime.SpecifyKind(meeting.End, DateTimeKind.Utc),
@@ -47,10 +46,40 @@ namespace PepuxFront.Models
                 AddAttend = meeting.AddAttend,
                 FileLink = meeting.FileLink,
                 Record = meeting.Record,
-                Recfile = meeting.Recfile
+                Recfile = meeting.Recfile,
+                InitName = meeting.InitName,
+                InitFullname = meeting.InitName
 
             }).AsQueryable();
         }
+        public IQueryable<MeetingViewModel> GetFiltered(string initname)
+        {
+            return db.Meetings.ToList().Select(meeting => new MeetingViewModel
+            {
+                MeetingID = meeting.MeetingID,  //.MeetingID,
+                Title = meeting.Title,
+                Start = DateTime.SpecifyKind(meeting.Start, DateTimeKind.Utc),
+                End = DateTime.SpecifyKind(meeting.End, DateTimeKind.Utc),
+                StartTimezone = meeting.StartTimezone,
+                EndTimezone = meeting.EndTimezone,
+                Description = meeting.Description,
+                IsAllDay = meeting.IsAllDay,
+                RoomID = (int)meeting.RoomID,
+                RecurrenceRule = meeting.RecurrenceRule,
+                RecurrenceException = meeting.RecurrenceException,
+                RecurrenceID = meeting.RecurrenceID,
+                Attendees = meeting.MeetingAttendees.Select(m => m.AttendeeID).ToArray(),
+                OpLink = meeting.Oplink,
+                AddAttend = meeting.AddAttend,
+                FileLink = meeting.FileLink,
+                Record = meeting.Record,
+                Recfile = meeting.Recfile,
+                InitName = meeting.InitName,
+                InitFullname = meeting.InitName
+
+            }).AsQueryable();
+        }
+
 
         public void Insert(MeetingViewModel meeting, ModelStateDictionary modelState)
         {
@@ -70,15 +99,15 @@ namespace PepuxFront.Models
 
                 foreach (var attendeeId in meeting.Attendees)
                 {
-                    entity.MeetingAttendees.Add(new MeetingAttendees
+                    entity.MeetingAttendees.Add(new MeetingAttendee
                     {
                         AttendeeID = attendeeId
                     });
                 }
-
+                //db.Meetings.AddOrUpdate(entity);//OnSubmit(entity);//OnSubmit(entity);
                 db.Meetings.Add(entity);  //.Meetings.Add(entity);
                 db.SaveChanges();
-
+                Debug.WriteLine("Saved");
                 meeting.MeetingID = entity.MeetingID;
             }
         }
@@ -110,6 +139,8 @@ namespace PepuxFront.Models
                 entity.FileLink = meeting.FileLink;
                 entity.Record = meeting.Record;
                 entity.Recfile = meeting.Recfile;
+                entity.InitName = meeting.InitName;
+                entity.InitFullname = meeting.InitFullname;
 
                 foreach (var meetingAttendee in entity.MeetingAttendees.ToList())
                 {
@@ -120,7 +151,7 @@ namespace PepuxFront.Models
                 {
                     foreach (var attendeeId in meeting.Attendees)
                     {
-                        var meetingAttendee = new MeetingAttendees
+                        var meetingAttendee = new MeetingAttendee
                         {
                             MeetingID = entity.MeetingID,
                             AttendeeID = attendeeId
@@ -145,7 +176,7 @@ namespace PepuxFront.Models
 
             db.Meetings.Attach(entity);
 
-            var attendees = meeting.Attendees.Select(attendee => new MeetingAttendees
+            var attendees = meeting.Attendees.Select(attendee => new MeetingAttendee
             {
                 AttendeeID = attendee,
                 MeetingID = entity.MeetingID

@@ -2,30 +2,30 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Databs">
   <DataContextMoniker Name="/DatabsDataContext" />
   <nestedChildShapes>
-    <classShape Id="78f1a737-1af5-4c5c-a80d-2521385a7414" absoluteBounds="0.5, 0.5, 2, 1.7708968098958331">
-      <DataClassMoniker Name="/DatabsDataContext/Service" />
-      <nestedChildShapes>
-        <elementListCompartment Id="b82d3585-e67b-47fb-9c72-f4b0e316fcff" absoluteBounds="0.51500000000000012, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="d2c0c9ea-49af-43a8-8d1b-7588150c5945" absoluteBounds="0.5, 2.375, 2, 4.0785139973958326">
+    <classShape Id="68d9a700-1b0b-4a34-81cc-60ad1286c83f" absoluteBounds="0.5, 3, 2, 4.0785139973958326">
       <DataClassMoniker Name="/DatabsDataContext/AllVmr" />
       <nestedChildShapes>
-        <elementListCompartment Id="06497eb8-5a07-497d-858b-fde6c1e6c8e7" absoluteBounds="0.51499999999999968, 2.835, 1.9700000000000002, 3.518513997395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="d4f8031f-2b61-4602-9faf-e847d0d8d235" absoluteBounds="0.51500000000000012, 3.46, 1.9700000000000002, 3.518513997395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="b3ae7000-5ef0-4bd4-a976-d617f82856e9" absoluteBounds="2.75, 2.5, 2, 1.7708968098958331">
+    <classShape Id="d2fb6e2d-e4f3-4df5-ab5b-817505c4882c" absoluteBounds="4.25, 3.625, 2, 1.7708968098958331">
       <DataClassMoniker Name="/DatabsDataContext/VmrAliase" />
       <nestedChildShapes>
-        <elementListCompartment Id="e0a9f643-b99c-4ca8-aa44-773b7a7beded" absoluteBounds="2.7650000000000006, 2.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="63bc021e-4f9e-4dff-9d64-33a2d2b2f5f6" absoluteBounds="4.265, 4.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 3.38544840494792); (2.75 : 3.38544840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.5 : 4.51044840494792); (4.25 : 4.51044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DatabsDataContext/AllVmr/AllVmr_VmrAliase" />
       <nodes>
-        <classShapeMoniker Id="d2c0c9ea-49af-43a8-8d1b-7588150c5945" />
-        <classShapeMoniker Id="b3ae7000-5ef0-4bd4-a976-d617f82856e9" />
+        <classShapeMoniker Id="68d9a700-1b0b-4a34-81cc-60ad1286c83f" />
+        <classShapeMoniker Id="d2fb6e2d-e4f3-4df5-ab5b-817505c4882c" />
       </nodes>
     </associationConnector>
+    <classShape Id="881db73b-1250-40c9-99ac-d519e81aa426" absoluteBounds="3, 0.625, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/DatabsDataContext/Service" />
+      <nestedChildShapes>
+        <elementListCompartment Id="44ef2f5a-40e6-4956-bbaa-a12091556f29" absoluteBounds="3.015, 1.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

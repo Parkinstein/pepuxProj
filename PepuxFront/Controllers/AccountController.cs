@@ -20,6 +20,7 @@ namespace PepuxFront.Controllers
         public static string SAMUname;
         public static string Ugroup;
         public static bool IsAuth;
+        public static int UID;
         public static UserPrincipal currentuser;
         public ActionResult Login()
         {
@@ -37,22 +38,18 @@ namespace PepuxFront.Controllers
             else
             {
                 IpServiceLink.PServiceClient obj = new PServiceClient();
-                Debug.WriteLine(model.Domen);
-                Debug.WriteLine(model.UserName);
-                Debug.WriteLine(model.Password);
+                
                 bool auth = obj.Authenticate(model.UserName, model.Password, model.Domen);
-                Debug.WriteLine(auth);
                 if (auth)
                 {
                     IsAuth = auth;
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    var grps = GetGroups(model.UserName,model.Domen,model.Password);
+                    var grps = GetGroups(model.UserName, model.Domen, model.Password);
                     ArrayList groups = new ArrayList();
-                    
+
                     foreach (var grp in grps)
                     {
                         groups.Add(grp.Name);
-                        Debug.WriteLine(grp.Name);
                     }
                     
                     if (groups.Contains("PepuxAdmins"))
@@ -78,23 +75,18 @@ namespace PepuxFront.Controllers
         {
             List<GroupPrincipal> result = new List<GroupPrincipal>();
 
-            // establish domain context
-            PrincipalContext yourDomain = new PrincipalContext(ContextType.Domain, domain, userName, pass);
+            PrincipalContext yourDomain = new PrincipalContext(ContextType.Domain, domain, null, ContextOptions.SimpleBind, "admin", "Ciscocisco123");
 
-            // find your user
-            currentuser = UserPrincipal.FindByIdentity(yourDomain, userName);
+            currentuser = UserPrincipal.FindByIdentity(yourDomain, IdentityType.SamAccountName, userName);
 
-            // if found - grab its groups
             if (currentuser != null)
             {
-                PrincipalSearchResult<Principal> groups = currentuser.GetAuthorizationGroups();
                 Uname = currentuser.DisplayName;
                 SAMUname = currentuser.SamAccountName;
-
-                // iterate over all groups
+                UID = (GetAllPB().FirstOrDefault(m => m.samaccountname == currentuser.SamAccountName)).Id;
+                PrincipalSearchResult<Principal> groups = currentuser.GetAuthorizationGroups();
                 foreach (Principal p in groups)
                 {
-                    // make sure to add only group principals
                     if (p is GroupPrincipal)
                     {
                         result.Add((GroupPrincipal)p);
@@ -111,6 +103,12 @@ namespace PepuxFront.Controllers
             IsAuth = false;
             Uname = null;
             return this.RedirectToAction("Login", "Account");
+        }
+        private IEnumerable<IpServiceLink.PhonebookDB> GetAllPB()
+        {
+            IpServiceLink.PServiceClient obj = new PServiceClient();
+            var data = obj.GetPB();
+            return data;
         }
     }
 }

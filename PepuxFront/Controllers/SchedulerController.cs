@@ -31,7 +31,7 @@ namespace PepuxFront.Controllers
         public string spisok;
 
         public static string oplink;
-        public static IEnumerable<MeetingViewModel> meetings_all;
+        public static IEnumerable<MeetingViewModel> meetings_all, mettingsFiltered;
 
         public SchedulerController()
         {
@@ -47,7 +47,7 @@ namespace PepuxFront.Controllers
 
             return Json(GetPB().ToDataSourceResult(request));
             //return Json(applicationDbContext.Users, JsonRequestBehavior.AllowGet);
-            return null;
+            //return null;
         }
 
         [Authorize]
@@ -60,85 +60,99 @@ namespace PepuxFront.Controllers
         
         public virtual JsonResult Meetings_Create([DataSourceRequest] DataSourceRequest request, MeetingViewModel meeting)
         {
-
-            var idf = GetPB().FirstOrDefault(m => m.samaccountname == AccountController.SAMUname);
-            meeting.RoomID = idf.id;
-            int roomID = (int)meeting.RoomID;
-            List<int> nums = new List<int>();
-            nums.Add(roomID);
-            nums.AddRange(meeting.Attendees);
-            oplink = string.Concat("https://", "10.129.15.129", "/webapp/?conference=", roomID, "&name=Operator&bw=512&join=1");
-            meeting.OpLink = oplink;
+            RegexUtilities util = new RegexUtilities();
+            var idf = GetAllPB().FirstOrDefault(m => m.samaccountname == AccountController.SAMUname);
+            meeting.RoomID = AccountController.UID;
+            int rid = meeting.RoomID;
+            var init = GetAllPB().FirstOrDefault(m => m.Id == rid);
+            meeting.OpLink = string.Concat("https://", "10.129.15.129", "/webapp/?conference=", init.samaccountname, "&name=Operator&bw=512&join=1");
+            //List<object> attend = meeting.Attendees.Select(att => GetAllPB().FirstOrDefault(m => m.Id == att)).Cast<object>().ToList();
+            meeting.InitName = init.samaccountname;
+            meeting.InitFullname = init.dispName;
             if (meeting.Start < DateTime.Today + TimeSpan.FromHours(3))
             { Debug.WriteLine("@@@"); }
+            List<PhonebookDB> emaillist = new List<PhonebookDB>();
+            emaillist.Add(init);
             StringBuilder strB = new StringBuilder();
+            foreach (var att in meeting.Attendees)
+            {
+                PhonebookDB attemail = (GetAllPB().FirstOrDefault(m => m.Id == att));
+                emaillist.Add(attemail);
+            }
             List<string> AddAtt = new List<string>();
             if (meeting.AddAttend != null) { AddAtt = (meeting.AddAttend.Split((",").ToCharArray())).ToList(); }
-
-            //foreach (int num in nums)
-            //{
-            //    var init = applicationDbContext.Users.FirstOrDefault(p => p.UserConfID == roomID);
-            //    var name = applicationDbContext.Users.FirstOrDefault(p => p.UserConfID == num);
-            //    strB.Append(name.PhoneNumber + ";" + name.UserName + Environment.NewLine);
-            //    if (name.Email != null)
-            //    {
-            //        string link = "https://" + "10.129.15.129" + "/webapp/?conference=" + init.UserConfID + "&name=" +
-            //                      Uri.EscapeDataString(name.UserName) + "&bw=512&join=1";
-            //        string body = "Уважамый(ая), " + name.UserName + "!" + Environment.NewLine + meeting.Start +
-            //                      TimeSpan.FromHours(3) + " состоится конференция на тему \"" + meeting.Title + "\"." +
-            //                      Environment.NewLine + "Инициатор конференции: " + init.UserName + Environment.NewLine +
-            //                      "В указанное время, для участия в конференции, просьба перейти по ссылке: " +
-            //                      Environment.NewLine + link;
-            //        //Sendmail(name.Email, meeting.Title, body);
-            //    }
-            //}
-
             foreach (var aa in AddAtt)
             {
                 strB.Append(aa + ";" + aa + Environment.NewLine);
+                if (util.IsValidEmail(aa))
+                {
+                    PhonebookDB ar = new PhonebookDB();
+                    ar.email = aa;
+                    ar.dispName = aa;
+                    emaillist.Add(ar);
+                }
+                else { }
             }
 
-
-            if (ModelState.IsValid)
+            foreach (var mail in emaillist)
             {
-                var owner = AccountController.currentuser;
-                var filename = "meeting-" + owner.GivenName + "-" +
-                                   (meeting.Start + TimeSpan.FromHours(3)).ToString("dd-MM-yyyy_hh-mm") + ".csv";
-                string path = Path.Combine(Server.MapPath("~/Content/OpFiles/CSV"), filename);
-                Debug.WriteLine(path);
-                meeting.FileLink = "Content/OpFiles/CSV/" + filename;
+                
 
-                Debug.WriteLine("Valid");
-                using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
-                {
-                    using (StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8))
-                    {
-                        streamWriter.Write(strB.ToString());
-                    }
-                }
-                if (meeting.Record)
-                {
-                    Debug.WriteLine("Задача на запись создана");
-                    var tasktitle = String.Concat("rec-", owner.GivenName, "-",
-                        (meeting.Start + TimeSpan.FromHours(3)).ToString("dd-MM-yyyy_hh-mm"));
-                    var taskapp = Path.Combine(Server.MapPath("~/Content/OpFiles"), "flvstreamer.exe");
-                    var file_name = "rec-" + owner.GivenName + "-" +
-                                    (meeting.Start + TimeSpan.FromHours(3)).ToString("dd-MM-yyyy_hh-mm") + ".flv";
-                    var pathflv = Path.Combine(Server.MapPath("~/Content/OpFiles/FLV"), file_name);
-                    var stream_link = "rtmp://www.planeta-online.tv:1936/live/soyuz";
-                    meeting.Recfile = "Content/OpFiles/FLV/" + file_name;
-                    var comment = "Запись конференции " + owner.GivenName + "-" +
-                                  (meeting.Start + TimeSpan.FromHours(3)).ToString("dd-MM-yyyy_hh-mm");
-                    var acc_un = "boris_000";
-                    var acc_pass = "1Q2w3e4r!";
-                    var task_start = meeting.Start;
-                    var task_end = meeting.End;
-                    RecordTask(tasktitle, taskapp, pathflv, stream_link, comment, acc_un, acc_pass, task_start, task_end);
-
-                }
-                meetingService.Insert(meeting, ModelState);
+                    string link = "https://" + "10.129.15.129" + "/webapp/?conference=" + init.dispName + "&name=" +
+                                  Uri.EscapeDataString(mail.dispName) + "&bw=512&join=1";
+                    string body = "Уважамый(ая), " + mail.dispName + "!" + Environment.NewLine + meeting.Start +
+                                  TimeSpan.FromHours(3) + " состоится конференция на тему \"" + meeting.Title + "\"." +
+                                  Environment.NewLine + "Инициатор конференции: " + init.dispName + Environment.NewLine +
+                                  "В указанное время, для участия в конференции, просьба перейти по ссылке: " +
+                                  Environment.NewLine + link;
+                    Debug.WriteLine(mail.email);
+                    Sendmail(mail.email, meeting.Title, body);
+                
             }
 
+            
+
+
+            //if (ModelState.IsValid)
+            //{
+            //    var owner = AccountController.currentuser;
+            //    var filename = "meeting-" + owner.GivenName + "-" +
+            //                       (meeting.Start + TimeSpan.FromHours(3)).ToString("dd-MM-yyyy_hh-mm") + ".csv";
+            //    string path = Path.Combine(Server.MapPath("~/Content/OpFiles/CSV"), filename);
+            //    Debug.WriteLine(path);
+            //    meeting.FileLink = "Content/OpFiles/CSV/" + filename;
+
+            //    Debug.WriteLine("Valid");
+            //    using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
+            //    {
+            //        using (StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8))
+            //        {
+            //            streamWriter.Write(strB.ToString());
+            //        }
+            //    }
+            //    if (meeting.Record)
+            //    {
+            //        Debug.WriteLine("Задача на запись создана");
+            //        var tasktitle = String.Concat("rec-", owner.GivenName, "-",
+            //            (meeting.Start + TimeSpan.FromHours(3)).ToString("dd-MM-yyyy_hh-mm"));
+            //        var taskapp = Path.Combine(Server.MapPath("~/Content/OpFiles"), "flvstreamer.exe");
+            //        var file_name = "rec-" + owner.GivenName + "-" +
+            //                        (meeting.Start + TimeSpan.FromHours(3)).ToString("dd-MM-yyyy_hh-mm") + ".flv";
+            //        var pathflv = Path.Combine(Server.MapPath("~/Content/OpFiles/FLV"), file_name);
+            //        var stream_link = "rtmp://www.planeta-online.tv:1936/live/soyuz";
+            //        meeting.Recfile = "Content/OpFiles/FLV/" + file_name;
+            //        var comment = "Запись конференции " + owner.GivenName + "-" +
+            //                      (meeting.Start + TimeSpan.FromHours(3)).ToString("dd-MM-yyyy_hh-mm");
+            //        var acc_un = "boris_000";
+            //        var acc_pass = "1Q2w3e4r!";
+            //        var task_start = meeting.Start;
+            //        var task_end = meeting.End;
+            //        RecordTask(tasktitle, taskapp, pathflv, stream_link, comment, acc_un, acc_pass, task_start, task_end);
+
+            //    }
+            //    
+            //}
+            meetingService.Insert(meeting, ModelState);
             return Json(new[] { meeting }.ToDataSourceResult(request, ModelState));
         }
 
@@ -153,8 +167,8 @@ namespace PepuxFront.Controllers
 
         public virtual JsonResult Meetings_Read([DataSourceRequest] DataSourceRequest request)
         {
-            int i = 0;
             meetings_all = meetingService.GetAll();
+            mettingsFiltered = meetings_all.AsEnumerable().Where(m => m.InitName == AccountController.SAMUname);
             foreach (var all in meetings_all)
             {
                 if (!all.Recfile.IsNullOrWhiteSpace())
@@ -164,83 +178,93 @@ namespace PepuxFront.Controllers
 
             }
 
-
-            return Json(meetingService.GetAll().ToDataSourceResult(request));
+            if (AccountController.Ugroup == "PepuxAdmins")
+            {
+                return Json(meetingService.GetAll().ToDataSourceResult(request));
+            }
+            if (AccountController.Ugroup == "PepuxUsers")
+            {
+                return Json(mettingsFiltered.ToDataSourceResult(request));
+            }
+            return null;
         }
 
         public virtual JsonResult Meetings_Update([DataSourceRequest] DataSourceRequest request, MeetingViewModel meeting)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    meetingService.Update(meeting, ModelState);
-            //    ApplicationDbContext applicationDbContext = new ApplicationDbContext();
-            //    int roomID = (int)meeting.RoomID;
-            //    List<int> nums = new List<int>();
-            //    nums.Add(meeting.RoomID);
-            //    nums.AddRange(meeting.Attendees);
-            //    oplink = string.Concat("https://", "10.129.15.129", "/webapp/?conference=", roomID, "&name=Operator&bw=512&join=1");
-            //    meeting.OpLink = oplink;
-            //    StringBuilder strB = new StringBuilder();
-            //    List<string> AddAtt = new List<string>();
-            //    if (meeting.AddAttend != null) { AddAtt = (meeting.AddAttend.Split((",").ToCharArray())).ToList(); }
-            //    foreach (int num in nums)
-            //    {
-            //        var init = AccountController.currentuser.GivenName;
-            //        var name = applicationDbContext.Users.FirstOrDefault(p => p.UserConfID == num);
-            //        //spisok = string.Concat(name.PhoneNumber, ";", name.UserName);
-            //        strB.Append(name.PhoneNumber + ";" + name.UserName + Environment.NewLine);
-            //        if (name.Email != null)
-            //        {
-            //            string link = "https://" + "10.129.15.129" + "/webapp/?conference=" + init.UserConfID + "&name=" +
-            //                          Uri.EscapeDataString(name.UserName) + "&bw=512&join=1";
-            //            string body = "Уважамый(ая), " + name.UserName + "!" + Environment.NewLine +
-            //                          " конференция на тему \"" + meeting.Title + "\" переносится на " + meeting.Start +
-            //                          TimeSpan.FromHours(3) + Environment.NewLine + "Инициатор конференции: " +
-            //                          init.UserName + Environment.NewLine +
-            //                          "В указанное время, для участия в конференции, просьба перейти по ссылке: " +
-            //                          Environment.NewLine + link;
-            //            //Sendmail(name.Email, meeting.Title, body);
-            //        }
-            //    }
-            //    foreach (var aa in AddAtt)
-            //    {
-            //        strB.Append(aa + ";" + aa + Environment.NewLine);
-            //    }
-            //    var owner = applicationDbContext.Users.FirstOrDefault(p => p.UserConfID == roomID);
-            //    var filename = "meeting-" + AccountController.Uname + "-" +
-            //                       (meeting.Start + TimeSpan.FromHours(3)).ToString("dd-MM-yyyy_hh-mm") + ".csv";
-            //    string path = Path.Combine(Server.MapPath("~/Content/OpFiles/CSV"), filename);
-            //    Debug.WriteLine(path);
-            //    meeting.FileLink = "Content/OpFiles/CSV/" + filename;
-            //    meetingService.Update(meeting, ModelState);
+            if (ModelState.IsValid)
+            {
+                meetingService.Update(meeting, ModelState);
+                RegexUtilities util = new RegexUtilities();
+                var idf = GetAllPB().FirstOrDefault(m => m.samaccountname == AccountController.SAMUname);
+                meeting.RoomID = AccountController.UID;
+                int rid = meeting.RoomID;
+                var init = GetAllPB().FirstOrDefault(m => m.Id == rid);
+                meeting.OpLink = string.Concat("https://", "10.129.15.129", "/webapp/?conference=", init.samaccountname, "&name=Operator&bw=512&join=1");
+                //var attend = meeting.Attendees.Select(att => GetAllPB().FirstOrDefault(m => m.Id == att)).Cast<object>().ToList();
+                StringBuilder strB = new StringBuilder();
+                List<string> AddAtt = new List<string>();
+                if (meeting.AddAttend != null) { AddAtt = (meeting.AddAttend.Split((",").ToCharArray())).ToList(); }
+                //foreach (int at in attend)
+                //{
+                //    string em = at.
+                    //var init = AccountController.currentuser.DisplayName;
+                    //var name = AccountController.currentuser;
+                    ////spisok = string.Concat(name.PhoneNumber, ";", name.UserName);
+                    //strB.Append(name.VoiceTelephoneNumber + ";" + name.DisplayName + Environment.NewLine);
+                    //if (name.EmailAddress != null)
+                    //{
+                    //    string link = "https://" + "10.129.15.129" + "/webapp/?conference=" + init.UserConfID + "&name=" +
+                    //                  Uri.EscapeDataString(name.UserName) + "&bw=512&join=1";
+                    //    string body = "Уважамый(ая), " + name.UserName + "!" + Environment.NewLine +
+                    //                  " конференция на тему \"" + meeting.Title + "\" переносится на " + meeting.Start +
+                    //                  TimeSpan.FromHours(3) + Environment.NewLine + "Инициатор конференции: " +
+                    //                  init.UserName + Environment.NewLine +
+                    //                  "В указанное время, для участия в конференции, просьба перейти по ссылке: " +
+                    //                  Environment.NewLine + link;
+                    //    //Sendmail(name.Email, meeting.Title, body);
+                    //}
+                //}
+                //foreach (var aa in AddAtt)
+                //{
+                //    strB.Append(aa + ";" + aa + Environment.NewLine);
+                //}
+                ////var owner = applicationDbContext.Users.FirstOrDefault(p => p.UserConfID == roomID);
+                //var filename = "meeting-" + AccountController.Uname + "-" +
+                //                   (meeting.Start + TimeSpan.FromHours(3)).ToString("dd-MM-yyyy_hh-mm") + ".csv";
+                //string path = Path.Combine(Server.MapPath("~/Content/OpFiles/CSV"), filename);
+                //Debug.WriteLine(path);
+                //meeting.FileLink = "Content/OpFiles/CSV/" + filename;
+                //meetingService.Update(meeting, ModelState);
 
-            //    using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
-            //    {
-            //        using (StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8))
-            //        {
-            //            streamWriter.Write(strB.ToString());
-            //        }
-            //    }
-            //}
+                //using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
+                //{
+                //    using (StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8))
+                //    {
+                //        streamWriter.Write(strB.ToString());
+                //    }
+                //}
+            }
             return Json(new[] { meeting }.ToDataSourceResult(request, ModelState));
         }
 
         public Task<ActionResult> Sendmail(string to, string subj, string body)
         {
-            SmtpClient smtpClient = new SmtpClient("smtp.yandex.ru")
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com",465)
             {
-                Credentials = new NetworkCredential("borisparkin", "1Q2w3e4r!"),
+                Credentials = new NetworkCredential("bparkin", "lfybbk"),
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 EnableSsl = true
+               
             };
             MailMessage mailMessage = new MailMessage()
             {
                 Priority = MailPriority.High,
-                From = new MailAddress("Планировщик системы видео-конференц-связи 'Рерих'", "Планировщик системы видео-конференц-связи 'Рерих'")
+                From = new MailAddress("bparkin@gmail.com", "Планировщик системы видео-конференц-связи 'Сова'")
             };
             mailMessage.To.Add(new MailAddress(to));
             mailMessage.Subject = subj;
             mailMessage.Body = body;
+            
             smtpClient.Send(mailMessage);
             return null;
         }
@@ -272,6 +296,12 @@ namespace PepuxFront.Controllers
         {
             IpServiceLink.PServiceClient obj = new PServiceClient();
             var data = obj.GetPhBOw(AccountController.SAMUname);
+            return data;
+        }
+        private IEnumerable<IpServiceLink.PhonebookDB> GetAllPB()
+        {
+            IpServiceLink.PServiceClient obj = new PServiceClient();
+            var data = obj.GetPB();
             return data;
         }
     }

@@ -1,4 +1,5 @@
 ﻿@using PepuxFront.IpServiceLink
+@using PepuxFront.Models
 @model IEnumerable<PepuxFront.IpServiceLink.ActiveConfs>
 @{
                                                     
@@ -18,6 +19,7 @@
 <div id="contributors">
     @Html.Partial("GetACData")
 </div>
+@* ReSharper disable once Mvc.ActionNotResolved *@
 @{ Html.RenderAction("UserGet", "Admin"); }
 @*<script type="text/javascript">
 

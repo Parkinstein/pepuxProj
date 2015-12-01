@@ -128,6 +128,7 @@ namespace PepuxFront.Controllers
                     AddToPrivat(pbr);
                 else { ViewBag.Message = "Запись уже существует"; Debug.WriteLine("Запись уже существует");}
             }
+            obj.Close();
         }
 
         // Delete Phonebook records method
@@ -146,6 +147,7 @@ namespace PepuxFront.Controllers
         {
             IpServiceLink.PServiceClient obj = new PServiceClient();
             var data = obj.GetPB();
+            obj.Close();
             return data;
         }
 
@@ -155,6 +157,7 @@ namespace PepuxFront.Controllers
         {
             IpServiceLink.PServiceClient obj = new PServiceClient();
             var data = obj.GetPhBOw(AccountController.SAMUname);
+            obj.Close();
             return data;
         }
 

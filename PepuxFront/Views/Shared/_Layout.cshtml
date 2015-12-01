@@ -1,17 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@using PepuxFront.Controllers
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Система ВКС "Рерих"</title>
+    <title>Система ВКС "СОВА"</title>
     
-	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.common.min.css")" rel="stylesheet" type="text/css" />
-	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
-	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
-	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.blueopal.min.css")" rel="stylesheet" type="text/css" />
-	<link href="@Url.Content("~/Content/kendo/2015.1.408/kendo.dataviz.blueopal.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css"/>
+	<link href="@Url.Content("~/Content/kendo/2015.3.930/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/kendo/2015.3.930/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/kendo/2015.3.930/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/kendo/2015.3.930/kendo.blueopal.min.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/kendo/2015.3.930/kendo.dataviz.blueopal.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css"/>
     <link href="@Url.Content("~/Content/DataTables/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css"/>
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css"/>
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
@@ -21,18 +22,22 @@
     <script src="@Url.Content("~/Scripts/modernizr-2.6.2.js")"></script>
     <script src="@Url.Content("~/Scripts/bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/respond.js")"></script>
-    <script src="@Url.Content("~/Scripts/kendo/2015.1.408/jquery.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.slimscroll.js")"></script>
-	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/jszip.min.js")"></script>
-	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/kendo.all.min.js")"></script>
-	<script src="@Url.Content("~/Scripts/kendo/2015.1.408/kendo.aspnetmvc.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
-    <script src="@Url.Content("~/Scripts/kendo/2015.1.408/cultures/kendo.culture.ru-RU.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/knockout-3.3.0.js")"></script>
+    	<script src="@Url.Content("~/Scripts/kendo/2015.3.930/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.slimscroll.js")"></script>
+	<script src="@Url.Content("~/Scripts/kendo/2015.3.930/jszip.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/kendo/2015.3.930/kendo.all.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/kendo/2015.3.930/kendo.aspnetmvc.min.js")"></script>
+	<script src="@Url.Content("~/Scripts/kendo/2015.3.930/cultures/kendo.culture.ru-RU.min.js")"></script>
+<script src="@Url.Content("~/Scripts/knockout-3.3.0.js")"></script>
     <script src="@Url.Content("~/Scripts/jwplayer.js")"></script>
     <script src="@Url.Content("~/Scripts/DataTables/jquery.dataTables.min.js")"></script>
+    	<script src="@Url.Content("~/Scripts/kendo/2015.3.930/kendo.timezones.min.js")"></script>
+<script>
+kendo.culture("ru-RU");
+    </script>
 
     
+	<script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -43,6 +48,10 @@
                     <li>@Html.ActionLink("Управление конференциями", "Index", "Controlpanel")</li>
                     <li>@Html.ActionLink("Записи", "VideoRecords", "VideoRecords")</li>
                     <li>@Html.ActionLink("Планирование", "Index", "Scheduler")</li>
+                    @if (AccountController.Ugroup == "PepuxAdmins")
+                    {
+                        <li>@Html.ActionLink("Йокарный Бабай", "Index", "Admin")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -52,7 +61,7 @@
         @RenderBody()
         
         <footer>
-            <p>&copy; @DateTime.Now.Year – система ВКС "Рерих"</p>
+            <p>&copy; @DateTime.Now.Year – Портал управления системой "СОВА"</p>
         </footer>
     </div>
 
