@@ -350,7 +350,7 @@ footer {
     height: 60px;
 }
 .roster_entry_guest_li {
-    list-style: circle;
+    list-style: none;
     text-align: left;
     border: 0px solid gray;
     padding: 3px;
