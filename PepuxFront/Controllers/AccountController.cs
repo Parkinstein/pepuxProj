@@ -88,6 +88,7 @@ namespace PepuxFront.Controllers
               ViewBag.Name = currentuser.DisplayName;
               TempData["user"] = currentuser;
                 SAMUname= currentuser.SamAccountName;
+                Uname = currentuser.DisplayName;
                  UID= (GetAllPB().FirstOrDefault(m => m.samaccountname == currentuser.SamAccountName)).Id;
                 PrincipalSearchResult<Principal> groups = currentuser.GetAuthorizationGroups();
                 foreach (Principal p in groups)

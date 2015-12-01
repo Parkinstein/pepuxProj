@@ -829,6 +829,7 @@
     <Content Include="Content\kendo\2015.3.930\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\2015.3.930\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\2015.3.930\Uniform\sprite_kpi_2x.png" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="images\background.png" />
     <Content Include="images\lock.png" />
     <Content Include="images\lockunlock.png" />
@@ -1741,6 +1742,12 @@
     <Content Include="Content\OpFiles\CSV\meeting-Борис Паркин-26-11-2015_12-30.csv" />
     <Content Include="Content\OpFiles\CSV\meeting-Борис Паркин-26-11-2015_12-45.csv" />
     <Content Include="bin\PepuxFront.dll.config" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\PepuxFront.pubxml" />
     <None Include="Properties\PublishProfiles\Service.pubxml" />
     <Content Include="Scripts\errors.json" />
