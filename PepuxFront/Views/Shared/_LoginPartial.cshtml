@@ -2,14 +2,14 @@
 @using Microsoft.Ajax.Utilities
 @using PepuxFront.Controllers
 
-@if (ViewBag.Auth != null)
+@if (AccountController.IsAuth)
 {
     using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            <li><p class="nav navbar-text navbar-right username">Здравствуйте, @ViewContext.Controller.ViewBag.Name</p></li>
+            <li><p class="nav navbar-text navbar-right username">Здравствуйте, @AccountController.Uname   </p></li>
             <li>@Html.ActionLink("Выход", "LogOff", "Account", routeValues: null, htmlAttributes: new { id = "logoutLink" })</li>
         </ul>
     }
