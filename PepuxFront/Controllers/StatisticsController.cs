@@ -17,13 +17,13 @@ namespace PepuxFront.Controllers
 {
     public class StatisticsController : Controller
     {
-        // GET: Phonebook view
+        // GET: Statistics view
         public ActionResult Stats()
         {
             return View();
         }
         
-        //Get Full Phonebook
+        //Get VMR stats list
         public ActionResult PhonebookAll_Ajax()
         {
             IEnumerable<IpServiceLink.PhonebookDB> filteredresult = GetAllPB();
