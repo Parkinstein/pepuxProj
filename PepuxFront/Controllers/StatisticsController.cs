@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
@@ -10,6 +12,7 @@ using System.Timers;
 using System.Web.Services.Description;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Newtonsoft.Json;
 using PepuxFront.IpServiceLink;
 using PepuxFront.Models;
 
@@ -17,92 +20,71 @@ namespace PepuxFront.Controllers
 {
     public class StatisticsController : Controller
     {
-        // GET: Statistics view
-        public ActionResult Stats()
+        public VMRstats_response historyVMR_full;
+        public List<VMRstats> historyVMR_data;
+
+
+        public ActionResult Statistics()
         {
             return View();
         }
-        
-        //Get VMR stats list
-        public ActionResult PhonebookAll_Ajax()
+
+        public ActionResult GetHistoryVMR()
         {
-            IEnumerable<IpServiceLink.PhonebookDB> filteredresult = GetAllPB();
-            List<IpServiceLink.PhonebookDB> list = new List<PhonebookDB>();
+            IEnumerable<VMRstats> result = VMRstats();
+            List<VMRstats> list = new List<VMRstats>();
             return Json(new
             {
-                data = filteredresult
-            }, JsonRequestBehavior.AllowGet);
-        }
-
-        //Get Personal Phonebook
-        public ActionResult Phonebook_Ajax()
-        {
-            IEnumerable<IpServiceLink.addrec> filteredresult = GetPB();
-
-            return Json(new
-            {
-                data = filteredresult,
+                data = result
             }, JsonRequestBehavior.AllowGet);
         }
 
 
-        // Add Phonebook records method
-        public void Phonebook_Add(object[] pbrArray)
+        private List<VMRstats> VMRstats()
         {
-            IpServiceLink.PServiceClient obj = new PServiceClient();
-            var allpriv = obj.GetPhBOw(AccountController.SAMUname).AsQueryable();
-            foreach (int pbr in pbrArray)
+            try
             {
-                if (!allpriv.Any(m => m.id == pbr))
-                    AddToPrivat(pbr);
-                else { ViewBag.Message = "Запись уже существует"; Debug.WriteLine("Запись уже существует"); }
+                historyVMR_data = new List<VMRstats>();
+                string coba_address = "10.129.15.128";
+                Uri historyapi = new Uri("https://" + coba_address + "/api/admin/history/v1/conference/?limit=1000");
+                WebClient client = new WebClient();
+                client.Credentials = new NetworkCredential("admin", "ciscovoip");
+                client.Headers.Add("auth", "admin,ciscovoip");
+                client.Headers.Add("veryfy", "False");
+                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                string reply = client.DownloadString(historyapi);
+                string reply1 = Win1251ToUTF8(reply);
+                if (reply.ToString() != null)
+                {
+                    historyVMR_full = JsonConvert.DeserializeObject<VMRstats_response>(reply1);
+                    Debug.WriteLine(historyVMR_full);
+                    historyVMR_data = historyVMR_full.obj;
+                    Debug.WriteLine(historyVMR_data);
+                    foreach (var historyRecords in historyVMR_data)
+                    {
+                        historyRecords.start_time2 =
+                            (DateTime.Parse(historyRecords.start_time) + TimeSpan.FromHours(3)).ToString("dd-MMM-yyyy  HH:mm:ss");
+                        historyRecords.end_time2 =
+                            (DateTime.Parse(historyRecords.end_time) + TimeSpan.FromHours(3)).ToString("dd-MMM-yyyy  HH:mm:ss");
+                    }
+                }
+                return historyVMR_data;
             }
-            obj.Close();
-        }
-
-        // Delete Phonebook records method
-        public void Phonebook_Delete(object[] pbrArray)
-        {
-            foreach (int pbr in pbrArray)
+            catch (Exception errException)
             {
-                DeleteFromPrivat(pbr);
+                Debug.WriteLine(errException.Message);
             }
+            return historyVMR_data;
         }
 
-
-
-        // Get full phonebook from service
-        private IEnumerable<IpServiceLink.PhonebookDB> GetAllPB()
+        private string Win1251ToUTF8(string source)
         {
-            IpServiceLink.PServiceClient obj = new PServiceClient();
-            var data = obj.GetPB();
-            obj.Close();
-            return data;
-        }
-
-
-        // Get personal phonebook from service
-        private IEnumerable<IpServiceLink.addrec> GetPB()
-        {
-            IpServiceLink.PServiceClient obj = new PServiceClient();
-            var data = obj.GetPhBOw(AccountController.SAMUname);
-            obj.Close();
-            return data;
-        }
-
-        // Add records to private phonebook
-        public void AddToPrivat(int ids)
-        {
-            IpServiceLink.PServiceClient obj = new PServiceClient();
-            bool result = obj.addUserToPrivat(AccountController.SAMUname, ids, null);
-        }
-
-        // Delete Phonebook records method
-        public void DeleteFromPrivat(int ids)
-        {
-            IpServiceLink.PServiceClient act = new PServiceClient();
-            act.DeleteRecFromDb(ids, AccountController.SAMUname);
-            //ViewBag.DeletedRecs = String.Format("Удалено {0} записей", i);
+            Encoding utf8 = Encoding.GetEncoding("windows-1251");
+            Encoding win1251 = Encoding.GetEncoding("utf-8");
+            byte[] utf8Bytes = win1251.GetBytes(source);
+            byte[] win1251Bytes = Encoding.Convert(win1251, utf8, utf8Bytes);
+            source = win1251.GetString(win1251Bytes);
+            return source;
         }
     }
 }

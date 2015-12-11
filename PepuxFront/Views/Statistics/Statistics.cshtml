@@ -50,11 +50,12 @@
 
 <script type="text/javascript">
     var oStatisticsTable;
+    var cobaMgntAddress = "10.129.15.128";
     function refresh() {
         if (oStatisticsTable != null)
             oStatisticsTable.ajax.reload();
     }
-    setInterval("refresh()", 30000);
+    setInterval("refresh()", 3000000);
 
     $(document).ready(function() {
         oStatisticsTable = $('#table_stat').DataTable({
@@ -73,15 +74,15 @@
 
             "ajax": {
                 "type": "POST",
-                "url": "/Phonebook/Phonebook_Ajax",
+                "url": "/Statistics/GetHistoryVMR",
                 "contentType": 'application/json; charset=utf-8',
                 "data": function(data) { return data = JSON.stringify(data); }
             },
 
             "columns": [
                 { "data": "vmr" },
-                { "data": "startTime" },
-                { "data": "finishTime" },
+                { "data": "start_time2" },
+                { "data": "end_time2" },
                 { "data": "duration", "searchable": false },
                 { "data": "participants", "searchable": false},
             ],
@@ -179,7 +180,7 @@
                 {
                     "targets": 12, "data": "videoCodec_r",
                     "render": function (data, type, full, meta)     {
-                        return full.videoCodec_r + '/' + full.videoCodec_r + ', ' + full.videoBitrate_t + '/' + full.videoBitrate_r + ', ' + full.videoResolution_t + '/' + full.videoResolution_r + ', ';
+                        return full.videoCodec_r + '/' + full.videoCodec_r + ', ' + full.videoBitrate_t + '/' + full.videoBitrate_r + ', ' + full.videoResolution_t + '/' + full.videoResolution_r;
                     }
                 },
                 {
@@ -191,7 +192,7 @@
                 {
                     "targets": 14, "data": "presCodec_r",
                     "render": function (data, type, full, meta) {
-                        return full.presCodec_r + '/' + full.presCodec_r + ', ' + full.presBitrate_t + '/' + full.presBitrate_r + ', ' + full.presResolution_t + '/' + full.presResolution_r + ', ';
+                        return full.presCodec_r + '/' + full.presCodec_r + ', ' + full.presBitrate_t + '/' + full.presBitrate_r + ', ' + full.presResolution_t + '/' + full.presResolution_r;
                     }
                 },
             ],
