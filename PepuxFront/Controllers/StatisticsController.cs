@@ -13,16 +13,18 @@ using System.Web.Services.Description;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Newtonsoft.Json;
-using PepuxFront.IpServiceLink;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using PepuxFront.Models;
 
 namespace PepuxFront.Controllers
 {
     public class StatisticsController : Controller
     {
-        public VMRstats_response historyVMR_full;
-        public List<VMRstats> historyVMR_data;
-
+        public VmrStatsResponse HistoryVmrFull;
+        public List<VmrStats> HistoryVmrData;
+        public ParticipantStatsResponse HistoryParticipantsFull;
+        public List<ParticipantStats> HistoryParticipantsData;
 
         public ActionResult Statistics()
         {
@@ -31,8 +33,16 @@ namespace PepuxFront.Controllers
 
         public ActionResult GetHistoryVMR()
         {
-            IEnumerable<VMRstats> result = VMRstats();
-            List<VMRstats> list = new List<VMRstats>();
+            IEnumerable<VmrStats> result = GetHistoryVmrData();
+            return Json(new
+            {
+                data = result
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetHistoryParticipants(string id)
+        {
+            IEnumerable<ParticipantStats> result = GetHistoryParticipantsData(id);
             return Json(new
             {
                 data = result
@@ -40,42 +50,69 @@ namespace PepuxFront.Controllers
         }
 
 
-        private List<VMRstats> VMRstats()
+
+        private List<VmrStats> GetHistoryVmrData()
         {
             try
             {
-                historyVMR_data = new List<VMRstats>();
+                HistoryVmrData = new List<VmrStats>();
                 string coba_address = "10.129.15.128";
-                Uri historyapi = new Uri("https://" + coba_address + "/api/admin/history/v1/conference/?limit=1000");
+                Uri historyapi = new Uri("https://" + coba_address + "/api/admin/history/v1/conference/?limit=10");
                 WebClient client = new WebClient();
                 client.Credentials = new NetworkCredential("admin", "ciscovoip");
                 client.Headers.Add("auth", "admin,ciscovoip");
                 client.Headers.Add("veryfy", "False");
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-                string reply = client.DownloadString(historyapi);
-                string reply1 = Win1251ToUTF8(reply);
-                if (reply.ToString() != null)
+                HistoryVmrFull = JsonConvert.DeserializeObject<VmrStatsResponse>(Win1251ToUTF8(client.DownloadString(historyapi)));
+                HistoryVmrData = HistoryVmrFull.objects;
+                foreach (var historyRecords in HistoryVmrData)
                 {
-                    historyVMR_full = JsonConvert.DeserializeObject<VMRstats_response>(reply1);
-                    Debug.WriteLine(historyVMR_full);
-                    historyVMR_data = historyVMR_full.obj;
-                    Debug.WriteLine(historyVMR_data);
-                    foreach (var historyRecords in historyVMR_data)
-                    {
-                        historyRecords.start_time2 =
-                            (DateTime.Parse(historyRecords.start_time) + TimeSpan.FromHours(3)).ToString("dd-MMM-yyyy  HH:mm:ss");
-                        historyRecords.end_time2 =
-                            (DateTime.Parse(historyRecords.end_time) + TimeSpan.FromHours(3)).ToString("dd-MMM-yyyy  HH:mm:ss");
-                    }
+                    historyRecords.start_time2 =
+                        (DateTime.Parse(historyRecords.start_time) + TimeSpan.FromHours(3)).ToString("dd-MMM-yyyy  HH:mm:ss");
+                    historyRecords.end_time2 =
+                        (DateTime.Parse(historyRecords.end_time) + TimeSpan.FromHours(3)).ToString("dd-MMM-yyyy  HH:mm:ss");
                 }
-                return historyVMR_data;
+                return HistoryVmrData;
             }
             catch (Exception errException)
             {
                 Debug.WriteLine(errException.Message);
             }
-            return historyVMR_data;
+            return HistoryVmrData;
         }
+
+        private List<ParticipantStats> GetHistoryParticipantsData(string id)
+        {
+            try
+            {
+                HistoryParticipantsData = new List<ParticipantStats>();
+                string coba_address = "10.129.15.128";
+                Uri participantsapi = new Uri("https://" + coba_address + "/api/admin/history/v1/participant/?conference=" + id);
+                WebClient client = new WebClient();
+                client.Credentials = new NetworkCredential("admin", "ciscovoip");
+                client.Headers.Add("auth", "admin,ciscovoip");
+                client.Headers.Add("veryfy", "False");
+                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                HistoryParticipantsFull = JsonConvert.DeserializeObject<ParticipantStatsResponse>(Win1251ToUTF8(client.DownloadString(participantsapi)));
+                HistoryParticipantsData = HistoryParticipantsFull.objects;
+                foreach (var participantsRecords in HistoryParticipantsData)
+                {
+                    Debug.WriteLine(participantsRecords.display_name);
+                    Debug.WriteLine(participantsRecords.role);
+                    participantsRecords.start_time2 =
+                        (DateTime.Parse(participantsRecords.start_time) + TimeSpan.FromHours(3)).ToString("dd-MMM-yyyy  HH:mm:ss");
+                    participantsRecords.end_time2 =
+                        (DateTime.Parse(participantsRecords.end_time) + TimeSpan.FromHours(3)).ToString("dd-MMM-yyyy  HH:mm:ss");
+                }
+                return HistoryParticipantsData;
+            }
+            catch (Exception errException)
+            {
+                Debug.WriteLine(errException.Message);
+            }
+            return HistoryParticipantsData;
+        }
+
 
         private string Win1251ToUTF8(string source)
         {
