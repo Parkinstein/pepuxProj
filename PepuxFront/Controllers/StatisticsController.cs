@@ -1,20 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
-using System.Timers;
-using System.Web.Services.Description;
-using Kendo.Mvc.Extensions;
-using Kendo.Mvc.UI;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+using OpenAccessRuntime;
 using PepuxFront.Models;
 
 namespace PepuxFront.Controllers
@@ -57,7 +48,7 @@ namespace PepuxFront.Controllers
             {
                 HistoryVmrData = new List<VmrStats>();
                 string coba_address = "10.129.15.128";
-                Uri historyapi = new Uri("https://" + coba_address + "/api/admin/history/v1/conference/?limit=10");
+                Uri historyapi = new Uri("https://" + coba_address + "/api/admin/history/v1/conference/?limit=100");
                 WebClient client = new WebClient();
                 client.Credentials = new NetworkCredential("admin", "ciscovoip");
                 client.Headers.Add("auth", "admin,ciscovoip");
@@ -87,22 +78,60 @@ namespace PepuxFront.Controllers
             {
                 HistoryParticipantsData = new List<ParticipantStats>();
                 string coba_address = "10.129.15.128";
-                Uri participantsapi = new Uri("https://" + coba_address + "/api/admin/history/v1/participant/?conference=" + id);
+                Uri participantsapi =
+                    new Uri("https://" + coba_address + "/api/admin/history/v1/participant/?conference=" + id);
                 WebClient client = new WebClient();
                 client.Credentials = new NetworkCredential("admin", "ciscovoip");
                 client.Headers.Add("auth", "admin,ciscovoip");
                 client.Headers.Add("veryfy", "False");
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-                HistoryParticipantsFull = JsonConvert.DeserializeObject<ParticipantStatsResponse>(Win1251ToUTF8(client.DownloadString(participantsapi)));
+                HistoryParticipantsFull =
+                    JsonConvert.DeserializeObject<ParticipantStatsResponse>(
+                        Win1251ToUTF8(client.DownloadString(participantsapi)));
                 HistoryParticipantsData = HistoryParticipantsFull.objects;
                 foreach (var participantsRecords in HistoryParticipantsData)
                 {
-                    Debug.WriteLine(participantsRecords.display_name);
-                    Debug.WriteLine(participantsRecords.role);
                     participantsRecords.start_time2 =
-                        (DateTime.Parse(participantsRecords.start_time) + TimeSpan.FromHours(3)).ToString("dd-MMM-yyyy  HH:mm:ss");
+                        (DateTime.Parse(participantsRecords.start_time) + TimeSpan.FromHours(3)).ToString(
+                            "dd-MMM-yyyy  HH:mm:ss");
                     participantsRecords.end_time2 =
-                        (DateTime.Parse(participantsRecords.end_time) + TimeSpan.FromHours(3)).ToString("dd-MMM-yyyy  HH:mm:ss");
+                        (DateTime.Parse(participantsRecords.end_time) + TimeSpan.FromHours(3)).ToString(
+                            "dd-MMM-yyyy  HH:mm:ss");
+                    foreach (var mediastreamsRecords in participantsRecords.media_streams)
+                    {
+                        if (mediastreamsRecords.stream_type == "video")
+                        {
+                            participantsRecords.vid_stream_type = "video";
+                            participantsRecords.vid_tx_codec = mediastreamsRecords.tx_codec;
+                            participantsRecords.vid_tx_bitrate = mediastreamsRecords.tx_bitrate;
+                            participantsRecords.vid_tx_resolution = mediastreamsRecords.tx_resolution;
+                            participantsRecords.vid_rx_codec = mediastreamsRecords.rx_codec;
+                            participantsRecords.vid_rx_bitrate = mediastreamsRecords.rx_bitrate;
+                            participantsRecords.vid_rx_resolution = mediastreamsRecords.rx_resolution;
+
+                        }
+                        else if (mediastreamsRecords.stream_type == "audio")
+                        {
+                            participantsRecords.aud_stream_type = "audio";
+                            participantsRecords.aud_tx_codec = mediastreamsRecords.tx_codec;
+                            participantsRecords.aud_tx_bitrate = mediastreamsRecords.tx_bitrate;
+                            participantsRecords.aud_tx_resolution = mediastreamsRecords.tx_resolution;
+                            participantsRecords.aud_rx_codec = mediastreamsRecords.rx_codec;
+                            participantsRecords.aud_rx_bitrate = mediastreamsRecords.rx_bitrate;
+                            participantsRecords.aud_rx_resolution = mediastreamsRecords.rx_resolution;
+
+                        }
+                        else if (mediastreamsRecords.stream_type == "presentation")
+                        {
+                            participantsRecords.pre_stream_type = "presentation";
+                            participantsRecords.pre_tx_codec = mediastreamsRecords.tx_codec;
+                            participantsRecords.pre_tx_bitrate = mediastreamsRecords.tx_bitrate;
+                            participantsRecords.pre_tx_resolution = mediastreamsRecords.tx_resolution;
+                            participantsRecords.pre_rx_codec = mediastreamsRecords.rx_codec;
+                            participantsRecords.pre_rx_bitrate = mediastreamsRecords.rx_bitrate;
+                            participantsRecords.pre_rx_resolution = mediastreamsRecords.rx_resolution;
+                        }
+                    } 
                 }
                 return HistoryParticipantsData;
             }

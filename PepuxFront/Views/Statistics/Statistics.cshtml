@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="control_grid">
+<div id="div_stats" class="control_grid">
     <table id="table_stats" class="display">
         <thead>
             <tr>
@@ -15,7 +15,7 @@
                 <th>Имя конференции (ВПК)</th>
                 <th>Время начала</th>
                 <th>Время окончания</th>
-                <th>Длительность</th>
+                <th>Длительность, c</th>
                 <th>Количество участников</th>
             </tr>
         </thead>
@@ -23,28 +23,28 @@
     </table>
 </div>
 <div id="popup_block" class="hide">
-    <div id="popup_content" class="b-popup b-popup-content">
-        <table id="table_parts">
-            <thead>
+    <div id="popup_content" class="b-popup b-popup-content-wide">
+        <div id="inner-content-div">
+            <table id="table_parts">
+                <thead>
                 <tr>
                     <th>Имя конференции (ВПК)</th>
                     <th>Роль</th>
-                    <th>Алиас</th>
+                    <th>Отображаемое имя</th>
                     <th>Время начала</th>
                     <th>Время окончания</th>
                     <th>Длительность</th>
-                    <th>Отображаемое имя</th>
                     <th>Протокол</th>
-                    <th>Устройство</th>
                     <th>IP-адрес:порт</th>
                     <th>Причина отключения</th>
-                    <th>Видео статистика</th>
-                    <th>Аудио статистика</th>
-                    <th>Презентация статистика</th>
+                    <th>Кодеки</th>
+                    <th>Битрет бит/с (Tx/Rx)</th>
+                    <th>Разрешение (Tx/Rx)</th>
                 </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -52,17 +52,16 @@
     var oStatisticsTable;
     var oParticipantsTable;
     var cobaMgntAddress = "10.129.15.128";
+    var var_id;
 
-    $(document).ready(function() {
+    function stats_table() {
         oStatisticsTable = $('#table_stats').DataTable({
             "ordering": true,
             "searching": true,
-            "paging": true,
+            "paging": false,
             "autoWidth": false,
             "processing": true,
             "order": [[ 2, 'asc' ]],
-            "pageLength": 30,
-            "lengthChange": false,
 
             "ajax": {
                 "type": "POST",
@@ -72,14 +71,14 @@
             },
 
             "columns": [
-                { "data": "id", "visible": true },
+                { "data": "id", "visible": false },
                 { "data": "name" },
                 { "data": "start_time2" },
                 { "data": "end_time2" },
                 { "data": "duration", "searchable": false },
                 { "data": "participant_count",
                   "render": function (data, type, full, meta) {
-                      return full.participant_count + " участников <a id = 'partslink' href='#' onclick='display_parts()'>(подробнее...)</a>";
+                      return full.participant_count + " участников <a href=\"#\" onclick=\"display_parts('" + full.id + "')\">(подробнее...)</a>";
                   }
                 },
             ],
@@ -108,48 +107,76 @@
                 }
             },
         });
-    });
+    };
+
     function popup_parts_table() {
         oParticipantsTable = $('#table_parts').DataTable({
             "ordering": true,
             "searching": true,
-            "paging": true,
+            "paging": false,
             "autoWidth": false,
             "processing": true,
             "lengthChange": false,
-            "order": [[2, 'asc']],
-            "pageLength": 30,
+            "order": [[4, 'asc']],
 
             "ajax": {
                 "type": "POST",
-                "url": "/Statistics/GetHistoryParticipants?id=" + id,
+                "url": "/Statistics/GetHistoryParticipants?id=" + var_id,
                 "contentType": 'application/json; charset=utf-8',
                 "data": function (data) { return data = JSON.stringify(data); }
             },
 
             "columns": [
-                { "data": "name" },
+                { "data": "conference_name" },
                 { "data": "role", "searchable": false },
-                { "data": "local_alias" },
-                { "data": "remote_alias" },
                 { "data": "display_name" },
                 { "data": "start_time2" },
                 { "data": "end_time2" },
                 { "data": "duration" },
                 { "data": "protocol" },
-                { "data": "vendor" },
-                { "data": "remote_address" },
-                { "data": "remote_port" },
+                { "data": "remote_address",
+                  "render": function(data, type, full, meta) {
+                      return full.remote_address + ":" + full.remote_port;
+                  }
+                },
                 { "data": "disconnect_reason" },
-                { "data": "stream_type", "visible": false, "searchable": false },
-                { "data": "start_time2", "visible": false, "searchable": false },
-                { "data": "end_time2", "visible": false, "searchable": false },
-                { "data": "tx_bitrate", "visible": false, "searchable": false },
-                { "data": "tx_codec", "visible": false, "searchable": false },
-                { "data": "tx_resolution", "visible": false, "searchable": false },
-                { "data": "rx_bitrate", "visible": false, "searchable": false },
-                { "data": "rx_codec", "visible": false, "searchable": false },
-                { "data": "rx_resolution", "visible": false, "searchable": false },
+                { "searchable": false },
+                { "searchable": false },
+                { "searchable": false },
+            ],
+            "columnDefs": [
+
+                { "targets": -3,
+                  "data": "vid_tx_codec",
+                  "render": function (data, type, full, meta) {
+                      full.vid_tx_codec != null ? full.vid_tx_codec = full.vid_tx_codec : full.vid_tx_codec = 'нет';
+                      full.aud_tx_codec != null ? full.aud_tx_codec = full.aud_tx_codec : full.aud_tx_codec = 'нет';
+                      full.pre_tx_codec != null ? full.pre_tx_codec = full.pre_tx_codec : full.pre_tx_codec = 'нет';
+                      return '<div class="fa fa-video-camera fa-fw brand-color"></div>: ' + full.vid_tx_codec + '<br><div class="fa fa-volume-up fa-fw brand-color"></div>: ' + full.aud_tx_codec + '<br><div class="fa fa-bar-chart fa-fw brand-color"></div>: ' + full.pre_tx_codec;
+                  }
+                },
+                { "targets": -2,
+                  "data": "vid_tx_bitrate",
+                  "render": function (data, type, full, meta) {
+                      full.vid_tx_bitrate != null ? full.vid_tx_bitrate = full.vid_tx_bitrate : full.vid_tx_bitrate = 'нет';
+                      full.vid_rx_bitrate != null ? full.vid_rx_bitrate = full.vid_rx_bitrate : full.vid_rx_bitrate = 'нет';
+                      full.aud_tx_bitrate != null ? full.aud_tx_bitrate = full.aud_tx_bitrate : full.aud_tx_bitrate = 'нет';
+                      full.aud_rx_bitrate != null ? full.aud_rx_bitrate = full.aud_rx_bitrate : full.aud_rx_bitrate = 'нет';
+                      full.pre_tx_bitrate != null ? full.pre_tx_bitrate = full.pre_tx_bitrate : full.pre_tx_bitrate = 'нет';
+                      full.pre_rx_bitrate != null ? full.pre_rx_bitrate = full.pre_rx_bitrate : full.pre_rx_bitrate = 'нет';
+                      return '<div class="fa fa-video-camera fa-fw brand-color"></div>: ' + full.vid_tx_bitrate + '/' + full.vid_rx_bitrate + '<br><div class="fa fa-volume-up fa-fw brand-color"></div>: ' + full.aud_tx_bitrate + '/' + full.aud_rx_bitrate + '<br><div class="fa fa-bar-chart fa-fw brand-color"></div>: ' + full.pre_tx_bitrate + '/' + full.pre_rx_bitrate;
+                  }
+                },
+                { "targets": -1,
+                  "data": "vid_tx_resolution",
+                  "render": function (data, type, full, meta) {
+                      full.vid_tx_resolution != null ? full.vid_tx_resolution = full.vid_tx_resolution : full.vid_tx_resolution = 'нет';
+                      full.vid_rx_resolution != null ? full.vid_rx_resolution = full.vid_rx_resolution : full.vid_rx_resolution = 'нет';
+                      full.pre_tx_resolution != null ? full.pre_tx_resolution = full.pre_tx_resolution : full.pre_tx_resolution = 'нет';
+                      full.pre_rx_resolution != null ? full.pre_rx_resolution = full.pre_rx_resolution : full.pre_rx_resolution = 'нет';
+                      return '<div class="fa fa-video-camera fa-fw brand-color"></div>: ' + full.vid_tx_resolution + '/' + full.vid_rx_resolution + '<br><div class="fa fa-bar-chart fa-fw brand-color"></div>: ' + full.pre_tx_resolution + '/' + full.pre_rx_resolution;
+                  },
+                },
             ],
 
             "language": {
@@ -178,29 +205,24 @@
         });
     };
 
-    setInterval("refresh_stats()", 3000000);
+    setInterval("refresh_stats()", 300000);
 
     function refresh_stats() {
-        if (oStatisticsTable != null)
+        if (oStatisticsTable != null) {
             oStatisticsTable.ajax.reload();
+        } else {
+            stats_table();
+        }
     };
 
-    function refresh_parts() {
-        if (oParticipantsTable != null)
-            oParticipantsTable.ajax.reload();
-    };
-
-    $('#table_stats tbody').on('click', 'tr', function() {
-        id = oStatisticsTable.cell(oStatisticsTable.row(this).index(), 0).data();
-    });
-
-    function display_parts() {
+    function display_parts(id) {
         event.stopPropagation();
+        var_id = id;
         document.getElementById("popup_block").className = "b-popup b-popup-content";
         if (oParticipantsTable == null) {
             popup_parts_table();
         } else {
-            refresh_parts();
+            oParticipantsTable.ajax.url("/Statistics/GetHistoryParticipants?id=" + var_id).load();
         }
     };
 
@@ -211,8 +233,8 @@
     });
 
     (function ($) {
-        $('#table_stats').slimScroll({
-            height: '80%',
+        $('#div_stats').slimScroll({
+            height: '98%',
             width: '100%',
             margin: '30px',
             size: '7px',
@@ -220,8 +242,8 @@
             color: '#332383',
             distance: '0px'
         });
-        $('#table_parts').slimScroll({
-            height: '350px',
+        $('#inner-content-div').slimScroll({
+            height: '100%',
             width: '100%',
             size: '7px',
             position: 'right',
@@ -229,4 +251,7 @@
             distance: '0px'
         });
     })(jQuery);
+    $(document).ready(function() {
+        refresh_stats();
+    });
 </script>

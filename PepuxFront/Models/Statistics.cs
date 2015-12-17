@@ -48,7 +48,7 @@ namespace PepuxFront.Models
 
     public class ParticipantStats
     {
-        public int name { get; set; }
+        public string conference_name { get; set; }
         public string role { get; set; }
         public string local_alias { get; set; }
         public string remote_alias { get; set; }
@@ -64,15 +64,35 @@ namespace PepuxFront.Models
         public string remote_port { get; set; }
         public string disconnect_reason { get; set; }
         public List<Mediastreams> media_streams { get; set; }
+
+        public string vid_stream_type { get; set; }
+        public string vid_tx_bitrate { get; set; }
+        public string vid_tx_codec { get; set; }
+        public string vid_tx_resolution { get; set; }
+        public string vid_rx_bitrate { get; set; }
+        public string vid_rx_codec { get; set; }
+        public string vid_rx_resolution { get; set; }
+
+        public string aud_stream_type { get; set; }
+        public string aud_tx_bitrate { get; set; }
+        public string aud_tx_codec { get; set; }
+        public string aud_tx_resolution { get; set; }
+        public string aud_rx_bitrate { get; set; }
+        public string aud_rx_codec { get; set; }
+        public string aud_rx_resolution { get; set; }
+
+        public string pre_stream_type { get; set; }
+        public string pre_tx_bitrate { get; set; }
+        public string pre_tx_codec { get; set; }
+        public string pre_tx_resolution { get; set; }
+        public string pre_rx_bitrate { get; set; }
+        public string pre_rx_codec { get; set; }
+        public string pre_rx_resolution { get; set; }
     }
 
     public class Mediastreams
     {
         public string stream_type { get; set; }
-        public string start_time { get; set; }
-        public string start_time2 { get; set; }
-        public string end_time { get; set; }
-        public string end_time2 { get; set; }
 
         public string tx_bitrate { get; set; }
         public string tx_codec { get; set; }
